@@ -93,13 +93,12 @@
   /* Pull one for me を目立たせる（大きめ・角ばった帯・濃色＝方針の"丸pill/緑塗り/グロー禁止"に準拠） */
   .btn.oracle-lg{background:var(--ink);color:#000;border:none;font-size:18px;font-weight:700;
     padding:20px 36px;border-radius:0;letter-spacing:.01em;display:inline-flex;align-items:center;
-    position:relative;overflow:visible}
+    position:relative;overflow:visible;--oracle-figpal-size:104px}
   .btn.oracle-lg:hover{background:var(--ink);opacity:.85}
   /* ヒーローボタンに添えるFigPal（figma_palette＝FIGPALS[5]・緑5ブロック）。ボタン右上から
      はみ出す形で大きく・斜めに配置し、存在感のある遊び要素にする。
      --oracle-figpal-size を基準に位置を算出＝サイズを変えても「ボタン右上の外側」の
      関係が自動で保たれる（次回サイズ調整するときにtop/rightを個別に再計算しなくていい）。 */
-  .btn.oracle-lg{--oracle-figpal-size:104px}
   .oracle-figpal{position:absolute;
     top:calc(-1 * var(--oracle-figpal-size) * 0.44);
     right:calc(-1 * var(--oracle-figpal-size) * 0.51 - 10px);
@@ -112,7 +111,7 @@
   .humticklabels span{flex:1}
   .humticklabels span:nth-child(2){text-align:center}
   .humticklabels span:last-child{text-align:right}
-  input.slider{-webkit-appearance:none;appearance:none;width:100%;height:2px;background:linear-gradient(90deg,#95b9ac,#24cb71);border-radius:0;outline:none;margin:6px 0 4px}
+  input.slider{-webkit-appearance:none;appearance:none;width:100%;height:2px;background:linear-gradient(90deg,#4a4740,#726c60,#e8935f);border-radius:0;outline:none;margin:6px 0 4px}
   input.slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--ink);cursor:pointer;border:3px solid #000;box-shadow:0 0 0 1px var(--line)}
   input.slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--ink);cursor:pointer;border:3px solid #000}
   .dial-read{font-size:11.5px;color:var(--dim);margin-top:10px}
@@ -447,7 +446,7 @@
   <section class="tabpanel read-panel" id="panel-humid">
       <div class="room-intro">
         <h3>By humidity — dry reason ↔ wet feeling.</h3>
-        <p>Every talk has a temperature. Slide to reorder all 71. <b>Dry</b> = reason, the way you choose (like "Designing in the age of the 10x engineer"). <b>Wet</b> = a hand, love, memory (like "The marathon designer").</p>
+        <p>Every talk has a temperature. Slide to reorder all 71. <b>Dry</b> = reason, the way you choose (like "Designing in the age of the 10x engineer"). <b>Wet</b> = a hand, love, memory (like "The marathon designer").<br>Slide toward dry and the talks closest to AI drift to the top — the closer to AI, the drier they ran.</p>
       </div>
       <div class="dial">
         <input type="range" class="slider" id="humslider" min="0" max="2" step="1" value="1"

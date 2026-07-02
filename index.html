@@ -230,7 +230,8 @@
     cursor:pointer;font-family:inherit;line-height:1;z-index:2}
   .modal-close:hover{color:var(--ink)}
   /* padding-bottomはfloatするボタン/FigPalの高さ分の逃げ＝本文の最後の行が隠れきらないようにする */
-  .modal-body-scroll{height:100%;overflow-y:auto;padding:36px 36px 130px}
+  body.modal-open{position:fixed;left:0;right:0;width:100%;overflow:hidden}
+  .modal-body-scroll{height:100%;overflow-y:auto;overscroll-behavior:contain;padding:36px 36px 130px}
   .modal-kicker{font-size:var(--fs-xs);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:16px}
   .modal .mq{font-size:24px;line-height:1.3;font-weight:400;letter-spacing:-.02em;color:var(--ink);margin:0 0 18px}
   .modal .mfeel{font-size:var(--fs-xl);line-height:1.7;color:var(--ink);white-space:pre-wrap;margin:0 0 18px}
@@ -239,8 +240,8 @@
   /* ボタン/FigPalの真下だけ本文とかぶって読みにくくなる問題への対策。帯・ぼかしは持たず、
      下端だけ--surfaceへ薄くフェードするグラデーションを敷いて文字の主張を弱める（クリックは透過させる）。
      狭い画面ほど本文とfloat要素の重なりが目立つため、モバイル(680px以下)ではフェード領域を広げる。 */
-  .modal::after{content:"";position:absolute;left:0;right:0;bottom:0;height:118px;
-    background:linear-gradient(to bottom,transparent,var(--surface) 82%);pointer-events:none}
+  .modal::after{content:"";position:absolute;left:0;right:0;bottom:0;height:150px;
+    background:linear-gradient(to bottom,transparent,var(--surface) 62%);pointer-events:none}
   /* Watch on YouTubeとFigPalはモーダル下部に絶対配置でfloat。本文の長さに関わらず常に同じ位置にある
      ＝FigPalクリックで何度も引き直す操作がしやすい。帯化しないので背景・ぼかし・区切り線は持たない。
      align-items:centerが基準（ボタンとFigPal「イラスト」の高さの中央を揃える）。
@@ -810,11 +811,20 @@ function showPull(s){
   const figpalEl=document.getElementById("modalFigpal");
   const captionEl=document.getElementById("figpalCaption");
   figpalEl.classList.remove("show"); captionEl.classList.remove("show");
-  figpalEl.innerHTML=FIGPALS[Math.floor(Math.random()*FIGPALS.length)];
+  // 直近に出した5体は除外して引く＝2連続・近接の重複を避け「毎回ちがう」体感にする（43体あるので成立）
+  if(!window._figpalRecent) window._figpalRecent=[];
+  const _avoid=window._figpalRecent;
+  let _fi; do { _fi=Math.floor(Math.random()*FIGPALS.length); } while(_avoid.includes(_fi) && _avoid.length<FIGPALS.length);
+  _avoid.push(_fi); if(_avoid.length>5) _avoid.shift();
+  figpalEl.innerHTML=FIGPALS[_fi];
   requestAnimationFrame(()=>{ figpalEl.classList.add("show"); captionEl.classList.add("show"); });
   document.getElementById("pullModal").hidden=false;
+  // iOS Safari でも背景貫通を止める: 現在のスクロール位置を固定（closePullで復元）
+  window._scrollY=window.scrollY;
+  document.body.style.top=`-${window._scrollY}px`;
+  document.body.classList.add("modal-open");
 }
-function closePull(){ document.getElementById("pullModal").hidden=true; }
+function closePull(){ if(document.getElementById("pullModal").hidden) return; document.getElementById("pullModal").hidden=true; document.body.classList.remove("modal-open"); document.body.style.top=""; if(window._scrollY!=null){ window.scrollTo(0,window._scrollY); window._scrollY=null; } }
 
 // ---- The quiet room（not_ai 29本・The one line 表示。one-line は元々ラベルを出さないので「そっと混ぜる」が自然に成立）----
 function renderRoom(){

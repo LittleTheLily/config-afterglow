@@ -18,7 +18,9 @@ html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased}
 .wrap{max-width:1080px;margin:0 auto;padding:0 30px}
 img{display:block;max-width:100%}
-a{color:inherit;text-decoration:none}
+a{color:inherit;text-decoration:none;transition:color .15s ease,text-decoration-color .15s ease}
+a:hover{color:var(--acc);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+.csub a:hover,.rec-link a:hover{color:var(--acc)}
 .hand{font-family:var(--hand)}
 .num{font-family:var(--num);font-optical-sizing:auto;font-variant-numeric:tabular-nums}
 
@@ -237,7 +239,7 @@ footer a{border-bottom:1px dotted var(--sub)}
 <!-- ===== 締め ===== -->
 <div class="closing"><div class="wrap">
   <div class="cbig"><span data-ja>道具は、速くなった。<br>——あなたは、何を、続けますか。</span><span data-en style="display:none">The tools got faster.<br>——What will you keep making last?</span></div>
-  <div class="csub">✎ Sayuri ・ Est rouge</div>
+  <div class="csub">✎ <a href="https://www.linkedin.com/in/sayurit/" target="_blank" rel="noopener">Sayuri</a></div>
 </div></div>
 
 <footer><div class="wrap">

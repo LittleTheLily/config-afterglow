@@ -46,9 +46,9 @@ h1.title{font-family:var(--mincho);font-weight:600;font-size:clamp(34px,6vw,64px
 section{padding:76px 0;border-top:1px solid var(--line)}
 .eyebrow{font-family:var(--sans);font-weight:500;font-size:13px;letter-spacing:.03em;color:var(--sub);margin-bottom:44px;display:flex;align-items:center;gap:10px}
 .eyebrow .no{color:var(--ink);font-weight:500;border-bottom:1px solid var(--sub);padding-bottom:1px}
-h2.sh{font-family:var(--mincho);font-weight:600;font-size:clamp(24px,3.6vw,38px);line-height:1.4;margin-bottom:8px}
+h2.sh{font-family:var(--mincho);font-weight:600;font-size:clamp(34px,5.2vw,60px);line-height:1.28;margin-bottom:14px;text-wrap:balance}
 .sh .u svg{height:.4em}
-.cap{color:var(--sub);font-size:14.5px;max-width:56ch;margin-top:10px}
+.cap{color:var(--sub);font-size:14px;line-height:1.9;max-width:58ch;margin-top:12px}
 
 /* 巨大数字（インフォグラフィック：01の主役を突出させる編集レイアウト） */
 .bignums{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:0 32px;margin-bottom:72px;align-items:end}
@@ -88,7 +88,7 @@ h2.sh{font-family:var(--mincho);font-weight:600;font-size:clamp(24px,3.6vw,38px)
 /* わたしの読み */
 .read{margin-top:36px;padding-top:26px;border-top:1px solid var(--line);max-width:58ch}
 .read .rk{font-family:var(--sans);font-weight:600;font-size:12.5px;color:var(--sub);margin-bottom:16px}
-.read p{font-family:var(--mincho);font-size:22px;line-height:1.75;font-weight:600}
+.read p{font-family:var(--mincho);font-size:clamp(23px,2.4vw,28px);line-height:1.7;font-weight:600}
 .read b{color:var(--acc);font-weight:600}
 
 /* 湿度地形（分析②） */
@@ -154,7 +154,7 @@ h2.sh{font-family:var(--mincho);font-weight:600;font-size:clamp(24px,3.6vw,38px)
 
 /* 締め */
 .closing{padding:110px 0 40px;text-align:center}
-.closing .cbig{font-family:var(--mincho);font-weight:600;font-size:clamp(26px,4.4vw,42px);line-height:1.6}
+.closing .cbig{font-family:var(--mincho);font-weight:600;font-size:clamp(30px,5vw,52px);line-height:1.5;text-wrap:balance}
 .closing .csub{font-family:var(--hand);color:var(--sub);font-size:16px;margin-top:26px}
 footer{border-top:1px solid var(--line);padding:34px 0 90px;color:var(--sub);font-size:13px;line-height:1.9}
 footer a{border-bottom:1px dotted var(--sub)}
@@ -175,8 +175,8 @@ footer a{border-bottom:1px dotted var(--sub)}
     <span data-en>"<b style="font-weight:800">Fast</b>" is what stayed in my ear.<br>——But who spoke of <span class="u">lasting<svg viewBox="0 0 100 12" preserveAspectRatio="none"><path d="M1,8 Q25,2 50,6 T99,4" fill="none" stroke="#F4F1EA" stroke-width="2.4" stroke-linecap="round"/></svg></span>?</span>
   </h1>
   <p class="lead">
-    <span data-ja>全部を聴いたわけじゃない。惹かれた一本ずつに、AIと話しながら向き合って、タグを付けた。話の"湿度"も、自分なりに測ってみた——<br>速さや仕組みを語る乾いた話が<b>Dry</b>、手しごとや続けることを語る湿った話が<b>Wet</b>。どちらへ傾くか、その温度を、聴きながら受け取っていった。<br>熱は<b>"つくる"</b>にあると思っていた。<br>——数えたら、違った。</span>
-    <span data-en>I haven't heard all 71 — I sat with the ones that caught me, one at a time, in conversation with AI, and tagged them. I also measured each talk's "humidity," in my own way —<br>talks about speed and systems felt <b>Dry</b>; talks about the marks of the hand, about lasting, felt <b>Wet</b>. Which way each one leaned, I took in as I listened.<br>I thought the heat was on <b>"making."</b><br>——I counted. It wasn't.</span>
+    <span data-ja>全部を聴いたわけじゃない。惹かれた一本ずつに、AIと話しながら向き合って、タグを付けた。話の"湿度"も、自分なりに測ってみた——速さや仕組みを語る乾いた話が<b>Dry</b>、手しごとや続けることを語る湿った話が<b>Wet</b>。どちらへ傾くか、その温度を、聴きながら受け取っていった。<br>熱は<b>"つくる"</b>にあると思っていた。<br>——数えたら、違った。</span>
+    <span data-en>I haven't heard all 71 — I sat with the ones that caught me, one at a time, in conversation with AI, and tagged them. I also measured each talk's "humidity," in my own way — talks about speed and systems felt <b>Dry</b>; talks about the marks of the hand, about lasting, felt <b>Wet</b>. Which way each one leaned, I took in as I listened.<br>I thought the heat was on <b>"making."</b><br>——I counted. It wasn't.</span>
   </p>
 </div></header>
 
@@ -201,7 +201,7 @@ footer a{border-bottom:1px dotted var(--sub)}
   <p class="cap"><span data-ja>乾いた理性の話ほど Dry、手しごとや愛着を語る話ほど Wet。話しぶりから受け取った温度だ。<br>その温度を、私が付けた"AIとの距離"で並べ直すと——AIに近い話ほど乾き、遠い話ほど湿っていた。<br>別々の物差しが、同じ地形を指していた。</span><span data-en style="display:none">Reasoning talk of speed felt Dry; talk of the hand and lasting felt Wet — a temperature I took in by ear.<br>Line those temperatures up by "distance from AI," and the closer a talk sat to AI, the drier it ran.<br>Two yardsticks I set apart pointed at the same terrain.</span></p>
   <div class="corr" id="corr"></div>
   <div class="read"><div class="rk">my reading</div>
-    <p><span data-ja>この会場には、二つの向きがあった。速く "つくる" 側と、手をとめず "続く" 側。<br>速くつくる話はDry、手しごとの話はWet。<b>"AIとの距離"で並べても、"つくる↔続く"で並べても、乾いた側と湿った側には同じ顔ぶれが来る。別々に立てた二つの物差しが、同じ地形を測っていたように、私には思えた。</b></span><span data-en style="display:none">There were two directions in that hall: the "making" side, fast, and the "lasting" side, hands never leaving.<br>Talk of making-fast reads dry; talk of the marks of the hand reads wet. <b>Order the talks by "distance from AI," or by "making↔lasting," and the same faces land on the dry and wet ends. Two yardsticks I set apart seemed, to me, to be measuring one terrain.</b></span></p></div>
+    <p><span data-ja>この会場には、二つの向きがあった。速く "つくる" 側と、手をとめず "続く" 側。<br>速くつくる話はDry、手しごとの話はWet。<b>"AIとの距離"で並べても、"つくる↔続く"で並べても、Dry側とWet側には同じ顔ぶれが来る。別々に立てた二つの物差しが、同じ地形を測っていたように、私には思えた。</b></span><span data-en style="display:none">There were two directions in that hall: the "making" side, fast, and the "lasting" side, hands never leaving.<br>Talk of making-fast reads dry; talk of the marks of the hand reads wet. <b>Order the talks by "distance from AI," or by "making↔lasting," and the same faces land on the dry and wet ends. Two yardsticks I set apart seemed, to me, to be measuring one terrain.</b></span></p></div>
 </div></section>
 
 <!-- ===== 03 分析② 逆説 ===== -->

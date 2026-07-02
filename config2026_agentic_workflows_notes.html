@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>デザインコンテキストの精度が、仕事を決める｜Config 2026 視聴メモ — Sayuri</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Yomogi&family=Zen+Kurenaido&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0C0C0E;          /* near-black, like the stage slide */
+    --bg2:#141416;
+    --chalk:#F4F1EA;        /* warm white "ink" — the single ink color, like the stage slides */
+    --chalk-dim:#9E9A90;
+    --red:#F4F1EA;          /* faithful to the slides: one ink color only (kept as var so future re-color is 1 line) */
+    --hand:"Zen Kurenaido","Yomogi",sans-serif;   /* JP handwriting */
+    --hand-en:"Kalam",cursive;                     /* EN handwriting */
+    --mincho:"Shippori Mincho",serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--bg);color:var(--chalk);
+    font-family:var(--hand);line-height:1.9;letter-spacing:.02em;
+    /* faint chalk-dust vignette */
+    background-image:radial-gradient(circle at 50% 0%, rgba(255,255,255,.04), transparent 55%);
+  }
+  .slide{
+    max-width:1000px;margin:0 auto;min-height:100vh;
+    padding:70px 56px;position:relative;
+  }
+  .slide + .slide{border-top:1px dashed rgba(244,241,234,.16)}
+  img{display:block;max-width:100%}
+
+  /* hand ink strokes as reusable svg backgrounds */
+  .u-underline{position:relative;white-space:nowrap}
+  .u-underline::after{
+    content:"";position:absolute;left:-1%;right:-1%;bottom:-10px;height:12px;
+    background:no-repeat center/100% 12px
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='12'><path d='M2 7 Q75 2 150 7 T298 6' stroke='%23F4F1EA' stroke-width='2.5' fill='none' stroke-linecap='round'/></svg>");
+    opacity:.9;
+  }
+  /* emphatic underline = double stroke (still white), for the "strong" emphasis */
+  .u-red::after{
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='14'><path d='M2 6 Q75 1 150 6 T298 5' stroke='%23F4F1EA' stroke-width='2.5' fill='none' stroke-linecap='round'/><path d='M2 11 Q75 7 150 11 T298 10' stroke='%23F4F1EA' stroke-width='2' fill='none' stroke-linecap='round'/></svg>");
+    height:14px;opacity:1;
+  }
+  /* hand-drawn circle around a word (white) */
+  .circle{position:relative;display:inline-block;padding:0 6px}
+  .circle::before{
+    content:"";position:absolute;inset:-10px -12px;
+    background:no-repeat center/100% 100%
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='90'><path d='M100 6 C155 6 196 22 196 45 C196 70 150 84 100 84 C44 84 6 68 6 45 C6 20 52 8 100 6 Z' stroke='%23F4F1EA' stroke-width='2.5' fill='none' stroke-linecap='round'/></svg>");
+    pointer-events:none;
+  }
+
+  /* header / kicker */
+  .kicker{
+    font-family:var(--hand-en);color:var(--chalk);font-weight:700;
+    font-size:17px;letter-spacing:.04em;transform:rotate(-1.5deg);display:inline-block;
+    border:2px solid var(--chalk);border-radius:20px 18px 22px 16px/16px 22px 16px 20px;
+    padding:2px 16px;margin-bottom:30px;
+  }
+  h1{
+    font-family:var(--hand);font-weight:400;
+    font-size:clamp(30px,5.6vw,52px);line-height:1.45;
+  }
+  h1 .en{
+    display:block;font-family:var(--hand-en);font-weight:400;
+    font-size:clamp(18px,3vw,26px);color:var(--chalk-dim);margin-top:16px;
+  }
+  .byline{font-family:var(--hand-en);color:var(--chalk-dim);font-size:15px;margin-top:20px}
+
+  /* big hand quote */
+  .bigquote{
+    font-family:var(--hand);font-weight:400;
+    font-size:clamp(24px,4.4vw,40px);line-height:1.7;margin:40px 0;
+  }
+  .bigquote .red{color:var(--chalk)}
+
+  /* framed screenshot — looks pinned onto the black board */
+  .board-img{position:relative;margin:34px 0;border:1px solid rgba(244,241,234,.18)}
+  .board-img img{width:100%;display:block}
+  .board-img figcaption{
+    font-family:var(--hand-en);color:var(--chalk-dim);font-size:14px;
+    padding:8px 4px 0;
+  }
+  .board-img .pin{
+    position:absolute;top:-9px;left:24px;width:14px;height:14px;border-radius:50%;
+    background:var(--chalk);box-shadow:0 2px 5px rgba(0,0,0,.5);
+  }
+
+  /* arrow note */
+  .arrow{font-family:var(--hand-en);color:var(--chalk);font-size:16px;display:inline-flex;align-items:center;gap:6px}
+
+  /* two hand-drawn boxes vs */
+  .vs{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center;margin:30px 0}
+  .inkbox{
+    padding:20px 22px;position:relative;
+    background:no-repeat center/100% 100%
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='200' preserveAspectRatio='none'><path d='M8 12 Q160 4 312 10 Q316 100 310 190 Q160 196 10 188 Q4 100 8 12 Z' stroke='%23F4F1EA' stroke-width='2' fill='none' stroke-linecap='round'/></svg>");
+  }
+  /* the "right answer" box = double hand-drawn outline (still white), to stand out without color */
+  .inkbox.red-box{
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='200' preserveAspectRatio='none'><path d='M8 12 Q160 4 312 10 Q316 100 310 190 Q160 196 10 188 Q4 100 8 12 Z' stroke='%23F4F1EA' stroke-width='2' fill='none' stroke-linecap='round'/><path d='M13 17 Q160 10 307 15 Q311 100 305 185 Q160 191 15 183 Q9 100 13 17 Z' stroke='%23F4F1EA' stroke-width='1.4' fill='none' stroke-linecap='round' opacity='0.7'/></svg>");
+  }
+  .inkbox h3{font-family:var(--hand-en);font-weight:700;font-size:19px;margin-bottom:2px}
+  .inkbox.red-box h3{color:var(--chalk)}
+  .inkbox .jp{font-size:14px;color:var(--chalk-dim);margin-bottom:8px}
+  .inkbox p{font-size:15px;line-height:1.7}
+  .vs .arw{font-family:var(--hand-en);color:var(--chalk);font-size:30px;transform:rotate(-6deg)}
+  @media(max-width:680px){.vs{grid-template-columns:1fr}.vs .arw{transform:rotate(84deg)}}
+
+  /* doodle callout for 100x0 */
+  .zero-note{font-family:var(--hand-en);color:var(--chalk-dim);font-size:16px;text-align:center;margin-top:8px}
+  .zero-note b{color:var(--chalk);font-size:22px}
+
+  p{font-size:17px;margin-bottom:16px}
+  .dim{color:var(--chalk-dim)}
+  .small{font-size:14px;color:var(--chalk-dim)}
+
+  /* little star / spark doodle */
+  .spark{display:inline-block;width:22px;height:22px;vertical-align:middle;
+    background:no-repeat center/contain
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><path d='M12 2 L13 10 L21 12 L13 14 L12 22 L11 14 L3 12 L11 10 Z' stroke='%23F4F1EA' stroke-width='1.4' fill='none'/></svg>");}
+
+  .note-strip{
+    border-top:1px dashed rgba(244,241,234,.2);margin-top:40px;padding-top:14px;
+    font-size:14px;color:var(--chalk-dim);
+  }
+  /* hand-numbered list */
+  .points{list-style:none;margin-top:10px}
+  .points>li{position:relative;padding:20px 0 20px 66px;border-bottom:1px dashed rgba(244,241,234,.16)}
+  .points>li:last-child{border-bottom:none}
+  .points>li .no{
+    position:absolute;left:0;top:16px;width:44px;height:44px;
+    font-family:var(--hand-en);font-weight:700;font-size:22px;color:var(--chalk);
+    display:flex;align-items:center;justify-content:center;
+    background:no-repeat center/100% 100%
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60'><path d='M30 4 C46 4 56 14 56 30 C56 47 44 56 30 56 C13 56 4 45 4 30 C4 13 15 5 30 4 Z' stroke='%23F4F1EA' stroke-width='2' fill='none'/></svg>");
+  }
+  .points h3{font-family:var(--hand);font-weight:400;font-size:19px;margin-bottom:4px}
+  .points .en{font-family:var(--hand-en);color:var(--chalk-dim);font-size:14px;margin-left:8px}
+  .points p{font-size:15.5px;margin:0}
+  /* hand flow chips */
+  .flow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:14px;margin-top:12px}
+  .flow .step{padding:6px 15px;font-family:var(--hand);
+    background:no-repeat center/100% 100%
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='46' preserveAspectRatio='none'><path d='M6 8 Q80 3 154 7 Q157 23 152 39 Q80 43 8 39 Q3 23 6 8 Z' stroke='%23F4F1EA' stroke-width='1.6' fill='none'/></svg>");}
+  .flow .arw{font-family:var(--hand-en);font-size:18px}
+  /* verse (closing poem) */
+  .verse{font-family:var(--hand);font-size:clamp(22px,3.4vw,32px);line-height:1.85}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}
+  @media(max-width:700px){.row2{grid-template-columns:1fr}}
+  .checklist{list-style:none;margin-top:12px}
+  .checklist li{position:relative;padding:8px 0 8px 34px;font-size:16px}
+  .checklist li::before{content:"";position:absolute;left:0;top:12px;width:18px;height:18px;
+    background:no-repeat center/contain
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'><path d='M2 3 h13 v13 h-15 Z' stroke='%23F4F1EA' stroke-width='1.6' fill='none'/><path d='M4 9 L8 14 L17 2' stroke='%23F4F1EA' stroke-width='2' fill='none' stroke-linecap='round'/></svg>");}
+  footer.slidefoot{max-width:1000px;margin:0 auto;padding:30px 56px 80px;font-family:var(--hand-en);color:var(--chalk-dim);font-size:13px;line-height:1.8;border-top:1px dashed rgba(244,241,234,.2)}
+  footer.slidefoot a{color:var(--chalk)}
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<section class="slide">
+  <span class="kicker">Config 2026 — deep dive</span>
+  <h1>
+    デザインコンテキストの<span class="u-underline">精度</span>が、<br>
+    エージェントとの仕事を決める
+    <span class="en">Agentic workflows and the MCP — Figma</span>
+  </h1>
+  <div class="byline">32 min · Moscone Center · notes by Sayuri</div>
+
+  <div class="bigquote">
+    AIは、実行を速くする。<br>
+    けれど、<span class="red">明晰さ</span>は速くしない。<br>
+    考えることを手放した先に残るのは、<br>
+    表面だけ磨かれた、<span class="u-underline u-red">中身の薄い</span>もの。<br>
+    ——だから、入り口の「意図」から。
+  </div>
+
+  <figure class="board-img">
+    <span class="pin"></span>
+    <img src="config2026_frames/clarity.jpg" alt="ステージのスライド『AI accelerates execution, not clarity.』">
+    <figcaption>登壇スライド："AI accelerates execution, not clarity."</figcaption>
+  </figure>
+
+  <p class="small">＊ この視聴メモは、登壇者が全部ペンツールで手描きしたスライドの世界観に寄せて組んでみた。<span class="spark"></span></p>
+</section>
+
+<!-- ===== CORE ARGUMENT ===== -->
+<section class="slide">
+  <span class="kicker">核心 — the core argument</span>
+  <h1 style="font-size:clamp(26px,4.4vw,40px)">「<span class="circle">明け渡す</span>」か、「熟慮する」か</h1>
+
+  <p class="dim" style="margin-top:28px">この講演は、道具ではなく <span class="u-underline">態度</span> の話。登壇者は、この準備でLLMに明晰さを委ね、トークンと時間を溶かして、先週まるごと構成をやり直したという。自分の失敗から始める、静かな入り方だった。</p>
+
+  <div class="vs">
+    <div class="inkbox">
+      <h3>Cognitive Surrender</h3>
+      <div class="jp">認知の明け渡し</div>
+      <p>LLMの判断を、自分の判断にしてしまう。検証の手間も、独自の視点をつくる労力も、手放せる。でも <span class="u-underline">責任まで、一緒に手放している</span>。</p>
+    </div>
+    <div class="arw">✗→</div>
+    <div class="inkbox red-box">
+      <h3>Consideration Imperative</h3>
+      <div class="jp">熟慮の責務</div>
+      <p>工程の <span class="u-underline u-red">入り口で意図を研ぐ</span> ことを、自分に課す。前工程の明晰さこそが、エージェントとの仕事を実らせる。</p>
+    </div>
+  </div>
+
+  <figure class="board-img">
+    <span class="pin"></span>
+    <img src="config2026_frames/zero.jpg" alt="ステージで手描きされた 100 × 0 = 0">
+    <figcaption>手描きスライド：100 × 0 = 0</figcaption>
+  </figure>
+  <p class="zero-note">「100倍にする」と言うけれど、入り口の明晰さがゼロなら <b>× ゼロ</b>。何を掛けても、ゼロ。</p>
+
+  <p style="margin-top:28px"><span class="u-underline">わたしたちは「磨き＝熟慮の証し」だと、信じるよう慣らされてきた。</span> かつては、その完成度に至るまでに判断が必要だった。でもLLMは、文脈を与えなければ、平均の上に「磨き」だけを乗せる。表面は完成し、中身は抜け落ちる。</p>
+
+  <div class="note-strip">
+    ＊ 去年も、同じ場所で「不確実性」を話したそう。MCPの公開、プラグインAPIとの統合、キャンバス上のエージェント——この1年で、たくさん動いた。それでも不確実性は、消えていない。去年からの続きの話だった。
+  </div>
+</section>
+
+<!-- ===== SANDWICH ===== -->
+<section class="slide">
+  <span class="kicker">メタファー — a metaphor</span>
+  <div class="bigquote" style="margin-top:26px">
+    「チーズサンドを作って」に、<br>
+    <span class="u-underline">パンの百科事典</span>を渡すな。
+  </div>
+  <p class="dim">「パン・チーズ・パン、挟んで」と言えばいい。それで足りる。<span class="u-underline">精密な文脈</span>（Code Connect）を、登壇者はこの比喩で説明していた。</p>
+  <div class="row2" style="margin-top:20px">
+    <figure class="board-img">
+      <span class="pin"></span>
+      <img src="config2026_frames/sandwich.jpg" alt="スライド: 専門書の山とシンプルなサンド">
+      <figcaption>BREAD FOR DUMMIES / A HISTORY OF CHEESE… 百科事典 vs サンド</figcaption>
+    </figure>
+    <figure class="board-img">
+      <span class="pin"></span>
+      <img src="config2026_frames/codeconnect.jpg" alt="スライド: Code Connect のコードスニペット">
+      <figcaption>Code Connect が「パン・チーズ・パン」だけを渡す</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ===== FIVE POINTS ===== -->
+<section class="slide">
+  <span class="kicker">覚えておきたい 5点 — to remember</span>
+  <h1 style="font-size:clamp(24px,4vw,36px)">手を動かす人として、覚えておきたい5点</h1>
+  <ol class="points">
+    <li><span class="no">1</span>
+      <h3>精密な文脈は、コードを<span class="u-underline">減らす</span><span class="en">precise context</span></h3>
+      <p>曖昧だと、人が補う。精密な文脈を渡すと、総コードはむしろ減る。より少ないAIで、より良い結果になる。書かれずに済んだコードを、登壇者は"技術的負債"と呼んでいた。</p>
+    </li>
+    <li><span class="no">2</span>
+      <h3>デザインは、プレビューではなく <span class="u-underline">仕様書</span><span class="en">design as specification</span></h3>
+      <p>値→トークン→再利用と抽象化するほど、少ない表面積に多くの意図が入る。デザインシステムは「精密な言語」。</p>
+    </li>
+    <li><span class="no">3</span>
+      <h3>ハイパートークン<span class="en">hyper tokens — 未来像</span></h3>
+      <p>見た目のかたまり（余白・色・文字など）を、毎回こまかく指定せず、名前ひとつで呼べるようにする層。その定義を1か所にまとめておけば、Figmaにもコードにも同じ形で展開できる——という構想。</p>
+    </li>
+    <li><span class="no">4</span>
+      <h3>スキルは置き換えず「<span class="u-underline">配備</span>」する<span class="en">skills deploy expertise</span></h3>
+      <p>エージェント用の指示書（スキル）を人が手で書き直すのは、圧縮されたコードをいじるようで大変。だから人は「元ネタ」だけ持ち、指示書に変換するのはエージェントに任せる。しかも、使うエージェントごとに最適な形で作らせる。</p>
+    </li>
+    <li><span class="no">5</span>
+      <h3>FigJam を「<span class="u-underline">対話の面</span>」にする<span class="en">FigJam as interface</span></h3>
+      <p>キャンバスに可視化すると、自分が何を頼んでいるかを意識できて、文脈が明晰になる。計画を書き出し、人がレビュー・修正してから走らせる。</p>
+    </li>
+  </ol>
+  <figure class="board-img" style="margin-top:26px">
+    <span class="pin"></span>
+    <img src="config2026_frames/hypertokens.jpg" alt="Values → Tokens → Hypertokens → Component の階段">
+    <figcaption>同じボタンを Values → Tokens → Hypertokens → Component と抽象化していく（点2・3の実演）</figcaption>
+  </figure>
+</section>
+
+<!-- ===== FIGJAM ===== -->
+<section class="slide">
+  <span class="kicker">FigJam をエージェントの作業台に</span>
+  <h1 style="font-size:clamp(24px,4vw,36px)">計画を <span class="u-underline">人が直してから</span>、走らせる</h1>
+  <p class="dim" style="margin-top:22px">点5の「FigJamを対話面に」は、スライドでも実際のFigJamボードで見せていた。プロンプトを読ませ、Figmaとコードベースで作業させ、結果をFigJamに書き戻す。大きなタスクはサブエージェントの計画に分け、その計画を人が読んで直してから、走らせる。</p>
+  <div class="flow">
+    <span class="step">FigJam のプロンプト</span><span class="arw">→</span>
+    <span class="step">Figma で作業</span><span class="arw">→</span>
+    <span class="step">コードベースで作業</span><span class="arw">→</span>
+    <span class="step">FigJam に書き戻す</span>
+  </div>
+  <figure class="board-img" style="margin-top:26px">
+    <span class="pin"></span>
+    <img src="config2026_frames/figjam_homework.jpg" alt="FigJam の Assignment ボード: INTRO/STEP1-4/PROCEED">
+    <figcaption>エージェントへの「宿題」ボード。INTRO→STEP→PROCEED を付箋とコネクタで組む</figcaption>
+  </figure>
+  <figure class="board-img">
+    <span class="pin"></span>
+    <img src="config2026_frames/figjam_prompt.jpg" alt="色とりどりの付箋・コード・コンポーネントが並ぶ FigJam ボード">
+    <figcaption>付箋・リンク・画像・コード例を置きながら「人の文脈ウィンドウ」を整える</figcaption>
+  </figure>
+  <p style="margin-top:22px"><span class="u-underline">全部を任せる（＝明け渡し）でもなく、全部を手で抱えるでもない。その、あいだ。</span> この講演で、一番実践に近いヒント。</p>
+</section>
+
+<!-- ===== DEMO ===== -->
+<section class="slide">
+  <span class="kicker">締め — 一晩で imagination → reality</span>
+  <h1 style="font-size:clamp(24px,4vw,36px)">一晩で、想像を現実へ</h1>
+  <p class="dim" style="margin-top:22px">8年半つづけてきた個人プロジェクト（<span class="u-underline">音を、画像にエンコードする</span>）を、Figmaのプラットフォームだけで、一晩でインタラクティブなサイトにした。</p>
+  <div class="flow">
+    <span class="step">design agent で初期案</span><span class="arw">→</span>
+    <span class="step">FigJam でプロンプト設計</span><span class="arw">→</span>
+    <span class="step">MCP で同時生成</span><span class="arw">→</span>
+    <span class="step">Make でアニメ探索</span><span class="arw">→</span>
+    <span class="step">別エージェントへ引き継ぎ</span>
+  </div>
+  <div class="row2" style="margin-top:24px">
+    <figure class="board-img">
+      <span class="pin"></span>
+      <img src="config2026_frames/designagent.jpg" alt="スライド: Figma のデザインエージェントで初期案">
+      <figcaption>design agent が初期案。エンコード用ライブラリのソースも渡した</figcaption>
+    </figure>
+    <figure class="board-img">
+      <span class="pin"></span>
+      <img src="config2026_frames/demo.jpg" alt="ステージ: 音を画像にするサイトのデモ">
+      <figcaption>音声の波形を、ピクセルとして埋め込んだ画像。クリックすると復号されて再生される</figcaption>
+    </figure>
+  </div>
+  <figure class="board-img">
+    <span class="pin"></span>
+    <img src="config2026_frames/makes.jpg" alt="FigJam に Make の探索結果を取り込む">
+    <figcaption>Make のアニメ探索を FigJam 経由で引き込む。過程そのものが FigJam に残る</figcaption>
+  </figure>
+  <p class="zero-note" style="margin-top:16px"><span class="arrow">→</span> <a href="https://stegasound.jake.fun" target="_blank" rel="noopener" style="color:var(--chalk)">stegasound.jake.fun</a></p>
+</section>
+
+<!-- ===== MY TAKE ===== -->
+<section class="slide">
+  <span class="kicker">私の見立て — my take</span>
+  <h1 style="font-size:clamp(24px,4vw,36px)">わたしたちの「<span class="u-underline">続く</span>」と、地続きだった</h1>
+  <figure class="board-img" style="margin-top:24px">
+    <span class="pin"></span>
+    <img src="config2026_frames/pencil.jpg" alt="締めの手描きボード: closing / SCHEMA / OUTPUTS">
+    <figcaption>締めのボードも全部ペンツールで手描き。「100×0=0」も「closing」もここに</figcaption>
+  </figure>
+  <div class="verse" style="margin-top:30px">
+    つくる、より。続く、を。<br>
+    磨きは、速く手に入る。<br>
+    でも、考え抜いた跡は——<br>
+    <span class="u-underline">誰かが引き受けないと残らない。</span>
+  </div>
+  <p style="margin-top:24px">「認知の明け渡し」への警鐘は、レコメンダーで「湿度」として可視化しようとしたもの——Dry（理性・速さ）とWet（手のあと・持続）の距離——と、同じ地形を指していた。責任を負う先が、成果物の表面ではなく、その手前の "意図" にある。そういう話だった。</p>
+  <p>AIで「つくる」が安くなるほど、価値は <span class="u-underline">「何をつくるべきかを研ぎ、つくったあとも続く形にする」</span> 側へ移っていく。71本の中で、繰り返し立ち上がってきたのと同じ主張だった。</p>
+  <p style="margin-top:18px">自分の手元でも、試してみたいこと——</p>
+  <ul class="checklist">
+    <li>LLMに投げる前に、まず「意図を仕様にする」（spec駆動）</li>
+    <li>スキルやプロンプトは、源をひとつ持って、そこから生成・更新する</li>
+    <li>エージェントにいきなり実行させず、まず計画を出させ、確認・修正してから動かす（＝判断を手放さない）</li>
+  </ul>
+</section>
+
+<footer class="slidefoot">
+  出典: <a href="https://www.youtube.com/watch?v=D5WUW9X_-L0" target="_blank" rel="noopener">Figma deep dive: Agentic workflows and the MCP｜Config 2026</a>（Figma 公式）／ 画像は動画からのキャプチャ（引用）<br>
+  ※ 自動生成字幕（英語）をもとに要約・意訳。登壇者の氏名は動画クレジット未確認（デモ音声内 "It's Jake from the past"・URL stegasound.jake.fun から Jake 氏の可能性が高い）。細部・表記は原典で確認のこと。まとめ: Sayuri。
+</footer>
+
+</body>
+</html>

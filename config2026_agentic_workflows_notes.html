@@ -175,10 +175,10 @@
 
   <div class="bigquote">
     AIは、実行を速くする。<br>
-    けれど、<span class="red">明晰さ</span>は速くしない。<br>
-    考えることを手放した先に残るのは、<br>
+    けれど、<span class="red">明晰さ</span>——何をなぜつくるかの見極めは、速くならない。<br>
+    その明晰さをAIに預けてしまうと、残るのは<br>
     表面だけ磨かれた、<span class="u-underline u-red">中身の薄い</span>もの。<br>
-    ——だから、入り口の「意図」から。
+    ——だから、入り口の「意図」を自分で研ぐことから始める。
   </div>
 
   <figure class="board-img">
@@ -195,7 +195,7 @@
   <span class="kicker">核心 — the core argument</span>
   <h1 style="font-size:clamp(26px,4.4vw,40px)">「<span class="circle">明け渡す</span>」か、「熟慮する」か</h1>
 
-  <p class="dim" style="margin-top:28px">この講演は、道具ではなく <span class="u-underline">態度</span> の話。登壇者は、この準備でLLMに明晰さを委ね、トークンと時間を溶かして、先週まるごと構成をやり直したという。自分の失敗から始める、静かな入り方だった。</p>
+  <p class="dim" style="margin-top:28px">この講演は、道具ではなく <span class="u-underline">態度</span> の話。登壇者自身、この準備で「何を話すか」の判断までLLMに預けてしまい、トークンと時間を溶かして、先週まるごと構成をやり直したという。自分の失敗から始める、静かな入り方だった。</p>
 
   <div class="vs">
     <div class="inkbox">
@@ -216,7 +216,7 @@
     <img src="config2026_frames/zero.jpg" alt="ステージで手描きされた 100 × 0 = 0">
     <figcaption>手描きスライド：100 × 0 = 0</figcaption>
   </figure>
-  <p class="zero-note">「100倍にする」と言うけれど、入り口の明晰さがゼロなら <b>× ゼロ</b>。何を掛けても、ゼロ。</p>
+  <p class="zero-note">「AIで生産性が100倍になる」と言うけれど、入り口の明晰さがゼロなら <b>× ゼロ</b>。何を掛けても、ゼロ。</p>
 
   <p style="margin-top:28px"><span class="u-underline">わたしたちは「磨き＝熟慮の証し」だと、信じるよう慣らされてきた。</span> かつては、その完成度に至るまでに判断が必要だった。でもLLMは、文脈を与えなければ、平均の上に「磨き」だけを乗せる。表面は完成し、中身は抜け落ちる。</p>
 
@@ -230,9 +230,9 @@
   <span class="kicker">メタファー — a metaphor</span>
   <div class="bigquote" style="margin-top:26px">
     「チーズサンドを作って」に、<br>
-    <span class="u-underline">パンの百科事典</span>を渡すな。
+    <span class="u-underline">パンの百科事典</span>（大量の生資料）を渡すな。
   </div>
-  <p class="dim">「パン・チーズ・パン、挟んで」と言えばいい。それで足りる。<span class="u-underline">精密な文脈</span>（Code Connect）を、登壇者はこの比喩で説明していた。</p>
+  <p class="dim">「パン・チーズ・パン、挟んで」——構造にして最小限だけ渡せばいい。多いほどいいのではない。絞り込みと構造こそが精度をつくる。この「構造化された最小の文脈」を、Figmaでは <span class="u-underline">Code Connect</span>（デザイン部品と実コードの対応を機械可読で結ぶ仕組み）が担う、と登壇者は説明していた。</p>
   <div class="row2" style="margin-top:20px">
     <figure class="board-img">
       <span class="pin"></span>
@@ -254,22 +254,22 @@
   <ol class="points">
     <li><span class="no">1</span>
       <h3>精密な文脈は、コードを<span class="u-underline">減らす</span><span class="en">precise context</span></h3>
-      <p>曖昧だと、人が補う。精密な文脈を渡すと、総コードはむしろ減る。より少ないAIで、より良い結果になる。書かれずに済んだコードを、登壇者は"技術的負債"と呼んでいた。</p>
+      <p>曖昧な指示は、AIに余分なコードを書かせる。精密な文脈を渡すと、生成される総コードはむしろ減る。AIへの依存を減らしてなお、結果は良くなる。書かれてしまった余分なコードこそが、登壇者の言う"技術的負債"だった。</p>
     </li>
     <li><span class="no">2</span>
       <h3>デザインは、プレビューではなく <span class="u-underline">仕様書</span><span class="en">design as specification</span></h3>
-      <p>値→トークン→再利用と抽象化するほど、少ない表面積に多くの意図が入る。デザインシステムは「精密な言語」。</p>
+      <p>生の値→トークン→再利用可能な部品と抽象化するほど、短い記述に設計意図が凝縮される。名前ひとつがたくさんの判断を運ぶ。デザインシステムは、エージェントに意図を渡す「精密な言語」になる。</p>
     </li>
     <li><span class="no">3</span>
-      <h3>ハイパートークン<span class="en">hyper tokens — 未来像</span></h3>
+      <h3>ハイパートークン（意味のまとまりを一語で呼ぶ層）<span class="en">hyper tokens — 未来像</span></h3>
       <p>見た目のかたまり（余白・色・文字など）を、毎回こまかく指定せず、名前ひとつで呼べるようにする層。その定義を1か所にまとめておけば、Figmaにもコードにも同じ形で展開できる——という構想。</p>
     </li>
     <li><span class="no">4</span>
-      <h3>スキルは置き換えず「<span class="u-underline">配備</span>」する<span class="en">skills deploy expertise</span></h3>
+      <h3>スキルは人を置き換えず、専門性を「<span class="u-underline">配って回す</span>」<span class="en">skills deploy expertise</span></h3>
       <p>エージェント用の指示書（スキル）を人が手で書き直すのは、圧縮されたコードをいじるようで大変。だから人は「元ネタ」だけ持ち、指示書に変換するのはエージェントに任せる。しかも、使うエージェントごとに最適な形で作らせる。</p>
     </li>
     <li><span class="no">5</span>
-      <h3>FigJam を「<span class="u-underline">対話の面</span>」にする<span class="en">FigJam as interface</span></h3>
+      <h3>FigJam を「エージェントと<span class="u-underline">やり取りする作業台</span>」にする<span class="en">FigJam as interface</span></h3>
       <p>キャンバスに可視化すると、自分が何を頼んでいるかを意識できて、文脈が明晰になる。計画を書き出し、人がレビュー・修正してから走らせる。</p>
     </li>
   </ol>
@@ -299,7 +299,7 @@
   <figure class="board-img">
     <span class="pin"></span>
     <img src="config2026_frames/figjam_prompt.jpg" alt="色とりどりの付箋・コード・コンポーネントが並ぶ FigJam ボード">
-    <figcaption>付箋・リンク・画像・コード例を置きながら「人の文脈ウィンドウ」を整える</figcaption>
+    <figcaption>付箋・リンク・画像・コード例を置きながら、人自身が全体を見渡せる状態（人の側の文脈）を整える</figcaption>
   </figure>
   <p style="margin-top:22px"><span class="u-underline">全部を任せる（＝明け渡し）でもなく、全部を手で抱えるでもない。その、あいだ。</span> この講演で、一番実践に近いヒント。</p>
 </section>
@@ -310,10 +310,10 @@
   <h1 style="font-size:clamp(24px,4vw,36px)">一晩で、想像を現実へ</h1>
   <p class="dim" style="margin-top:22px">8年半つづけてきた個人プロジェクト（<span class="u-underline">音を、画像にエンコードする</span>）を、Figmaのプラットフォームだけで、一晩でインタラクティブなサイトにした。</p>
   <div class="flow">
-    <span class="step">design agent で初期案</span><span class="arw">→</span>
+    <span class="step">design agent（Figma内の生成エージェント）で初期案</span><span class="arw">→</span>
     <span class="step">FigJam でプロンプト設計</span><span class="arw">→</span>
-    <span class="step">MCP で同時生成</span><span class="arw">→</span>
-    <span class="step">Make でアニメ探索</span><span class="arw">→</span>
+    <span class="step">MCP（ツール接続の共通規格）で同時生成</span><span class="arw">→</span>
+    <span class="step">Figma Make（プロンプトからアプリを作る機能）でアニメ探索</span><span class="arw">→</span>
     <span class="step">別エージェントへ引き継ぎ</span>
   </div>
   <div class="row2" style="margin-top:24px">
@@ -339,14 +339,15 @@
 <!-- ===== MY TAKE ===== -->
 <section class="slide">
   <span class="kicker">私の見立て — my take</span>
-  <h1 style="font-size:clamp(24px,4vw,36px)">わたしたちの「<span class="u-underline">続く</span>」と、地続きだった</h1>
+  <h1 style="font-size:clamp(24px,4vw,36px)">わたしたちの「<span class="u-underline">つくり続ける</span>」仕事観と、地続きだった</h1>
   <figure class="board-img" style="margin-top:24px">
     <span class="pin"></span>
     <img src="config2026_frames/pencil.jpg" alt="締めの手描きボード: closing / SCHEMA / OUTPUTS">
     <figcaption>締めのボードも全部ペンツールで手描き。「100×0=0」も「closing」もここに</figcaption>
   </figure>
   <div class="verse" style="margin-top:30px">
-    つくる、より。続く、を。<br>
+    つくること、より。続くこと、を。<br>
+    つまり、一度つくって終わりではなく、あとも保てる形にすること。<br>
     磨きは、速く手に入る。<br>
     でも、考え抜いた跡は——<br>
     <span class="u-underline">誰かが引き受けないと残らない。</span>

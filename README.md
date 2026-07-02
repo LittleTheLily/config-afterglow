@@ -1,4 +1,6 @@
-# Config 2026 — Session Recommender
+# config-afterglow
+
+> Figma Config 2026 の余韻。71本のうち、あなたに残る一本を。
 
 Figma Config 2026 の公開セッション動画（71本）から、興味・気分・AIとの距離で「あなたに残る一本」を見つける、自己完結型の Web ページ。
 

@@ -4,7 +4,7 @@
 
 Figma Config 2026 の公開セッション動画（71本）から、興味・気分・AIとの距離で「あなたに残る一本」を見つける、自己完結型の Web ページ。
 
-**公開URL**: （GitHub Pages 有効化後にここへ）
+**公開URL**: https://littlethelily.github.io/config-afterglow/
 
 ## これは何
 

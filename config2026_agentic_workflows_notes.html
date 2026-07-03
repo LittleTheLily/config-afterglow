@@ -159,6 +159,14 @@
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'><path d='M2 3 h13 v13 h-15 Z' stroke='%23F4F1EA' stroke-width='1.6' fill='none'/><path d='M4 9 L8 14 L17 2' stroke='%23F4F1EA' stroke-width='2' fill='none' stroke-linecap='round'/></svg>");}
   footer.slidefoot{max-width:1000px;margin:0 auto;padding:30px 56px 80px;font-family:var(--hand-en);color:var(--chalk-dim);font-size:13px;line-height:1.8;border-top:1px dashed rgba(244,241,234,.2)}
   footer.slidefoot a{color:var(--chalk)}
+  .nextreads-note{min-height:auto;padding:56px 56px 40px}
+  .nrn-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+  @media(max-width:700px){.nrn-grid{grid-template-columns:1fr}}
+  .nrn-card{display:block;padding:20px 22px;border:1.5px solid rgba(244,241,234,.28);border-radius:14px 12px 15px 11px/11px 15px 12px 14px;transition:border-color .2s ease,transform .2s ease}
+  .nrn-card:hover{border-color:var(--chalk);transform:translateY(-2px)}
+  .nrn-k{font-family:var(--hand-en);font-size:13px;color:var(--chalk-dim);margin-bottom:8px;letter-spacing:.03em}
+  .nrn-t{font-family:var(--hand);font-size:16px;line-height:1.5;color:var(--chalk)}
+  @media (prefers-reduced-motion: reduce){.nrn-card{transition:none}.nrn-card:hover{transform:none}}
 </style>
 </head>
 <body>
@@ -360,6 +368,15 @@
     <li>スキルやプロンプトは、源をひとつ持って、そこから生成・更新する</li>
     <li>エージェントにいきなり実行させず、まず計画を出させ、確認・修正してから動かす（＝判断を手放さない）</li>
   </ul>
+</section>
+
+<section class="slide nextreads-note">
+  <span class="kicker">つづけて読む — read next</span>
+  <div class="nrn-grid">
+    <a class="nrn-card" href="./"><div class="nrn-k">レコメンダー</div><div class="nrn-t">あなたに、ぴったりの一本を。</div></a>
+    <a class="nrn-card" href="config2026_report.html"><div class="nrn-k">71本、まとめて</div><div class="nrn-t">"Fast" is what stayed in my ear.</div></a>
+    <a class="nrn-card" href="cursor_sideevent_report.html"><div class="nrn-k">サイドイベント</div><div class="nrn-t">つくる人が、そのまま動かす人でもある。</div></a>
+  </div>
 </section>
 
 <footer class="slidefoot">

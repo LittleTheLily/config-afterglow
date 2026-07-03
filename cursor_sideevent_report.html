@@ -152,6 +152,15 @@
   [data-en]{display:none}
   html[lang="en"] [data-jp]{display:none}
   html[lang="en"] [data-en]{display:revert}
+  .nextreads-c{padding-top:48px;padding-bottom:8px;margin-top:56px;border-top:1px solid rgba(255,255,255,.12)}
+  .nrc-label{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);margin:0 0 20px}
+  .nrc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:700px){.nrc-grid{grid-template-columns:1fr}}
+  .nrc-card{display:block;padding:20px 20px 24px;background:var(--bg-2);border:1px solid rgba(255,255,255,.08);transition:border-color .2s ease,transform .2s ease}
+  .nrc-card:hover{border-color:var(--ink);transform:translateY(-2px)}
+  .nrc-k{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-2);margin-bottom:9px}
+  .nrc-t{font-size:16px;line-height:1.5;color:var(--ink)}
+  @media (prefers-reduced-motion: reduce){.nrc-card{transition:none}.nrc-card:hover{transform:none}}
 </style>
 </head>
 <body>
@@ -295,6 +304,15 @@
   </section>
 
 </main>
+
+<section class="wrap nextreads-c">
+  <p class="nrc-label"><span data-jp>つづけて読む</span><span data-en>Read next</span></p>
+  <div class="nrc-grid">
+    <a class="nrc-card" href="./"><div class="nrc-k"><span data-jp>レコメンダー</span><span data-en>The recommender</span></div><div class="nrc-t"><span data-jp>あなたに、ぴったりの一本を。</span><span data-en>Find the one that stays with you.</span></div></a>
+    <a class="nrc-card" href="config2026_report.html"><div class="nrc-k"><span data-jp>71本、まとめて</span><span data-en>All 71</span></div><div class="nrc-t"><span data-jp>"Fast" is what stayed in my ear.</span><span data-en>"Fast" is what stayed in my ear.</span></div></a>
+    <a class="nrc-card" href="config2026_agentic_workflows_notes.html"><div class="nrc-k"><span data-jp>1本、深掘り</span><span data-en>One talk, close up</span></div><div class="nrc-t"><span data-jp>デザインコンテキストの精度が、仕事を決める。</span><span data-en>Precision of context decides the work.</span></div></a>
+  </div>
+</section>
 
 <footer class="wrap" style="border-top:1px solid rgba(255,255,255,.12);margin-top:64px;padding-top:28px;padding-bottom:80px;color:var(--muted-2);font-size:13px;line-height:1.9">
   <a href="./" style="color:var(--muted)"><span data-jp>← Config 2026 の余韻へ——71本をたどるセッション案内に戻る</span><span data-en>← Back to the afterglow — the guide to all 71 sessions</span></a><br><br>

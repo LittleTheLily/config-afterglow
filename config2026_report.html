@@ -310,7 +310,7 @@ const nai_big=document.getElementById('nai-big'), nai_chips=document.getElementB
 nai_big.textContent=D.notai.length;
 nai_chips.innerHTML=Object.keys(NAI_CHIPS).map(c=>`<span class="chip" data-chip="${esc(c)}">${esc(c)}<small>${NAI_CHIPS[c].length}</small></span>`).join('');
 naigrid.innerHTML=D.notai.map(s=>{const id=s.url.split('/').pop();
-  return `<a class="naicard" data-id="${id}" href="${s.url}" target="_blank" rel="noopener"><div class="nt">${esc(s.title)}</div>${s.q?`<div class="nq">「${esc(s.q)}」</div>`:''}<div class="nm">${esc(s.speaker)||'—'} ・ hum ${s.hum>0?'+':''}${s.hum} ／ ▶</div></a>`;}).join('');
+  return `<a class="naicard" data-id="${id}" href="${s.url}" target="_blank" rel="noopener"><div class="nt">${esc(s.title)}</div>${s.q?`<div class="nq">「${esc(s.q)}」</div>`:''}<div class="nm">${esc(s.speaker)||'—'} ・ ${s.hum>0?'Wet':(s.hum<0?'Dry':'—')} ／ ▶</div></a>`;}).join('');
 let activeChip=null;
 nai_chips.querySelectorAll('.chip').forEach(chip=>chip.addEventListener('click',()=>{
   const name=chip.dataset.chip;

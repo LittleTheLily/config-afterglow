@@ -27,7 +27,7 @@
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}
   body{
-    margin:0;color:var(--ink);
+    margin:0;color:var(--ink);overflow-x:hidden;
     background:
       radial-gradient(120% 80% at 72% 8%, rgba(139,92,246,.10), transparent 55%),
       radial-gradient(120% 90% at 20% 100%, rgba(255,255,255,.06), transparent 50%),
@@ -60,8 +60,9 @@
   .kicker .cube{width:14px;height:14px;background:var(--violet);border-radius:3px;flex:none;display:inline-flex;box-shadow:0 0 14px rgba(139,92,246,.6)}
   h1{font-family:'ArchivoX',-apple-system,BlinkMacSystemFont,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;
     font-size:clamp(32px,6.2vw,60px);line-height:1.02;letter-spacing:-.025em;
-    font-weight:800;margin:20px 0 0;text-wrap:balance;
+    font-weight:800;margin:20px 0 0;text-wrap:balance;overflow-wrap:anywhere;
   }
+  .bigquote{overflow-wrap:anywhere}
   h1 em{font-style:normal;color:var(--violet-ink)}
   .dek{font-size:16.5px;color:var(--muted);margin:20px 0 0;line-height:1.85;max-width:42em}
   .hero-cover{margin:0;border:1px solid var(--hair);border-radius:16px;overflow:hidden;background:#2b2f2c;line-height:0;box-shadow:0 30px 60px -30px rgba(0,0,0,.7)}
@@ -147,10 +148,10 @@
   }
 
   /* language toggle */
-  .langbar{position:fixed;top:16px;right:16px;z-index:50;display:flex;border:1px solid var(--ink);border-radius:0;overflow:hidden;background:rgba(20,24,20,.85)}
-  .langbar button{appearance:none;border:0;cursor:pointer;font:inherit;font-size:12px;font-weight:700;letter-spacing:.05em;color:var(--muted);background:transparent;padding:6px 14px;line-height:1;transition:background .15s ease,color .15s ease}
-  .langbar button.on{background:var(--ink);color:var(--bg)}
-  .langbar button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .langbar{position:fixed;top:16px;right:16px;z-index:50;display:flex;gap:2px;padding:3px;border-radius:999px;background:rgba(20,24,20,.72);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(8px)}
+  .langbar button{appearance:none;border:0;cursor:pointer;font:inherit;font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--muted);background:transparent;padding:6px 13px;border-radius:999px;line-height:1;transition:all .15s ease}
+  .langbar button.on{background:var(--violet);color:#fff}
+  .langbar button:focus-visible{outline:2px solid var(--violet-ink);outline-offset:2px}
   [data-en]{display:none}
   html[lang="en"] [data-ja]{display:none}
   html[lang="en"] [data-en]{display:revert}

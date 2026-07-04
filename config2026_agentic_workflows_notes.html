@@ -21,7 +21,7 @@
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{
-    background:var(--bg);color:var(--chalk);
+    background:var(--bg);color:var(--chalk);overflow-x:hidden;
     font-family:var(--hand);line-height:1.9;letter-spacing:.02em;
     /* faint chalk-dust vignette */
     background-image:radial-gradient(circle at 50% 0%, rgba(255,255,255,.04), transparent 55%);
@@ -35,6 +35,8 @@
 
   /* hand ink strokes as reusable svg backgrounds */
   .u-underline{position:relative;white-space:nowrap}
+  h1,.bigquote{overflow-wrap:anywhere}
+  @media(max-width:680px){.u-underline{white-space:normal}}
   .u-underline::after{
     content:"";position:absolute;left:-1%;right:-1%;bottom:-10px;height:12px;
     background:no-repeat center/100% 12px
@@ -110,7 +112,7 @@
   .inkbox .jp{font-size:14px;color:var(--chalk-dim);margin-bottom:8px}
   .inkbox p{font-size:15px;line-height:1.7}
   .vs .arw{font-family:var(--hand-en);color:var(--chalk);font-size:30px;transform:rotate(-6deg)}
-  @media(max-width:680px){.vs{grid-template-columns:1fr}.vs .arw{transform:rotate(84deg)}}
+  @media(max-width:680px){.vs{grid-template-columns:1fr;gap:6px}.vs .arw{transform:rotate(84deg);height:52px;line-height:52px;justify-self:center}}
 
   /* doodle callout for 100x0 */
   .zero-note{font-family:var(--hand-en);color:var(--chalk-dim);font-size:16px;text-align:center;margin-top:8px}

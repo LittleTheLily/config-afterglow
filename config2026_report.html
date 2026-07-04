@@ -17,7 +17,9 @@
  --mincho:"Shippori Mincho",serif; --sans:"Inter",sans-serif; --hand:"Kalam",cursive; --num:"Fraunces",serif;
 }
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h2.sh,.cbig,.title{overflow-wrap:anywhere}
+@media(max-width:720px){.u{white-space:normal}}
 .wrap{max-width:1080px;margin:0 auto;padding:0 30px}
 @media(max-width:600px){.wrap{padding:0 20px}}
 img{display:block;max-width:100%}
@@ -28,8 +30,8 @@ a:not(.repcard):not(.naicard):not(.acard):hover{color:var(--acc);text-decoration
 .num{font-family:var(--num);font-optical-sizing:auto;font-variant-numeric:tabular-nums}
 
 /* 言語トグル */
-.langbar{position:fixed;top:16px;right:16px;z-index:50;display:flex;border:1px solid var(--line);border-radius:0;overflow:hidden;background:rgba(10,10,11,.9)}
-.langbar button{font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:.05em;color:var(--sub);background:none;border:none;padding:6px 14px;cursor:pointer}
+.langbar{position:fixed;top:16px;right:16px;z-index:50;display:flex;gap:2px;padding:3px;border:1px solid var(--line);background:rgba(10,10,11,.9)}
+.langbar button{font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:.05em;color:var(--sub);background:none;border:none;padding:5px 13px;cursor:pointer}
 .langbar button.on{background:var(--ink);color:var(--bg)}
 [data-en]{display:none}
 html[lang="en"] [data-ja]{display:none}
@@ -139,9 +141,9 @@ header.hero .lead{max-width:none}
 .notai-head .big{font-family:var(--num);font-optical-sizing:auto;font-weight:600;color:var(--acc);font-size:clamp(90px,12vw,140px);line-height:.86}
 .notai-head .bt{font-size:13.5px;color:var(--sub);line-height:1.6}
 .chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
-.chips span{font-size:12.5px;color:var(--sub);border:1px solid var(--line);padding:5px 12px;cursor:pointer;transition:border-color .15s,color .15s}
-.chips span:hover{color:var(--ink)}
-.chips span.on{color:var(--acc);border-color:var(--acc)}
+.chips .chip{font-size:12.5px;color:var(--sub);border:1px solid var(--line);padding:5px 12px;cursor:pointer;transition:border-color .15s,color .15s}
+.chips .chip:hover{color:var(--ink)}
+.chips .chip.on{color:var(--acc);border-color:var(--acc)}
 .chips .chip small{margin-left:6px;font-size:10.5px;opacity:.55;font-variant-numeric:tabular-nums}
 .chips .chip.on small{opacity:.8}
 .naigrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));border-top:1px solid var(--line);border-left:1px solid var(--line)}
@@ -228,7 +230,7 @@ footer a{border-bottom:1px dotted var(--sub)}
   <p class="cap"><span data-ja>乾いた理性の話ほど Dry、手しごとや愛着を語る話ほど Wet。<br>話しぶりから受け取った温度だ。<br>その温度を、私が付けた"AIとの距離"で並べ直すと<br>——AIに近い話ほど乾き、遠い話ほど湿っていた。<br>別々の物差しが、同じ地形を指していた。</span><span data-en>Reasoning talk of speed felt Dry; talk of the hand and lasting felt Wet<br>— a temperature I took in by ear.<br>Line those temperatures up by "distance from AI," and the closer a talk sat to AI, the drier it ran.<br>Two yardsticks I set apart pointed at the same terrain.</span></p>
   <div class="corr" id="corr"></div>
   <div class="read"><div class="rk">my reading</div>
-    <p><span data-ja>この会場には、二つの向きがあった。<br>速く "つくる" 側と、手をとめず "続く" 側。<br>速くつくる話はDry、手しごとの話はWet。<br><b>"AIとの距離"で並べても、"つくる↔続く"で並べても、Dry側とWet側には同じ顔ぶれが来る。<br>別々に立てた二つの物差しが、同じ地形を測っていたように、私には思えた。</b></span><span data-en>There were two directions in that hall:<br>the "making" side, fast, and the "lasting" side, hands never leaving.<br>Talk of making-fast reads dry; talk of the marks of the hand reads wet.<br><b>Order the talks by "distance from AI," or by "making↔lasting," and the same faces land on the dry and wet ends.<br>Two yardsticks I set apart seemed, to me, to be measuring one terrain.</b></span></p></div>
+    <p><span data-ja>この会場には、二つの向きがあった。<br>速く "つくる" 側と、手をとめず "続く" 側。<br>速くつくる話はDry、手しごとの話はWet。<br><b>"AIとの距離"で並べても、"つくる – 続く"で並べても、Dry側とWet側には同じ顔ぶれが来る。<br>別々に立てた二つの物差しが、同じ地形を測っていたように、私には思えた。</b></span><span data-en>There were two directions in that hall:<br>the "making" side, fast, and the "lasting" side, hands never leaving.<br>Talk of making-fast reads dry; talk of the marks of the hand reads wet.<br><b>Order the talks by "distance from AI," or by "making – lasting," and the same faces land on the dry and wet ends.<br>Two yardsticks I set apart seemed, to me, to be measuring one terrain.</b></span></p></div>
 </div></section>
 
 <!-- ===== 03 分析② 逆説 ===== -->
@@ -261,7 +263,7 @@ footer a{border-bottom:1px dotted var(--sub)}
 <section id="s6"><div class="wrap">
   <div class="eyebrow"><span class="no">06</span><span>the afterglow</span></div>
   <h2 class="sh"><span data-ja>The lines that stayed.</span><span data-en>The lines that stayed.</span></h2>
-  <p class="cap"><span data-ja><b>the afterglow</b>——聴き終えて、それでものこるひかり。<br>71本それぞれの、核の一行。乾いた理性ほど淡く、湿った情や手しごとほど色づく——話の湿度で色をつけた（Dry↔Wet）。クリックで、その動画へ。</span><span data-en><b>the afterglow</b>——the light that stays after the room goes quiet.<br>One core line from each of the 71. The drier the reason, the paler the dot; the wetter the feeling and handwork, the more it takes on color — colored by each talk's humidity (Dry↔Wet). Click to watch.</span></p>
+  <p class="cap"><span data-ja><b>the afterglow</b>——聴き終えて、それでものこるひかり。<br>71本それぞれの、核の一行。乾いた理性ほど淡く、湿った情や手しごとほど色づく——話の湿度で色をつけた（Dry – Wet）。クリックで、その動画へ。</span><span data-en><b>the afterglow</b>——the light that stays after the room goes quiet.<br>One core line from each of the 71. The drier the reason, the paler the dot; the wetter the feeling and handwork, the more it takes on color — colored by each talk's humidity (Dry – Wet). Click to watch.</span></p>
   <div class="antho" id="antho"></div>
 </div></section>
 
@@ -275,8 +277,8 @@ footer a{border-bottom:1px dotted var(--sub)}
   <p class="nr-label" data-ja>つづけて読む</p><p class="nr-label" data-en>Read next</p>
   <div class="nr-grid">
     <a class="nr-card" href="./"><span class="nr-arrow">→</span><div class="nr-k" data-ja>レコメンダー</div><div class="nr-k" data-en>The recommender</div><h4 data-ja>あなたに、ぴったりの一本を。</h4><h4 data-en>Find the one that stays with you.</h4></a>
-    <a class="nr-card" href="config2026_agentic_workflows_notes.html"><span class="nr-arrow">↗</span><div class="nr-k" data-ja>1本、深掘り</div><div class="nr-k" data-en>One talk, close up</div><h4 data-ja>デザインコンテキストの精度が、仕事を決める。</h4><h4 data-en>Precision of context decides the work.</h4></a>
-    <a class="nr-card" href="config2026_cursor_demo_notes.html"><span class="nr-arrow">↗</span><div class="nr-k" data-ja>サイドイベント</div><div class="nr-k" data-en>Side event</div><h4 data-ja>つくる人が、そのまま動かす人でもある。</h4><h4 data-en>The one who makes it also ships it.</h4></a>
+    <a class="nr-card" href="config2026_agentic_workflows_notes.html"><span class="nr-arrow"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M5.5 5H11v5.5"/></svg></span><div class="nr-k" data-ja>1本、深掘り</div><div class="nr-k" data-en>One talk, close up</div><h4 data-ja>デザインコンテキストの精度が、仕事を決める。</h4><h4 data-en>Precision of context decides the work.</h4></a>
+    <a class="nr-card" href="config2026_cursor_demo_notes.html"><span class="nr-arrow"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M5.5 5H11v5.5"/></svg></span><div class="nr-k" data-ja>サイドイベント</div><div class="nr-k" data-en>Side event</div><h4 data-ja>つくる人が、そのまま動かす人でもある。</h4><h4 data-en>The one who makes it also ships it.</h4></a>
   </div>
 </div></section>
 

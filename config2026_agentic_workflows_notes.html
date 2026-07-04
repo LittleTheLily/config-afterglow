@@ -168,224 +168,257 @@
   .nrn-k{font-family:var(--hand-en);font-size:13px;color:var(--chalk-dim);margin-bottom:8px;letter-spacing:.03em}
   .nrn-t{font-family:var(--hand);font-size:16px;line-height:1.5;color:var(--chalk)}
   @media (prefers-reduced-motion: reduce){.nrn-card{transition:none}.nrn-card:hover{transform:none}}
+
+  /* language toggle（他レポートと同方式・手描き風トーンに合わせた見た目） */
+  [data-en]{display:none}
+  body.en [data-ja]{display:none}
+  body.en [data-en]{display:revert}
+  .langbar{position:fixed;top:16px;right:16px;z-index:50;display:flex;gap:2px;padding:3px;border:1.5px solid var(--chalk-dim);border-radius:16px 14px 18px 13px/13px 18px 14px 16px;background:rgba(12,12,14,.82);backdrop-filter:blur(6px)}
+  .langbar button{font-family:var(--hand-en);font-weight:700;font-size:13px;letter-spacing:.04em;color:var(--chalk-dim);background:none;border:none;padding:4px 12px;cursor:pointer;border-radius:12px}
+  .langbar button.on{background:var(--chalk);color:var(--bg)}
 </style>
 </head>
 <body>
+<div class="langbar">
+  <button id="btn-ja" class="on" onclick="setLang('ja')">日本語</button>
+  <button id="btn-en" onclick="setLang('en')">EN</button>
+</div>
 
 <!-- ===== HERO ===== -->
 <section class="slide">
   <span class="kicker">Config 2026 — deep dive</span>
   <h1>
-    デザインコンテキストの<span class="u-underline">精度</span>が、<br>
-    エージェントとの仕事を決める
+    <span data-ja>デザインコンテキストの<span class="u-underline">精度</span>が、<br>
+    エージェントとの仕事を決める</span><span data-en>The <span class="u-underline">precision</span> of your design context<br>
+    decides the work with agents</span>
     <span class="en">Agentic workflows and the MCP — Figma</span>
   </h1>
   <div class="byline">32 min · Moscone Center · notes by Sayuri</div>
 
   <div class="bigquote">
-    AIは、実行を速くする。<br>
+    <span data-ja>AIは、実行を速くする。<br>
     けれど、<span class="red">明晰さ</span>——何をなぜつくるかの見極めは、速くならない。<br>
     その明晰さをAIに預けてしまうと、残るのは<br>
     表面だけ磨かれた、<span class="u-underline u-red">中身の薄い</span>もの。<br>
-    ——だから、入り口の「意図」を自分で研ぐことから始める。
+    ——だから、入り口の「意図」を自分で研ぐことから始める。</span><span data-en>AI speeds up execution.<br>
+    But <span class="red">clarity</span>—seeing what to make, and why—doesn't get faster.<br>
+    Hand that clarity to AI, and what's left is<br>
+    polished on the surface, <span class="u-underline u-red">thin underneath</span>.<br>
+    ——So it starts by sharpening your own intent, right at the entrance.</span>
   </div>
 
   <figure class="board-img">
     <span class="pin"></span>
     <img src="config2026_frames/clarity.jpg" alt="ステージのスライド『AI accelerates execution, not clarity.』">
-    <figcaption>登壇スライド："AI accelerates execution, not clarity."</figcaption>
+    <figcaption><span data-ja>登壇スライド："AI accelerates execution, not clarity."</span><span data-en>Stage slide: "AI accelerates execution, not clarity."</span></figcaption>
   </figure>
 
-  <p class="small">＊ この視聴メモは、登壇者が全部ペンツールで手描きしたスライドの世界観に寄せて組んでみた。<span class="spark"></span></p>
+  <p class="small"><span data-ja>＊ この視聴メモは、登壇者が全部ペンツールで手描きしたスライドの世界観に寄せて組んでみた。</span><span data-en>＊ These notes are laid out to echo the speaker&#39;s slides — all hand-drawn with the pen tool.</span><span class="spark"></span></p>
 </section>
 
 <!-- ===== CORE ARGUMENT ===== -->
 <section class="slide">
-  <span class="kicker">核心 — the core argument</span>
-  <h1 style="font-size:clamp(26px,4.4vw,40px)">「<span class="circle">明け渡す</span>」か、「熟慮する」か</h1>
+  <span class="kicker"><span data-ja>核心</span><span data-en>The core argument</span> — the core argument</span>
+  <h1 style="font-size:clamp(26px,4.4vw,40px)"><span data-ja>「<span class="circle">明け渡す</span>」か、「熟慮する」か</span><span data-en>To <span class="circle">surrender</span>, or to consider</span></h1>
 
-  <p class="dim" style="margin-top:28px">この講演は、道具ではなく <span class="u-underline">態度</span> の話。登壇者自身、この準備で「何を話すか」の判断までLLMに預けてしまい、トークンと時間を溶かして、先週まるごと構成をやり直したという。自分の失敗から始める、静かな入り方だった。</p>
+  <p class="dim" style="margin-top:28px"><span data-ja>この講演は、道具ではなく <span class="u-underline">態度</span> の話。登壇者自身、この準備で「何を話すか」の判断までLLMに預けてしまい、トークンと時間を溶かして、先週まるごと構成をやり直したという。自分の失敗から始める、静かな入り方だった。</span><span data-en>This talk is about <span class="u-underline">posture</span>, not tools. Preparing it, the speaker even handed the "what do I say" call to an LLM — burned through tokens and time, and redid the whole structure last week. A quiet way in: starting from his own misstep.</span></p>
 
   <div class="vs">
     <div class="inkbox">
       <h3>Cognitive Surrender</h3>
-      <div class="jp">認知の明け渡し</div>
-      <p>LLMの判断を、自分の判断にしてしまう。検証の手間も、独自の視点をつくる労力も、手放せる。でも <span class="u-underline">責任まで、一緒に手放している</span>。</p>
+      <div class="jp"><span data-ja>認知の明け渡し</span><span data-en>Cognitive surrender</span></div>
+      <p><span data-ja>LLMの判断を、自分の判断にしてしまう。検証の手間も、独自の視点をつくる労力も、手放せる。でも <span class="u-underline">責任まで、一緒に手放している</span>。</span><span data-en>You let the LLM&#39;s judgment become your own. The work of checking, the effort of forming your own view — all of it, off your hands. But <span class="u-underline">you&#39;re letting go of the responsibility, too</span>.</span></p>
     </div>
     <div class="arw">✗→</div>
     <div class="inkbox red-box">
       <h3>Consideration Imperative</h3>
-      <div class="jp">熟慮の責務</div>
-      <p>工程の <span class="u-underline u-red">入り口で意図を研ぐ</span> ことを、自分に課す。前工程の明晰さこそが、エージェントとの仕事を実らせる。</p>
+      <div class="jp"><span data-ja>熟慮の責務</span><span data-en>The imperative to consider</span></div>
+      <p><span data-ja>工程の <span class="u-underline u-red">入り口で意図を研ぐ</span> ことを、自分に課す。前工程の明晰さこそが、エージェントとの仕事を実らせる。</span><span data-en>You hold yourself to <span class="u-underline u-red">sharpening intent at the entrance</span> of the process. It&#39;s the clarity up front that lets the work with agents bear fruit.</span></p>
     </div>
   </div>
 
   <figure class="board-img">
     <span class="pin"></span>
     <img src="config2026_frames/zero.jpg" alt="ステージで手描きされた 100 × 0 = 0">
-    <figcaption>手描きスライド：100 × 0 = 0</figcaption>
+    <figcaption><span data-ja>手描きスライド：100 × 0 = 0</span><span data-en>Hand-drawn slide: 100 × 0 = 0</span></figcaption>
   </figure>
-  <p class="zero-note">「AIで生産性が100倍になる」と言うけれど、入り口の明晰さがゼロなら <b>× ゼロ</b>。何を掛けても、ゼロ。</p>
+  <p class="zero-note"><span data-ja>「AIで生産性が100倍になる」と言うけれど、入り口の明晰さがゼロなら <b>× ゼロ</b>。何を掛けても、ゼロ。</span><span data-en>People say "AI makes you 100× more productive" — but if clarity at the entrance is zero, it&#39;s <b>× zero</b>. Multiply anything by that, and you get zero.</span></p>
 
-  <p style="margin-top:28px"><span class="u-underline">わたしたちは「磨き＝熟慮の証し」だと、信じるよう慣らされてきた。</span> かつては、その完成度に至るまでに判断が必要だった。でもLLMは、文脈を与えなければ、平均の上に「磨き」だけを乗せる。表面は完成し、中身は抜け落ちる。</p>
+  <p style="margin-top:28px"><span data-ja><span class="u-underline">わたしたちは「磨き＝熟慮の証し」だと、信じるよう慣らされてきた。</span> かつては、その完成度に至るまでに判断が必要だった。でもLLMは、文脈を与えなければ、平均の上に「磨き」だけを乗せる。表面は完成し、中身は抜け落ちる。</span><span data-en><span class="u-underline">We&#39;ve been trained to read polish as proof of thought.</span> Once, reaching that finish took judgment. But give an LLM no context, and it lays "polish" over the average — the surface complete, the substance gone.</span></p>
 
   <div class="note-strip">
-    ＊ 去年も、同じ場所で「不確実性」を話したそう。MCPの公開、プラグインAPIとの統合、キャンバス上のエージェント——この1年で、たくさん動いた。それでも不確実性は、消えていない。去年からの続きの話だった。
+    <span data-ja>＊ 去年も、同じ場所で「不確実性」を話したそう。MCPの公開、プラグインAPIとの統合、キャンバス上のエージェント——この1年で、たくさん動いた。それでも不確実性は、消えていない。去年からの続きの話だった。</span><span data-en>＊ Last year, apparently, he spoke about "uncertainty" from this same stage. MCP shipped, it merged with the plugin API, agents landed on the canvas — a lot moved in a year. And still the uncertainty hasn&#39;t gone. This was a talk continued from last year.</span>
   </div>
 </section>
 
 <!-- ===== SANDWICH ===== -->
 <section class="slide">
-  <span class="kicker">メタファー — a metaphor</span>
+  <span class="kicker"><span data-ja>メタファー</span><span data-en>A metaphor</span> — a metaphor</span>
   <div class="bigquote" style="margin-top:26px">
-    「チーズサンドを作って」に、<br>
-    <span class="u-underline">パンの百科事典</span>（大量の生資料）を渡すな。
+    <span data-ja>「チーズサンドを作って」に、<br>
+    <span class="u-underline">パンの百科事典</span>（大量の生資料）を渡すな。</span><span data-en>For "make me a cheese sandwich," don&#39;t hand over<br>
+    an <span class="u-underline">encyclopedia of bread</span> (a pile of raw material).</span>
   </div>
-  <p class="dim">「パン・チーズ・パン、挟んで」——構造にして最小限だけ渡せばいい。多いほどいいのではない。絞り込みと構造こそが精度をつくる。この「構造化された最小の文脈」を、Figmaでは <span class="u-underline">Code Connect</span>（デザイン部品と実コードの対応を機械可読で結ぶ仕組み）が担う、と登壇者は説明していた。</p>
+  <p class="dim"><span data-ja>「パン・チーズ・パン、挟んで」——構造にして最小限だけ渡せばいい。多いほどいいのではない。絞り込みと構造こそが精度をつくる。この「構造化された最小の文脈」を、Figmaでは <span class="u-underline">Code Connect</span>（デザイン部品と実コードの対応を機械可読で結ぶ仕組み）が担う、と登壇者は説明していた。</span><span data-en>"Bread, cheese, bread — assemble." — Give it structure, and only the minimum. More isn&#39;t better. It&#39;s narrowing and structure that make precision. In Figma, the speaker explained, <span class="u-underline">Code Connect</span> (a machine-readable link between design parts and real code) carries this "structured minimum context."</span></p>
   <div class="row2" style="margin-top:20px">
     <figure class="board-img">
       <span class="pin"></span>
       <img src="config2026_frames/sandwich.jpg" alt="スライド: 専門書の山とシンプルなサンド">
-      <figcaption>BREAD FOR DUMMIES / A HISTORY OF CHEESE… 百科事典 vs サンド</figcaption>
+      <figcaption><span data-ja>BREAD FOR DUMMIES / A HISTORY OF CHEESE… 百科事典 vs サンド</span><span data-en>BREAD FOR DUMMIES / A HISTORY OF CHEESE… encyclopedia vs. sandwich</span></figcaption>
     </figure>
     <figure class="board-img">
       <span class="pin"></span>
       <img src="config2026_frames/codeconnect.jpg" alt="スライド: Code Connect のコードスニペット">
-      <figcaption>Code Connect が「パン・チーズ・パン」だけを渡す</figcaption>
+      <figcaption><span data-ja>Code Connect が「パン・チーズ・パン」だけを渡す</span><span data-en>Code Connect hands over just "bread, cheese, bread"</span></figcaption>
     </figure>
   </div>
 </section>
 
 <!-- ===== FIVE POINTS ===== -->
 <section class="slide">
-  <span class="kicker">覚えておきたい 5点 — to remember</span>
-  <h1 style="font-size:clamp(24px,4vw,36px)">手を動かす人として、覚えておきたい5点</h1>
+  <span class="kicker"><span data-ja>覚えておきたい 5点</span><span data-en>5 to remember</span> — to remember</span>
+  <h1 style="font-size:clamp(24px,4vw,36px)"><span data-ja>手を動かす人として、覚えておきたい5点</span><span data-en>5 things to remember, as someone who makes</span></h1>
   <ol class="points">
     <li><span class="no">1</span>
-      <h3>精密な文脈は、コードを<span class="u-underline">減らす</span><span class="en">precise context</span></h3>
-      <p>曖昧な指示は、AIに余分なコードを書かせる。精密な文脈を渡すと、生成される総コードはむしろ減る。AIへの依存を減らしてなお、結果は良くなる。書かれてしまった余分なコードこそが、登壇者の言う"技術的負債"だった。</p>
+      <h3><span data-ja>精密な文脈は、コードを<span class="u-underline">減らす</span></span><span data-en>Precise context means <span class="u-underline">less</span> code</span><span class="en">precise context</span></h3>
+      <p><span data-ja>曖昧な指示は、AIに余分なコードを書かせる。精密な文脈を渡すと、生成される総コードはむしろ減る。AIへの依存を減らしてなお、結果は良くなる。書かれてしまった余分なコードこそが、登壇者の言う"技術的負債"だった。</span><span data-en>Vague instructions make AI write extra code. Give it precise context, and the total code generated actually shrinks. You lean on AI less, and the result still gets better. That extra code, once written, was exactly what the speaker called "technical debt."</span></p>
     </li>
     <li><span class="no">2</span>
-      <h3>デザインは、プレビューではなく <span class="u-underline">仕様書</span><span class="en">design as specification</span></h3>
-      <p>生の値→トークン→再利用可能な部品と抽象化するほど、短い記述に設計意図が凝縮される。名前ひとつがたくさんの判断を運ぶ。デザインシステムは、エージェントに意図を渡す「精密な言語」になる。</p>
+      <h3><span data-ja>デザインは、プレビューではなく <span class="u-underline">仕様書</span></span><span data-en>Design isn&#39;t a preview — it&#39;s a <span class="u-underline">spec</span></span><span class="en">design as specification</span></h3>
+      <p><span data-ja>生の値→トークン→再利用可能な部品と抽象化するほど、短い記述に設計意図が凝縮される。名前ひとつがたくさんの判断を運ぶ。デザインシステムは、エージェントに意図を渡す「精密な言語」になる。</span><span data-en>The more you abstract — raw values → tokens → reusable components — the more design intent condenses into a short description. A single name carries many decisions. The design system becomes a "precise language" for handing intent to agents.</span></p>
     </li>
     <li><span class="no">3</span>
-      <h3>ハイパートークン（意味のまとまりを一語で呼ぶ層）<span class="en">hyper tokens — 未来像</span></h3>
-      <p>見た目のかたまり（余白・色・文字など）を、毎回こまかく指定せず、名前ひとつで呼べるようにする層。その定義を1か所にまとめておけば、Figmaにもコードにも同じ形で展開できる——という構想。</p>
+      <h3><span data-ja>ハイパートークン（意味のまとまりを一語で呼ぶ層）</span><span data-en>Hyper tokens (a layer that names a bundle of meaning in one word)</span><span class="en">hyper tokens — a glimpse ahead</span></h3>
+      <p><span data-ja>見た目のかたまり（余白・色・文字など）を、毎回こまかく指定せず、名前ひとつで呼べるようにする層。その定義を1か所にまとめておけば、Figmaにもコードにも同じ形で展開できる——という構想。</span><span data-en>A layer that lets you call a visual bundle (spacing, color, type, and so on) by a single name instead of spelling it out each time. Keep the definition in one place, and it can unfold the same way into both Figma and code — that&#39;s the idea.</span></p>
     </li>
     <li><span class="no">4</span>
-      <h3>スキルは人を置き換えず、専門性を「<span class="u-underline">配って回す</span>」<span class="en">skills deploy expertise</span></h3>
-      <p>エージェント用の指示書（スキル）を人が手で書き直すのは、圧縮されたコードをいじるようで大変。だから人は「元ネタ」だけ持ち、指示書に変換するのはエージェントに任せる。しかも、使うエージェントごとに最適な形で作らせる。</p>
+      <h3><span data-ja>スキルは人を置き換えず、専門性を「<span class="u-underline">配って回す</span>」</span><span data-en>Skills don&#39;t replace people — they <span class="u-underline">distribute</span> expertise</span><span class="en">skills deploy expertise</span></h3>
+      <p><span data-ja>エージェント用の指示書（スキル）を人が手で書き直すのは、圧縮されたコードをいじるようで大変。だから人は「元ネタ」だけ持ち、指示書に変換するのはエージェントに任せる。しかも、使うエージェントごとに最適な形で作らせる。</span><span data-en>Rewriting an agent&#39;s instruction sheet (a skill) by hand is like editing compressed code — hard going. So you keep just the "source," and leave the conversion into instructions to the agent. And you have it built in the best shape for each agent you use.</span></p>
     </li>
     <li><span class="no">5</span>
-      <h3>FigJam を「エージェントと<span class="u-underline">やり取りする作業台</span>」にする<span class="en">FigJam as interface</span></h3>
-      <p>キャンバスに可視化すると、自分が何を頼んでいるかを意識できて、文脈が明晰になる。計画を書き出し、人がレビュー・修正してから走らせる。</p>
+      <h3><span data-ja>FigJam を「エージェントと<span class="u-underline">やり取りする作業台</span>」にする</span><span data-en>Make FigJam a <span class="u-underline">workbench for working with agents</span></span><span class="en">FigJam as interface</span></h3>
+      <p><span data-ja>キャンバスに可視化すると、自分が何を頼んでいるかを意識できて、文脈が明晰になる。計画を書き出し、人がレビュー・修正してから走らせる。</span><span data-en>Made visible on the canvas, you become aware of what you&#39;re actually asking, and the context turns clear. Write the plan out; a human reviews and fixes it before it runs.</span></p>
     </li>
   </ol>
   <figure class="board-img" style="margin-top:26px">
     <span class="pin"></span>
     <img src="config2026_frames/hypertokens.jpg" alt="Values → Tokens → Hypertokens → Component の階段">
-    <figcaption>同じボタンを Values → Tokens → Hypertokens → Component と抽象化していく（点2・3の実演）</figcaption>
+    <figcaption><span data-ja>同じボタンを Values → Tokens → Hypertokens → Component と抽象化していく（点2・3の実演）</span><span data-en>Abstracting the same button up through Values → Tokens → Hypertokens → Component (the demo for points 2 and 3)</span></figcaption>
   </figure>
 </section>
 
 <!-- ===== FIGJAM ===== -->
 <section class="slide">
-  <span class="kicker">FigJam をエージェントの作業台に</span>
-  <h1 style="font-size:clamp(24px,4vw,36px)">計画を <span class="u-underline">人が直してから</span>、走らせる</h1>
-  <p class="dim" style="margin-top:22px">点5の「FigJamを対話面に」は、スライドでも実際のFigJamボードで見せていた。プロンプトを読ませ、Figmaとコードベースで作業させ、結果をFigJamに書き戻す。大きなタスクはサブエージェントの計画に分け、その計画を人が読んで直してから、走らせる。</p>
+  <span class="kicker"><span data-ja>FigJam をエージェントの作業台に</span><span data-en>FigJam as the agent&#39;s workbench</span></span>
+  <h1 style="font-size:clamp(24px,4vw,36px)"><span data-ja>計画を <span class="u-underline">人が直してから</span>、走らせる</span><span data-en>Let <span class="u-underline">a human fix the plan</span> first, then run it</span></h1>
+  <p class="dim" style="margin-top:22px"><span data-ja>点5の「FigJamを対話面に」は、スライドでも実際のFigJamボードで見せていた。プロンプトを読ませ、Figmaとコードベースで作業させ、結果をFigJamに書き戻す。大きなタスクはサブエージェントの計画に分け、その計画を人が読んで直してから、走らせる。</span><span data-en>Point 5 — "FigJam as the surface for dialogue" — he showed on an actual FigJam board, not just a slide. It reads the prompt, works across Figma and the codebase, and writes the result back to FigJam. Big tasks get split into sub-agent plans, and a human reads and fixes the plan before it runs.</span></p>
   <div class="flow">
-    <span class="step">FigJam のプロンプト</span><span class="arw">→</span>
-    <span class="step">Figma で作業</span><span class="arw">→</span>
-    <span class="step">コードベースで作業</span><span class="arw">→</span>
-    <span class="step">FigJam に書き戻す</span>
+    <span class="step"><span data-ja>FigJam のプロンプト</span><span data-en>Prompt in FigJam</span></span><span class="arw">→</span>
+    <span class="step"><span data-ja>Figma で作業</span><span data-en>Work in Figma</span></span><span class="arw">→</span>
+    <span class="step"><span data-ja>コードベースで作業</span><span data-en>Work in the codebase</span></span><span class="arw">→</span>
+    <span class="step"><span data-ja>FigJam に書き戻す</span><span data-en>Write back to FigJam</span></span>
   </div>
   <figure class="board-img" style="margin-top:26px">
     <span class="pin"></span>
     <img src="config2026_frames/figjam_homework.jpg" alt="FigJam の Assignment ボード: INTRO/STEP1-4/PROCEED">
-    <figcaption>エージェントへの「宿題」ボード。INTRO→STEP→PROCEED を付箋とコネクタで組む</figcaption>
+    <figcaption><span data-ja>エージェントへの「宿題」ボード。INTRO→STEP→PROCEED を付箋とコネクタで組む</span><span data-en>The "homework" board for the agent. INTRO → STEP → PROCEED, built from sticky notes and connectors</span></figcaption>
   </figure>
   <figure class="board-img">
     <span class="pin"></span>
     <img src="config2026_frames/figjam_prompt.jpg" alt="色とりどりの付箋・コード・コンポーネントが並ぶ FigJam ボード">
-    <figcaption>付箋・リンク・画像・コード例を置きながら、人自身が全体を見渡せる状態（人の側の文脈）を整える</figcaption>
+    <figcaption><span data-ja>付箋・リンク・画像・コード例を置きながら、人自身が全体を見渡せる状態（人の側の文脈）を整える</span><span data-en>Placing sticky notes, links, images, code samples — arranging a state where the human can see the whole (the context on the human&#39;s side)</span></figcaption>
   </figure>
-  <p style="margin-top:22px"><span class="u-underline">全部を任せる（＝明け渡し）でもなく、全部を手で抱えるでもない。その、あいだ。</span> この講演で、一番実践に近いヒント。</p>
+  <p style="margin-top:22px"><span data-ja><span class="u-underline">全部を任せる（＝明け渡し）でもなく、全部を手で抱えるでもない。その、あいだ。</span> この講演で、一番実践に近いヒント。</span><span data-en><span class="u-underline">Not handing it all off (= surrender), nor holding it all by hand. The in-between.</span> The most practical hint in this whole talk.</span></p>
 </section>
 
 <!-- ===== DEMO ===== -->
 <section class="slide">
-  <span class="kicker">締め — 一晩で imagination → reality</span>
-  <h1 style="font-size:clamp(24px,4vw,36px)">一晩で、想像を現実へ</h1>
-  <p class="dim" style="margin-top:22px">8年半つづけてきた個人プロジェクト（<span class="u-underline">音を、画像にエンコードする</span>）を、Figmaのプラットフォームだけで、一晩でインタラクティブなサイトにした。</p>
+  <span class="kicker"><span data-ja>締め — 一晩で</span><span data-en>The close —</span> imagination → reality</span>
+  <h1 style="font-size:clamp(24px,4vw,36px)"><span data-ja>一晩で、想像を現実へ</span><span data-en>Imagination to reality, in one night</span></h1>
+  <p class="dim" style="margin-top:22px"><span data-ja>8年半つづけてきた個人プロジェクト（<span class="u-underline">音を、画像にエンコードする</span>）を、Figmaのプラットフォームだけで、一晩でインタラクティブなサイトにした。</span><span data-en>An eight-and-a-half-year personal project (<span class="u-underline">encoding sound into images</span>) — he turned it into an interactive site in a single night, using only Figma&#39;s platform.</span></p>
   <div class="flow">
-    <span class="step">design agent（Figma内の生成エージェント）で初期案</span><span class="arw">→</span>
-    <span class="step">FigJam でプロンプト設計</span><span class="arw">→</span>
-    <span class="step">MCP（ツール接続の共通規格）で同時生成</span><span class="arw">→</span>
-    <span class="step">Figma Make（プロンプトからアプリを作る機能）でアニメ探索</span><span class="arw">→</span>
-    <span class="step">別エージェントへ引き継ぎ</span>
+    <span class="step"><span data-ja>design agent（Figma内の生成エージェント）で初期案</span><span data-en>First draft with the design agent (Figma&#39;s built-in generative agent)</span></span><span class="arw">→</span>
+    <span class="step"><span data-ja>FigJam でプロンプト設計</span><span data-en>Prompt design in FigJam</span></span><span class="arw">→</span>
+    <span class="step"><span data-ja>MCP（ツール接続の共通規格）で同時生成</span><span data-en>Parallel generation via MCP (the shared standard for tool connections)</span></span><span class="arw">→</span>
+    <span class="step"><span data-ja>Figma Make（プロンプトからアプリを作る機能）でアニメ探索</span><span data-en>Exploring animation in Figma Make (builds apps from a prompt)</span></span><span class="arw">→</span>
+    <span class="step"><span data-ja>別エージェントへ引き継ぎ</span><span data-en>Hand off to another agent</span></span>
   </div>
   <div class="row2" style="margin-top:24px">
     <figure class="board-img">
       <span class="pin"></span>
       <img src="config2026_frames/designagent.jpg" alt="スライド: Figma のデザインエージェントで初期案">
-      <figcaption>design agent が初期案。エンコード用ライブラリのソースも渡した</figcaption>
+      <figcaption><span data-ja>design agent が初期案。エンコード用ライブラリのソースも渡した</span><span data-en>The design agent made the first draft. He also handed it the source of the encoding library</span></figcaption>
     </figure>
     <figure class="board-img">
       <span class="pin"></span>
       <img src="config2026_frames/demo.jpg" alt="ステージ: 音を画像にするサイトのデモ">
-      <figcaption>音声の波形を、ピクセルとして埋め込んだ画像。クリックすると復号されて再生される</figcaption>
+      <figcaption><span data-ja>音声の波形を、ピクセルとして埋め込んだ画像。クリックすると復号されて再生される</span><span data-en>An image with the audio waveform embedded as pixels. Click it, and it decodes and plays back</span></figcaption>
     </figure>
   </div>
   <figure class="board-img">
     <span class="pin"></span>
     <img src="config2026_frames/makes.jpg" alt="FigJam に Make の探索結果を取り込む">
-    <figcaption>Make のアニメ探索を FigJam 経由で引き込む。過程そのものが FigJam に残る</figcaption>
+    <figcaption><span data-ja>Make のアニメ探索を FigJam 経由で引き込む。過程そのものが FigJam に残る</span><span data-en>Pulling Make&#39;s animation exploration in through FigJam. The process itself stays behind in FigJam</span></figcaption>
   </figure>
   <p class="zero-note" style="margin-top:16px"><span class="arrow">→</span> <a href="https://sonicpx.jake.fun" target="_blank" rel="noopener" style="color:var(--chalk)">sonicpx.jake.fun</a></p>
 </section>
 
 <!-- ===== MY TAKE ===== -->
 <section class="slide">
-  <span class="kicker">私の見立て — my take</span>
-  <h1 style="font-size:clamp(24px,4vw,36px)">わたしたちの「<span class="u-underline">つくり続ける</span>」仕事観と、地続きだった</h1>
+  <span class="kicker"><span data-ja>私の見立て</span><span data-en>My take</span> — my take</span>
+  <h1 style="font-size:clamp(24px,4vw,36px)"><span data-ja>わたしたちの「<span class="u-underline">つくり続ける</span>」仕事観と、地続きだった</span><span data-en>It ran straight into our own sense of the work — <span class="u-underline">making, and keeping on</span></span></h1>
   <figure class="board-img" style="margin-top:24px">
     <span class="pin"></span>
     <img src="config2026_frames/pencil.jpg" alt="締めの手描きボード: closing / SCHEMA / OUTPUTS">
-    <figcaption>締めのボードも全部ペンツールで手描き。「100×0=0」も「closing」もここに</figcaption>
+    <figcaption><span data-ja>締めのボードも全部ペンツールで手描き。「100×0=0」も「closing」もここに</span><span data-en>The closing board, too, all hand-drawn with the pen tool. "100×0=0" and "closing," both right here</span></figcaption>
   </figure>
   <div class="verse" style="margin-top:30px">
-    つくること、より。続くこと、を。<br>
+<span data-ja>つくること、より。続くこと、を。<br>
     つまり、一度つくって終わりではなく、あとも保てる形にすること。<br>
     磨きは、速く手に入る。<br>
     でも、考え抜いた跡は——<br>
-    <span class="u-underline">誰かが引き受けないと残らない。</span>
+    <span class="u-underline">誰かが引き受けないと残らない。</span></span><span data-en>Less about making. More about lasting.<br>
+    Meaning: not made once and done, but shaped so it holds afterward.<br>
+    Polish comes fast.<br>
+    But the trace of having thought it through—<br>
+    <span class="u-underline">won&#39;t remain unless someone takes it on.</span></span>
   </div>
-  <p style="margin-top:24px">AIは、実行を速くする。でも、何をつくるべきかを研ぐ手前の "意図" ——そこだけは、速くならない。この講演が繰り返し指していたのは、責任を負う先が、成果物の表面ではなく、その手前にある、ということだった。</p>
-  <p>AIで「つくる」が安くなるほど、価値は <span class="u-underline">「何をつくるべきかを研ぎ、つくったあとも続く形にする」</span> 側へ移っていく。速さの話に埋もれて聞こえにくいけれど、この一本が言いたかったのは、たぶんそこだ。</p>
-  <p style="margin-top:26px;font-size:22px">自分の手元でも、試してみたいこと——</p>
+  <p style="margin-top:24px"><span data-ja>AIは、実行を速くする。でも、何をつくるべきかを研ぐ手前の "意図" ——そこだけは、速くならない。この講演が繰り返し指していたのは、責任を負う先が、成果物の表面ではなく、その手前にある、ということだった。</span><span data-en>AI speeds up execution. But the "intent" that comes before honing what to make — that alone doesn&#39;t get faster. What this talk kept pointing to: the place where responsibility lands is not the surface of the deliverable, but the ground before it.</span></p>
+  <p><span data-ja>AIで「つくる」が安くなるほど、価値は <span class="u-underline">「何をつくるべきかを研ぎ、つくったあとも続く形にする」</span> 側へ移っていく。速さの話に埋もれて聞こえにくいけれど、この一本が言いたかったのは、たぶんそこだ。</span><span data-en>The cheaper AI makes "making," the more value shifts toward <span class="u-underline">"honing what to make, and shaping it to last after it&#39;s made."</span> It&#39;s easy to lose under all the talk of speed, but that, I think, is what this one talk wanted to say.</span></p>
+  <p style="margin-top:26px;font-size:22px"><span data-ja>自分の手元でも、試してみたいこと——</span><span data-en>Things I want to try in my own hands—</span></p>
   <ul class="checklist">
-    <li>LLMに投げる前に、まず「意図を仕様にする」（spec駆動）</li>
-    <li>スキルやプロンプトは、源をひとつ持って、そこから生成・更新する</li>
-    <li>エージェントにいきなり実行させず、まず計画を出させ、確認・修正してから動かす（＝判断を手放さない）</li>
+    <li><span data-ja>LLMに投げる前に、まず「意図を仕様にする」（spec駆動）</span><span data-en>Before throwing it to an LLM, first "turn intent into a spec" (spec-driven)</span></li>
+    <li><span data-ja>スキルやプロンプトは、源をひとつ持って、そこから生成・更新する</span><span data-en>Keep one source for skills and prompts, and generate and update from there</span></li>
+    <li><span data-ja>エージェントにいきなり実行させず、まず計画を出させ、確認・修正してから動かす（＝判断を手放さない）</span><span data-en>Don&#39;t let the agent just run — have it produce a plan first, check and fix it, then set it going (= don&#39;t let go of the judgment)</span></li>
   </ul>
 </section>
 
 <section class="slide nextreads-note">
-  <span class="kicker">つづけて読む — read next</span>
+  <span class="kicker"><span data-ja>つづけて読む</span><span data-en>Read next</span> — read next</span>
   <div class="nrn-grid">
-    <a class="nrn-card" href="./"><div class="nrn-k">レコメンダー</div><div class="nrn-t">あなたに、ぴったりの一本を。</div></a>
-    <a class="nrn-card" href="config2026_report.html"><div class="nrn-k">71本、まとめて</div><div class="nrn-t">速さは、耳にのこった。でも——。</div></a>
-    <a class="nrn-card" href="config2026_cursor_demo_notes.html"><div class="nrn-k">サイドイベント</div><div class="nrn-t">つくる人が、そのまま動かす人でもある。</div></a>
+    <a class="nrn-card" href="./"><div class="nrn-k"><span data-ja>レコメンダー</span><span data-en>Recommender</span></div><div class="nrn-t"><span data-ja>あなたに、ぴったりの一本を。</span><span data-en>Your one perfect talk.</span></div></a>
+    <a class="nrn-card" href="config2026_report.html"><div class="nrn-k"><span data-ja>71本、まとめて</span><span data-en>All 71</span></div><div class="nrn-t"><span data-ja>速さは、耳にのこった。でも——。</span><span data-en>"Fast" stayed in my ear. But—.</span></div></a>
+    <a class="nrn-card" href="config2026_cursor_demo_notes.html"><div class="nrn-k"><span data-ja>サイドイベント</span><span data-en>Side event</span></div><div class="nrn-t"><span data-ja>つくる人が、そのまま動かす人でもある。</span><span data-en>The person who makes is also the one who ships.</span></div></a>
   </div>
 </section>
 
 <footer class="slidefoot">
-  <a href="./">← Config 2026 の余韻へ——71本をたどるセッション案内に戻る</a><br><br>
-  登壇: Jake Albaugh（Developer Advocate, Figma）<br>
-  出典: <a href="https://www.youtube.com/watch?v=D5WUW9X_-L0" target="_blank" rel="noopener">Figma deep dive: Agentic workflows and the MCP｜Config 2026</a>（Figma 公式）／ 画像は動画からのキャプチャ（引用）<br>
-  英語字幕をもとに要約・意訳したもの。✎ <a href="https://www.linkedin.com/in/sayurit/" target="_blank" rel="noopener">Sayuri</a>
+  <a href="./"><span data-ja>← Config 2026 の余韻へ——71本をたどるセッション案内に戻る</span><span data-en>← Back to the afterglow of Config 2026 — the session guide tracing all 71 talks</span></a><br><br>
+  Speaker: Jake Albaugh (Developer Advocate, Figma)<br>
+  Source: <a href="https://www.youtube.com/watch?v=D5WUW9X_-L0" target="_blank" rel="noopener">Figma deep dive: Agentic workflows and the MCP｜Config 2026</a> (Figma official) / images are captures from the video (quoted)<br>
+  Summarized and freely translated from the English captions. ✎ <a href="https://www.linkedin.com/in/sayurit/" target="_blank" rel="noopener">Sayuri</a>
 </footer>
 
+<script>
+function setLang(l){
+  document.body.classList.toggle('en', l==='en');
+  document.getElementById('btn-ja').classList.toggle('on', l==='ja');
+  document.getElementById('btn-en').classList.toggle('on', l==='en');
+  document.documentElement.setAttribute('lang', l);
+  document.title = (l==='en')
+    ? "Precise design context is what decides the work｜Config 2026 notes — Sayuri"
+    : "デザインコンテキストの精度が、仕事を決める｜Config 2026 視聴メモ — Sayuri";
+}
+</script>
 </body>
 </html>

@@ -213,11 +213,35 @@
   .pill.mood{--dot:#a1a1aa}
   .pill.origin{--dot:var(--sub)}
   .foot{margin-top:14px;padding-top:14px;border-top:1px solid var(--line-soft);
-    display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+    display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+  .foot .watch-actions{align-self:stretch}
   .foot-title{font-size:var(--fs-md);font-weight:700;color:var(--ink);line-height:1.4;letter-spacing:-.005em}
   .foot-meta{font-size:var(--fs-sm);color:var(--dim);line-height:1.5;margin-top:3px}
   .watch{flex:none;background:var(--ink);color:#000;text-decoration:none;font-size:var(--fs-sm);font-weight:700;
     padding:7px 14px;border-radius:0;white-space:nowrap}
+  /* シェア（send）— アイコンのみ・枠なし・Watchとセンター揃え横並び。丸/緑塗り/グロー禁止方針に沿う */
+  .watch-actions{display:flex;align-items:center;gap:10px}
+  .send-btn{flex:none;display:inline-flex;align-items:center;justify-content:center;height:31px;width:31px;
+    background:none;border:none;padding:0;cursor:pointer;color:var(--sub);position:relative;transition:color .15s ease,transform .15s ease}
+  .send-btn:hover{color:var(--ink);transform:translateY(-1px)}
+  .send-btn svg{width:17px;height:17px;display:block}
+  .send-btn .copied-tip{position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);
+    font-size:11px;font-weight:600;letter-spacing:.03em;color:var(--accent);white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s ease}
+  .send-btn.copied .copied-tip{opacity:1}
+  .send-btn.copied{color:var(--accent)}
+  /* モーダル下部のWatch+send群 */
+  .modal-watch-group{display:flex;align-items:center;gap:12px}
+  .modal-watch-group .send-btn{height:40px;width:40px}
+  .modal-watch-group .send-btn svg{width:20px;height:20px}
+  /* footer サイト全体シェア（ラベル付き・リンク調） */
+  .share-site{display:inline-flex;align-items:center;gap:7px;background:none;border:none;cursor:pointer;
+    color:var(--sub);font-family:inherit;font-size:var(--fs-sm);font-weight:600;letter-spacing:.02em;padding:0;transition:color .15s ease}
+  .share-site:hover{color:var(--ink)}
+  .share-site svg{width:15px;height:15px}
+  /* 出迎え（?s=で来た人・案1: 大文字ラベル＋一文・accent緑・ケイ線） */
+  .modal-greet{margin:0 0 14px;padding-bottom:12px;border-bottom:1px solid var(--line-soft)}
+  .modal-greet .mg-label{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 5px}
+  .modal-greet .mg-text{font-size:var(--fs-sm);color:var(--sub);line-height:1.5;margin:0}
 
   /* Pull one for me（モーダル） */
   /* 上寄せ＋固定位置。中身の高さが talk ごとに変わっても上端が動かない（Pull another でガタつかない） */
@@ -291,7 +315,7 @@
   .line-open{display:none;max-width:820px;margin-top:18px}
   .lineitem.open .line-open{display:block}
   .line-open .lo-feel{font-size:var(--fs-xl);line-height:1.7;color:var(--ink);white-space:pre-wrap;margin:0 0 16px}
-  .line-open .watch{display:inline-block;margin-top:14px}
+  .line-open .watch-actions{margin-top:14px}
   @media(max-width:620px){.lineitem .lq{font-size:22px}
     /* T43: 狭幅ではタイポ階層を縮める（デスクトップの大きさはモバイルで窮屈なため） */
     h1{font-size:44px;line-height:1.1}
@@ -338,7 +362,7 @@
   .ps-open{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--line-soft)}
   .pair-side.open .ps-open{display:block}
   .ps-feel{font-size:var(--fs-lg);line-height:1.65;color:var(--ink);white-space:pre-wrap;margin:0 0 12px}
-  .ps-open .watch{display:inline-block;margin-top:12px}
+  .ps-open .watch-actions{margin-top:12px}
 
   /* About */
   footer.about{border-top:1px solid var(--line);margin-top:clamp(6rem,12vh,10rem);padding-top:36px;color:var(--sub);font-size:15px;line-height:1.8;max-width:720px}
@@ -497,11 +521,18 @@
     <div class="modal" role="dialog" aria-modal="true" aria-label="A talk pulled for you">
       <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
       <div class="modal-body-scroll">
-        <div class="modal-kicker">Pulled for you</div>
+        <div class="modal-greet" id="modalGreet" hidden>
+          <p class="mg-label">Sent to you</p>
+          <p class="mg-text">Someone chose this one for you — out of 71.</p>
+        </div>
+        <div class="modal-kicker" id="modalKicker">Pulled for you</div>
         <div id="modalBody"></div>
       </div>
       <div class="modal-actions">
-        <a class="btn" id="modalWatch" href="#" target="_blank" rel="noopener">Watch on YouTube ↗</a>
+        <div class="modal-watch-group">
+          <a class="btn" id="modalWatch" href="#" target="_blank" rel="noopener">Watch on YouTube ↗</a>
+          <button class="send-btn" id="modalSend" aria-label="Share this one" title="Share this one"><span class="copied-tip">Copied</span></button>
+        </div>
         <div class="modal-figpal-wrap">
           <div class="modal-figpal" id="modalFigpal" role="button" tabindex="0" aria-label="Pull another talk" title="Pull another"></div>
           <span class="figpal-caption" id="figpalCaption">↻ pull another</span>
@@ -512,6 +543,7 @@
 
   <footer class="about">
     <p class="lead">About this project<br>One attendee. 71 talks. A handful that wouldn't leave. So — this. Maybe one of them finds you too.</p>
+    <p><button class="share-site" id="shareSiteBtn" aria-label="Share this afterglow" title="Share this afterglow"><span class="ss-label">Share this afterglow</span><span class="copied-tip">Copied</span></button></p>
     <p>Made by <a href="https://www.linkedin.com/in/sayurit/" target="_blank" rel="noopener">Sayuri</a>.</p>
     <p>This is an unofficial fan project, not affiliated with or endorsed by Figma. All session videos, subtitles, and content are &copy; Figma. Summaries here are written from each talk's subtitles (Figma's official subtitles where available, otherwise YouTube auto-generated captions). This site hosts no video or subtitle files — every session links to its original on YouTube. Thumbnails are shown under fair use and credited to each source video.</p>
     <!-- クレジット文は日英トグル対象外・英語固定。理由: 直上の免責文（fan project / &copy; Figma）と同じ
@@ -578,6 +610,27 @@ const STANCE_COLOR = {push:"#24cb71", shift:"#ff7237", return:"#cb9fd2", not_ai:
 
 let LANG = document.documentElement.getAttribute('lang') || "en";
 
+// ---- アクセス計測（Umami・umami未ロード/ローカルでも壊れないようガード）----
+function track(name, props){ try{ if(window.umami) umami.track(name, props||undefined); }catch(e){} }
+// watch クリック（人気セッション）＋ flagship:false なら埋もれた一本の発掘（💎代用）
+function trackWatch(s){ if(!s) return; track('watch_clicked', {id:s.id, flagship:!!s.flagship}); if(s.flagship===false) track('hidden_gem_found', {id:s.id}); }
+const SESSION_BY_ID = {}; // id → session（watch委譲・?s=復元で使う）
+SESSIONS.forEach(s=>{ SESSION_BY_ID[s.id]=s; });
+
+// ---- シェア（T51-S）----
+// Lucide send（紙飛行機）inline SVG。機種依存文字を避けアイコンはSVGに一本化。
+const SEND_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>';
+function shareUrlFor(id){ return location.origin + location.pathname + (id?('?s='+encodeURIComponent(id)):''); }
+// スマホ=ネイティブ共有シート／PC=クリップボードコピー。btnはCopiedフィードバック用（任意）
+function doShare(url, btn){
+  if(navigator.share){ navigator.share({url}).catch(()=>{}); }
+  else if(navigator.clipboard){ navigator.clipboard.writeText(url).then(()=>{ if(btn){ btn.classList.add('copied'); setTimeout(()=>btn.classList.remove('copied'),1600); } }).catch(()=>{}); }
+}
+function shareOne(s, btn){ if(!s) return; doShare(shareUrlFor(s.id), btn); track('session_shared', {id:s.id}); }
+function shareSite(btn){ doShare(shareUrlFor(null), btn); track('shared'); }
+// send ボタンのHTML（個別カード用・data-sidでどのセッションか委譲判定）
+function sendBtnHTML(id){ return '<button class="send-btn" data-share-sid="'+id+'" onclick="event.stopPropagation()" aria-label="Share this one" title="Share this one">'+SEND_SVG+'<span class="copied-tip">Copied</span></button>'; }
+
 // FILTER は1つのメンタルモデル「選ぶと減る」。4軸すべて複数選択のSetでAND合成（軸内はOR）。
 const F = { watch_mood:new Set(), themes:new Set(), ai_stance:new Set(), origin:new Set() };
 function originOf(s){ return (s.org && s.org!=="Figma") ? "outside" : "figma"; }
@@ -602,7 +655,7 @@ function buildFilters(){
       b.style.setProperty("--stc", keyColor(axis,k));
       b.innerHTML=`${keyLabel(axis,k)} <span class="cc">${cnt}</span>`;
       b.setAttribute("aria-pressed", F[axis].has(k)?"true":"false");
-      b.onclick=()=>{ F[axis].has(k)?F[axis].delete(k):F[axis].add(k); buildFilters(); render(); };
+      b.onclick=()=>{ if(F[axis].has(k)){ F[axis].delete(k); } else { F[axis].add(k); track('filter_applied', {axis, key:k}); } buildFilters(); render(); };
       box.appendChild(b);
     });
   }
@@ -663,7 +716,10 @@ function buildCard(s, opts={}){
           <div class="foot-title">${esc(s.title_en)}</div>
           <div class="foot-meta">${esc(s.speaker)}${org} · ${s.duration_min} min</div>
         </div>
-        <a class="watch" href="${s.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Watch ↗</a>
+        <div class="watch-actions">
+          <a class="watch" href="${s.url}" data-sid="${s.id}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Watch ↗</a>
+          ${sendBtnHTML(s.id)}
+        </div>
       </div>
     </div>`;
   // キーボード操作可能に（開閉トグル）
@@ -731,7 +787,10 @@ function renderOneLine(box, list){
         <p class="lo-feel">${esc(fld(s,"the_feeling")||"")}</p>
         <div class="seclabel">What they actually showed</div>
         <ul class="showed">${showed}</ul>
-        <a class="watch" href="${s.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Watch on YouTube ↗</a>
+        <div class="watch-actions">
+          <a class="watch" href="${s.url}" data-sid="${s.id}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Watch on YouTube ↗</a>
+          ${sendBtnHTML(s.id)}
+        </div>
       </div>`;
     const toggle=()=>{ const open=item.classList.toggle("open"); item.setAttribute("aria-expanded", open?"true":"false"); };
     item.onclick=toggle;
@@ -812,21 +871,32 @@ document.getElementById("oracleFigpal").innerHTML=FIGPALS[5];
 function esc(s){ return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
 
 // ---- A: Pull one for me（おみくじ・モーダル）----
+let _pullCount = 0; // モーダルを開いてから連続で引き直した回数（closePullで0に戻す）
 function pullLine(){
   // 現在フィルタが効いていればその中から、なければ全71本から引く
   const {list} = computeList();
   const pool = (list.length?list:SESSIONS).filter(s=>(fld(s,"notable_quote")||"").trim());
   if(!pool.length) return;
+  track('fortune_pulled');
+  _pullCount++;
+  if(_pullCount>=2) track('fortune_pulled_repeat', {count:_pullCount}); // 2回目以降＝運命の一本を探して遊んだ証
   showPull(pool[Math.floor(Math.random()*pool.length)]);
 }
-function showPull(s){
+function showPull(s, greet){
+  // 出迎え（?s=で贈られて来た時のみ greet=true）。通常のおみくじ・通常訪問では kicker「Pulled for you」を出す
+  const gEl=document.getElementById("modalGreet"), kEl=document.getElementById("modalKicker");
+  if(gEl && kEl){ if(greet){ gEl.hidden=false; kEl.hidden=true; } else { gEl.hidden=true; kEl.hidden=false; } }
   const q=(fld(s,"notable_quote")||"").replace(/^["「]|["」]$/g,"");
   const org=extLabel(s)?` · ${esc(extLabel(s))}`:"";
   document.getElementById("modalBody").innerHTML=`
     <p class="mq">"${esc(q)}"</p>
     <p class="mfeel">${esc(fld(s,"the_feeling")||"")}</p>
     <div class="mmeta"><b>${esc(s.title_en)}</b><br>${esc(s.speaker)}${org} · ${s.duration_min} min</div>`;
-  document.getElementById("modalWatch").href=s.url;
+  const mw=document.getElementById("modalWatch");
+  mw.href=s.url;
+  mw.onclick=()=>trackWatch(s); // モーダルからのwatchも計測（委譲対象外の固定要素なので個別に）
+  const msend=document.getElementById("modalSend");
+  if(msend){ msend.classList.remove('copied'); msend.onclick=()=>shareOne(s, msend); }
   document.querySelector(".modal-body-scroll").scrollTop=0;
   // FigPal: モーダルを開く/引き直すたび必ずFIGPALSからランダムに1体を表示する
   const figpalEl=document.getElementById("modalFigpal");
@@ -845,7 +915,7 @@ function showPull(s){
   document.body.style.top=`-${window._scrollY}px`;
   document.body.classList.add("modal-open");
 }
-function closePull(){ if(document.getElementById("pullModal").hidden) return; document.getElementById("pullModal").hidden=true; document.body.classList.remove("modal-open"); document.body.style.top=""; if(window._scrollY!=null){ window.scrollTo(0,window._scrollY); window._scrollY=null; } }
+function closePull(){ if(document.getElementById("pullModal").hidden) return; _pullCount=0; document.getElementById("pullModal").hidden=true; document.body.classList.remove("modal-open"); document.body.style.top=""; if(window._scrollY!=null){ window.scrollTo(0,window._scrollY); window._scrollY=null; } }
 
 // ---- The quiet room（not_ai 29本・The one line 表示。one-line は元々ラベルを出さないので「そっと混ぜる」が自然に成立）----
 function renderRoom(){
@@ -874,7 +944,10 @@ function renderCorr(){
           <p class="ps-feel">${esc(fld(s,"the_feeling")||"")}</p>
           <div class="seclabel">What they actually showed</div>
           <ul class="showed">${showed}</ul>
-          <a class="watch" href="${s.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Watch on YouTube ↗</a>
+          <div class="watch-actions">
+            <a class="watch" href="${s.url}" data-sid="${s.id}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Watch on YouTube ↗</a>
+            ${sendBtnHTML(s.id)}
+          </div>
         </div>
       </div>`; };
     const link = fld(p,"link") || "in reply";
@@ -920,6 +993,7 @@ document.getElementById("pullModal").onclick=(e)=>{ if(e.target.id==="pullModal"
 document.addEventListener("keydown",(e)=>{ if(e.key==="Escape") closePull(); });
 document.querySelectorAll('.segmented button[data-lang]').forEach(b=>{
   b.onclick=()=>{ LANG=b.dataset.lang;
+    track('toggle_lang_switch', {lang:LANG});
     document.documentElement.setAttribute("lang", LANG);
     localStorage.setItem('lang', LANG);
     document.querySelectorAll('.segmented button[data-lang]').forEach(x=>x.setAttribute("aria-pressed", x===b?"true":"false"));
@@ -930,12 +1004,27 @@ document.querySelectorAll('.segmented button[data-lang]').forEach(b=>{
 document.querySelectorAll('.segmented button[data-lang]').forEach(x=>x.setAttribute("aria-pressed", x.dataset.lang===LANG?"true":"false"));
 // Humidity スライダー 0/1/2 → humDir -1/0/+1（Dry/Even/Wet の3ポジション並べ替え）
 const hs=document.getElementById("humslider");
-hs.oninput=()=>{ humDir=parseInt(hs.value,10)-1; updateDialRead(); renderHumid(); };
+hs.oninput=()=>{ humDir=parseInt(hs.value,10)-1; updateDialRead(); renderHumid(); track('humidity_set', {humidity: humDir<0?'dry':(humDir>0?'wet':'even')}); };
+// watch クリックをイベント委譲でまとめて計測（カード/one line/correspondence の3系統・data-sid付き）
+document.addEventListener('click', (e)=>{ const a=e.target.closest && e.target.closest('.watch[data-sid]'); if(a) trackWatch(SESSION_BY_ID[a.dataset.sid]); }, true);
+// send（個別シェア）ボタンをイベント委譲で捕捉（data-share-sid付き・カード/one line/correspondence）。
+// capture フェーズで拾う＝要素側の inline stopPropagation より前に処理される（カード開閉との二重発火を防ぐ）
+document.addEventListener('click', (e)=>{ const b=e.target.closest && e.target.closest('.send-btn[data-share-sid]'); if(b){ e.stopPropagation(); e.preventDefault(); shareOne(SESSION_BY_ID[b.dataset.shareSid], b); } }, true);
+// モーダルの send にSVGアイコンを注入（copied-tipの前に）
+(()=>{ const ms=document.getElementById("modalSend"); if(ms) ms.insertAdjacentHTML('afterbegin', SEND_SVG); })();
+// footer サイト全体シェア: SVGアイコンをラベルの後に注入（Share this afterglow → send の順）＋クリックで shareSite
+(()=>{ const ss=document.getElementById("shareSiteBtn"); if(ss){ const lbl=ss.querySelector('.ss-label'); if(lbl) lbl.insertAdjacentHTML('afterend', SEND_SVG); ss.onclick=()=>shareSite(ss); } })();
 
 buildFilters();
 updateDialRead();
 render();          // Narrow パネルのグリッドを用意（タブ切替で即表示できるよう）
 setTab("humid");   // 既定タブ＝By humidity
+
+// ?s=<id> で贈られて来た人: 該当セッションをモーダルで開く＋出迎え一言。不正/なしは通常表示（フォールバック）
+(()=>{ try{
+  const sid=new URLSearchParams(location.search).get('s');
+  if(sid && SESSION_BY_ID[sid]){ showPull(SESSION_BY_ID[sid], true); track('arrived_from_share', {id:sid}); }
+}catch(e){} })();
 
 // T43: タブ説明文（room-intro / corr-intro）の改行を「.（英ピリオド）と 。（句点）」でのみ入れる。
 // ダッシュ(—)では改行しない＝引用例が行頭に浮かない。散文のみ対象（.sig は除外）。

@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>デザインコンテキストの精度が、仕事を決める｜Config 2026 視聴メモ — Sayuri</title>
+<script>(function(){var l=localStorage.getItem('lang')||'en';document.documentElement.setAttribute('lang',l);})();</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230C0C0E'/%3E%3Cpath d='M50 18 C62 18 66 32 61 43 C72 39 84 44 86 56 C88 68 76 76 65 74 C71 84 66 96 54 96 C46 96 40 88 44 79 C34 84 22 78 22 66 C22 56 32 50 42 53 C34 46 32 33 41 26 C50 20 60 24 62 34 C58 25 52 18 50 18 Z' fill='%23F4F1EA'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Yomogi&family=Zen+Kurenaido&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
@@ -171,8 +172,8 @@
 
   /* language toggle（他レポートと同方式・手描き風トーンに合わせた見た目） */
   [data-en]{display:none}
-  body.en [data-ja]{display:none}
-  body.en [data-en]{display:revert}
+  html[lang="en"] [data-ja]{display:none}
+  html[lang="en"] [data-en]{display:revert}
   .langbar{position:fixed;top:16px;right:16px;z-index:50;display:flex;gap:2px;padding:3px;border:1.5px solid var(--chalk-dim);border-radius:16px 14px 18px 13px/13px 18px 14px 16px;background:rgba(12,12,14,.82);backdrop-filter:blur(6px)}
   .langbar button{font-family:var(--hand-en);font-weight:700;font-size:13px;letter-spacing:.04em;color:var(--chalk-dim);background:none;border:none;padding:4px 12px;cursor:pointer;border-radius:12px}
   .langbar button.on{background:var(--chalk);color:var(--bg)}
@@ -180,8 +181,8 @@
 </head>
 <body>
 <div class="langbar">
-  <button id="btn-ja" class="on" onclick="setLang('ja')">日本語</button>
   <button id="btn-en" onclick="setLang('en')">EN</button>
+  <button id="btn-ja" onclick="setLang('ja')">日本語</button>
 </div>
 
 <!-- ===== HERO ===== -->
@@ -411,14 +412,15 @@
 
 <script>
 function setLang(l){
-  document.body.classList.toggle('en', l==='en');
   document.getElementById('btn-ja').classList.toggle('on', l==='ja');
   document.getElementById('btn-en').classList.toggle('on', l==='en');
   document.documentElement.setAttribute('lang', l);
+  localStorage.setItem('lang', l);
   document.title = (l==='en')
     ? "Precise design context is what decides the work｜Config 2026 notes — Sayuri"
     : "デザインコンテキストの精度が、仕事を決める｜Config 2026 視聴メモ — Sayuri";
 }
+setLang(document.documentElement.getAttribute('lang') || 'en');
 </script>
 </body>
 </html>

@@ -72,7 +72,8 @@
   .kicker{font-size:13px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);margin:0;
     display:flex;align-items:center;gap:8px}
   .kicker::before{content:"";width:6px;height:6px;background:var(--accent);display:inline-block}
-  .lang-top{position:fixed;top:16px;right:16px;z-index:2000;flex:none;background:rgba(0,0,0,.85)}
+  .lang-top{position:fixed;top:16px;right:16px;z-index:60;flex:none;background:rgba(0,0,0,.85)}
+  body.modal-open .lang-top{display:none}
   h1{font-size:69px;line-height:1.08;font-weight:400;letter-spacing:.005em;margin:0 0 22px}
   .hero p.lead{font-size:19px;line-height:1.65;color:var(--sub);max-width:600px;margin:0}
   /* 3レポートへの導線＝独立したカード3枚 */
@@ -279,7 +280,7 @@
      ボタン側は見た目のバランス調整でcenterからさらに下げている（.btnのmargin-top）。 */
   .modal-actions{position:absolute;left:0;right:0;bottom:0;z-index:1;display:flex;gap:10px;align-items:center;justify-content:space-between;
     padding:0 36px 28px}
-  .modal-actions .btn{text-decoration:none;display:inline-flex;align-items:center;margin-top:30px}
+  .modal-actions .btn{text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;margin-top:30px}
   /* FigPal（毎回必ず43体のうち1体が出現）＝ Pull another の実体。
      ボタンを別に置かず、FigPal自体をクリック可能にして引き直しのトリガーにした
      （「FigPalに触れると次が出る」というおみくじらしい発見的な体験）。
@@ -320,7 +321,6 @@
     /* T43: 狭幅ではタイポ階層を縮める（デスクトップの大きさはモバイルで窮屈なため） */
     h1{font-size:44px;line-height:1.1}
     .wrap{padding-top:72px}
-    .room-intro h3,.corr-intro h3{font-size:27px}
     .tab{font-size:15px}
   }
 
@@ -328,6 +328,8 @@
   .room-intro,.corr-intro{max-width:660px;margin:4px 0 88px}
   .room-intro h3,.corr-intro h3{font-size:35px;font-weight:400;line-height:1.3;letter-spacing:-.01em;margin:0 0 16px;color:var(--ink)}
   .room-intro p,.corr-intro p{font-size:18px;line-height:1.75;color:var(--sub);margin:0}
+  /* T43狭幅縮小: 基本ルールの後に置く（前に置くとカスケードで負けて死ぬ＝旧バグ） */
+  @media(max-width:620px){.room-intro h3,.corr-intro h3{font-size:27px}}
   .room-intro .sig{font-size:var(--fs-sm);color:var(--dim);margin-top:14px;font-style:italic}
   .lines-static .lineitem:first-child{border-top:1px solid var(--line-strong)}
   /* In pairs: pair自体はカード枠でなく divider 区切り。中に2カラム。 */
@@ -530,7 +532,7 @@
       </div>
       <div class="modal-actions">
         <div class="modal-watch-group">
-          <a class="btn" id="modalWatch" href="#" target="_blank" rel="noopener">Watch on YouTube <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px" aria-hidden="true"><path d="M5 11 11 5M5.5 5H11v5.5"/></svg></a>
+          <a class="btn" id="modalWatch" href="#" target="_blank" rel="noopener">Watch <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px" aria-hidden="true"><path d="M5 11 11 5M5.5 5H11v5.5"/></svg></a>
           <button class="send-btn" id="modalSend" aria-label="Share this one" title="Share this one"><span class="copied-tip">Copied</span></button>
         </div>
         <div class="modal-figpal-wrap">

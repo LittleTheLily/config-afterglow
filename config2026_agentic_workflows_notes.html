@@ -36,7 +36,7 @@
   /* hand ink strokes as reusable svg backgrounds */
   .u-underline{position:relative;white-space:nowrap}
   h1,.bigquote{overflow-wrap:anywhere}
-  @media(max-width:680px){.u-underline{white-space:normal}}
+  @media(max-width:560px){.u-underline{white-space:normal}}
   .u-underline::after{
     content:"";position:absolute;left:-1%;right:-1%;bottom:-10px;height:12px;
     background:no-repeat center/100% 12px
@@ -166,7 +166,7 @@
   @media(max-width:600px){.slide{padding-left:20px;padding-right:20px}footer.slidefoot{padding-left:20px;padding-right:20px}.nextreads-note{padding-left:20px;padding-right:20px}}
   .nrn-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
   @media(max-width:700px){.nrn-grid{grid-template-columns:1fr}}
-  .nrn-card{display:block;padding:20px 22px;border:1.5px solid rgba(244,241,234,.28);border-radius:14px 12px 15px 11px/11px 15px 12px 14px;transition:border-color .2s ease,transform .2s ease}
+  .nrn-card{display:block;padding:20px 22px;border:1.5px solid rgba(244,241,234,.28);border-radius:14px 12px 15px 11px/11px 15px 12px 14px;color:var(--chalk);text-decoration:none;transition:border-color .2s ease,transform .2s ease}
   .nrn-card:hover{border-color:var(--chalk);transform:translateY(-2px)}
   .nrn-k{font-family:var(--hand-en);font-size:13px;color:var(--chalk-dim);margin-bottom:8px;letter-spacing:.03em}
   .nrn-t{font-family:var(--hand);font-size:16px;line-height:1.5;color:var(--chalk)}

@@ -145,10 +145,11 @@
   .disc{padding:52px 0 72px}
   .disc h2{margin-bottom:4px}
   .disc .sub{font-size:15px;color:var(--muted);margin:10px 0 0}
-  .q{margin:16px 0 0;padding:20px 22px;border:1px solid var(--hair);border-radius:14px;background:var(--panel);display:flex;gap:15px;align-items:baseline}
-  .q .qn{font-family:ui-monospace,Menlo,monospace;font-size:13px;font-weight:700;color:var(--violet-ink);flex:none}
-  .q p{margin:0;font-size:16px;line-height:1.65;color:#eef0ec}
-  .q p .role{font-size:12px;color:var(--muted-2);font-weight:600;display:block;margin-top:6px;letter-spacing:.02em}
+  .closing{margin-top:22px;font-size:17px;line-height:1.5;max-width:34em}
+  .closing .st{margin:0 0 16px}
+  .closing .st:last-child{margin-bottom:0}
+  .closing .st.close{color:#eef0ec}
+  .closing q{quotes:"\201C" "\201D"}
 
   @media (max-width:640px){
     .hero-grid{grid-template-columns:1fr;gap:24px}
@@ -315,10 +316,21 @@
   </details>
 
   <section class="disc">
-    <h2><span data-ja>一緒に考えたい問い</span><span data-en>Questions to think through together</span></h2>
-    <div class="q"><span class="qn mono">Q1</span><p><span data-ja>デザイナーが動くものまで作れるようになったとき、01 で見た PM とデザイナーの「重なり」を、どうすれば強みとして活かせるか？</span><span data-en>When designers can build things that run, how do we turn the overlap between PM and designer into a strength?</span></p></div>
-    <div class="q"><span class="qn mono">Q2</span><p><span data-ja>ラフを早く動かして直していく進め方に寄せるなら、私たちのデザインレビューは何を見る場に変わるか？</span><span data-en>If we lean into moving a rough version early and fixing from there, what does our design review become a place to look at?</span></p></div>
-    <div class="q"><span class="qn mono">Q3</span><p><span data-ja>一度うまくいった依頼の仕方を、一度きりで終わらせないために。どこに、どのように残していくか？</span><span data-en>So a &ldquo;way of asking&rdquo; that worked once isn&rsquo;t a one-off — where, and how, do we keep it?</span></p></div>
+    <h2><span data-ja>つくるより、届く</span><span data-en>To reach, more than to make</span></h2>
+    <div class="closing" data-ja>
+      <p class="st">彼が選んだ題材は、オンボーディングだった。<br>はじめての人に、どう届くか。</p>
+      <p class="st">つくる話のようでいて、ほんとうは、届ける話。</p>
+      <p class="st">言葉がむずかしい人にも、<br>つくり手とちがう流れで動く人にも——<br>ちゃんと届くように。</p>
+      <p class="st">動くものをつくれること以上に、<br>それが誰かに届くかどうか。</p>
+      <p class="st close">つくるより、届く。<br>そこにデザインの重さを置いていきたいと思っています。</p>
+    </div>
+    <div class="closing" data-en>
+      <p class="st">The thing he chose to build was onboarding.<br>How does it reach someone arriving for the first time?</p>
+      <p class="st">It looks like a story about making — but really, it&rsquo;s about reaching.</p>
+      <p class="st">For the ones the words are hard for,<br>for the ones who move through a different flow than the makers——<br>so it reaches them, properly.</p>
+      <p class="st">More than being able to make the thing that runs,<br>whether it reaches a person.</p>
+      <p class="st close">To reach, more than to make.<br>That&rsquo;s where I want to place the weight of design.</p>
+    </div>
   </section>
 
 </main>

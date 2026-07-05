@@ -419,7 +419,7 @@
       </div>
     </div>
     <h1>71 talks.<br>What's left after the room goes quiet.</h1>
-    <p class="hero-what">Figma's Config 2026 — its 71 public talks, made into a place you can wander.</p>
+    <p class="hero-what">The 71 public talks of Figma's Config 2026, made into a place you can wander.</p>
     <p class="lead">I haven't heard all 71; I sat with the ones that caught me. The room buzzed with AI — yet more than half the talks ran <em>wet</em>. Pick how you're feeling today, and let a few find you.</p>
     <div class="hero-actions">
       <button class="btn oracle-lg" id="oracle">✦ Pull one for me<span class="oracle-figpal" id="oracleFigpal" aria-hidden="true"></span></button>
@@ -438,7 +438,7 @@
           <span class="fr-arrow"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M5.5 5H11v5.5"/></svg></span>
           <div class="fr-kicker">One talk, close up</div>
           <h2>Context is what decides the work.</h2>
-          <p>My hand-drawn viewing notes on "Agentic workflows and the MCP."</p>
+          <p>My hand-drawn notes on "Agentic workflows and the MCP."</p>
           <p class="fr-meta">Hand-drawn notes · one talk</p>
         </a>
         <a class="fr-card" href="config2026_cursor_demo_notes.html" target="_blank" rel="noopener">
@@ -503,14 +503,14 @@
   <section class="tabpanel read-panel" id="panel-humid">
       <div class="room-intro">
         <h3>By humidity — from dry reason to wet feeling.</h3>
-        <p>Every talk has a temperature. Slide to reorder all 71. <b>Dry</b> = reason, the way you choose — "Designing in the age of the 10x engineer." <b>Wet</b> = a hand, love, memory — "The marathon designer."<br>Slide toward dry and the talks closest to AI drift to the top — the closer to AI, the drier they ran.</p>
+        <p>Every talk has a temperature. Slide to reorder all 71. <b>Dry</b> = reason, how you decide — "Designing in the age of the 10x engineer." <b>Wet</b> = a hand, love, memory — "The marathon designer."<br>Slide toward dry and the talks closest to AI drift to the top — the closer to AI, the drier they ran.</p>
       </div>
       <div class="dial">
         <input type="range" class="slider" id="humslider" min="0" max="2" step="1" value="1"
           list="humticks" aria-label="Humidity: dry to wet">
         <datalist id="humticks"><option value="0"></option><option value="1"></option><option value="2"></option></datalist>
         <div class="humticklabels"><span>Dry reason</span><span>Even</span><span>Wet feeling</span></div>
-        <div class="dial-read" id="dialread">Even — the even-tempered talks first, the extremes drifting to the edges.</div>
+        <div class="dial-read" id="dialread">Even — the middle-temperature talks first, the extremes drifting lower.</div>
       </div>
       <div class="lines-static" id="humlines"></div>
     </section>
@@ -817,7 +817,7 @@ function updateDialRead(){
   const r=document.getElementById("dialread");
   if(humDir<0) r.innerHTML=`<b>Dry first</b> — reason and the way you choose, like "Designing in the age of the 10x engineer".`;
   else if(humDir>0) r.innerHTML=`<b>Wet first</b> — a hand, love, memory, like "The marathon designer".`;
-  else r.innerHTML=`<b>Even</b> — the even-tempered talks first, the extremes drifting to the edges.`;
+  else r.innerHTML=`<b>Even</b> — the middle-temperature talks first, the extremes drifting lower.`;
 }
 function renderHumid(){
   const h=s=>(typeof s.humidity==="number"?s.humidity:0);

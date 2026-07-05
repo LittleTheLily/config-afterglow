@@ -67,7 +67,7 @@
     opacity:1;pointer-events:none;z-index:0}
   .hero-deco svg{width:100%;height:100%}
   @media(max-width:1180px){.hero-deco{display:none}}
-  .kicker-row,h1,.hero p.lead,.hero-actions,.further-reads{position:relative;z-index:1}
+  .kicker-row,h1,.hero p.hero-what,.hero p.lead,.hero-actions,.further-reads{position:relative;z-index:1}
   .kicker-row{display:flex;justify-content:space-between;align-items:center;gap:16px;margin:0 0 14px}
   .kicker{font-size:13px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);margin:0;
     display:flex;align-items:center;gap:8px}
@@ -75,6 +75,7 @@
   .lang-top{position:fixed;top:16px;right:16px;z-index:60;flex:none;background:rgba(0,0,0,.85)}
   body.modal-open .lang-top{display:none}
   h1{font-size:69px;line-height:1.08;font-weight:400;letter-spacing:.005em;margin:0 0 22px}
+  .hero p.hero-what{font-size:16px;line-height:1.6;color:var(--sub);max-width:600px;margin:18px 0 0}
   .hero p.lead{font-size:19px;line-height:1.65;color:var(--sub);max-width:600px;margin:0}
   /* 3レポートへの導線＝独立したカード3枚 */
   .further-reads{margin:40px 0 0;max-width:900px}
@@ -90,6 +91,8 @@
     color:var(--dim);font-weight:700;margin-bottom:8px}
   .fr-card h4{font-size:var(--fs-lg);font-weight:600;color:var(--ink);line-height:1.4;margin:0 0 6px}
   .fr-card p{font-size:var(--fs-sm);color:var(--sub);line-height:1.55;margin:0}
+  .fr-card .fr-meta{font-size:var(--fs-2xs);letter-spacing:.06em;text-transform:uppercase;
+    color:var(--dim);margin:12px 0 0}
   .fr-card .fr-arrow{position:absolute;top:16px;right:18px;color:var(--dim);font-size:var(--fs-md)}
   .hero-actions{display:flex;align-items:center;gap:16px;margin:30px 0 8px;flex-wrap:wrap}
   /* Pull one for me を目立たせる（大きめ・角ばった帯・濃色＝方針の"丸pill/緑塗り/グロー禁止"に準拠） */
@@ -416,6 +419,7 @@
       </div>
     </div>
     <h1>71 talks.<br>What's left after the room goes quiet.</h1>
+    <p class="hero-what">Figma's Config 2026 — its 71 public talks, made into a place you can wander.</p>
     <p class="lead">Not the official abstracts — written from what each speaker actually said on stage. I haven't heard all 71; I sat with the ones that caught me, one at a time, with AI. The room was buzzing with AI, yet more than half the talks ran <em>wet</em> — the hand, the love, the long haul. Pick how you're feeling today, and let a few find you.</p>
     <div class="hero-actions">
       <button class="btn oracle-lg" id="oracle">✦ Pull one for me<span class="oracle-figpal" id="oracleFigpal" aria-hidden="true"></span></button>
@@ -428,18 +432,21 @@
           <div class="fr-kicker">All 71, by the numbers</div>
           <h4>"Fast" is what stayed in my ear.</h4>
           <p>A longer essay on the humidity of all 71 talks — where the heat actually was.</p>
+          <p class="fr-meta">Essay · all 71 talks</p>
         </a>
         <a class="fr-card" href="config2026_agentic_workflows_notes.html" target="_blank" rel="noopener">
           <span class="fr-arrow"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M5.5 5H11v5.5"/></svg></span>
           <div class="fr-kicker">One talk, close up</div>
           <h4>Precision of context decides the work.</h4>
           <p>My hand-drawn viewing notes on "Agentic workflows and the MCP."</p>
+          <p class="fr-meta">Hand-drawn notes · one talk</p>
         </a>
         <a class="fr-card" href="config2026_cursor_demo_notes.html" target="_blank" rel="noopener">
           <span class="fr-arrow"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M5.5 5H11v5.5"/></svg></span>
           <div class="fr-kicker">What I saw off-schedule</div>
           <h4>The way we make things is shifting.</h4>
           <p>Notes from a Cursor demo night — not official Config, but the same current.</p>
+          <p class="fr-meta">Notes · a 5-min side-event demo</p>
         </a>
       </div>
     </div>

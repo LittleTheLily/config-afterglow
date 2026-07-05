@@ -452,6 +452,7 @@
     </div>
   </header>
 
+  <main>
   <!-- タブ（既定=By humidity・右端=Narrow it down） -->
   <div class="tabs" role="tablist" aria-label="ways to explore">
     <button class="tab" data-tab="humid" role="tab" aria-selected="true">By humidity</button>
@@ -486,7 +487,7 @@
         <button class="clear-filters" id="clearFilters" hidden>Clear all</button>
       </div>
     </div>
-    <main class="grid" id="grid"></main>
+    <div class="grid" id="grid"></div>
   </section>
 
   <!-- Correspondence -->
@@ -541,7 +542,7 @@
       <div class="modal-actions">
         <div class="modal-watch-group">
           <a class="btn" id="modalWatch" href="#" target="_blank" rel="noopener">Watch <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px" aria-hidden="true"><path d="M5 11 11 5M5.5 5H11v5.5"/></svg></a>
-          <button class="send-btn" id="modalSend" aria-label="Share this one" title="Share this one"><span class="copied-tip">Copied</span></button>
+          <button class="send-btn" id="modalSend" aria-label="Share this one" title="Share this one"><span class="copied-tip" aria-hidden="true">Copied</span></button>
         </div>
         <div class="modal-figpal-wrap">
           <div class="modal-figpal" id="modalFigpal" role="button" tabindex="0" aria-label="Pull another talk" title="Pull another"></div>
@@ -550,10 +551,11 @@
       </div>
     </div>
   </div>
+  </main>
 
   <footer class="about">
     <p class="lead">About this project<br>One attendee. 71 talks. A handful that wouldn't leave. So — this. Maybe one of them finds you too.</p>
-    <p><button class="share-site" id="shareSiteBtn" aria-label="Share this afterglow" title="Share this afterglow"><span class="ss-label">Share this afterglow</span><span class="copied-tip">Copied</span></button></p>
+    <p><button class="share-site" id="shareSiteBtn" aria-label="Share this afterglow" title="Share this afterglow"><span class="ss-label">Share this afterglow</span><span class="copied-tip" aria-hidden="true">Copied</span></button></p>
     <p>Made by <a href="https://www.linkedin.com/in/sayurit/" target="_blank" rel="noopener">Sayuri</a>.</p>
     <p>This is an unofficial fan project, not affiliated with or endorsed by Figma. All session videos, subtitles, and content are &copy; Figma. The reflections here are my own impressions and creative retellings, written after watching each talk (with reference to its subtitles — Figma's official ones where available, otherwise YouTube auto-generated captions); quotation marks indicate a speaker's actual words. This site hosts no video or subtitle files — every session links to its original on YouTube, and thumbnails are from each source video, &copy; Figma, linking back to it. Speakers: if you'd like anything corrected or removed, tell me and I'll fix it promptly.</p>
     <!-- クレジット文は日英トグル対象外・英語固定。理由: 直上の免責文（fan project / &copy; Figma）と同じ
@@ -639,7 +641,7 @@ function doShare(url, btn){
 function shareOne(s, btn){ if(!s) return; doShare(shareUrlFor(s.id), btn); track('session_shared', {id:s.id}); }
 function shareSite(btn){ doShare(shareUrlFor(null), btn); track('shared'); }
 // send ボタンのHTML（個別カード用・data-sidでどのセッションか委譲判定）
-function sendBtnHTML(id){ return '<button class="send-btn" data-share-sid="'+id+'" onclick="event.stopPropagation()" aria-label="Share this one" title="Share this one">'+SEND_SVG+'<span class="copied-tip">Copied</span></button>'; }
+function sendBtnHTML(id){ return '<button class="send-btn" data-share-sid="'+id+'" onclick="event.stopPropagation()" aria-label="Share this one" title="Share this one">'+SEND_SVG+'<span class="copied-tip" aria-hidden="true">Copied</span></button>'; }
 
 // FILTER は1つのメンタルモデル「選ぶと減る」。4軸すべて複数選択のSetでAND合成（軸内はOR）。
 const F = { watch_mood:new Set(), themes:new Set(), ai_stance:new Set(), origin:new Set() };

@@ -187,6 +187,7 @@
   <button id="btn-ja" onclick="setLang('ja')">日本語</button>
 </div>
 
+<main>
 <!-- ===== HERO ===== -->
 <section class="slide">
   <span class="kicker">Config 2026 — deep dive</span>
@@ -404,6 +405,7 @@
     <a class="nrn-card" href="config2026_cursor_demo_notes.html"><div class="nrn-k"><span data-ja>サイドイベント</span><span data-en>Side event</span></div><div class="nrn-t"><span data-ja>つくる人が、そのまま動かす人でもある。</span><span data-en>The person who makes is also the one who ships.</span></div></a>
   </div>
 </section>
+</main>
 
 <footer class="slidefoot">
   <a href="./"><span data-ja>← Config 2026 の余韻へ——71本をたどるセッション案内に戻る</span><span data-en>← Back to the afterglow of Config 2026 — the session guide tracing all 71 talks</span></a><br><br>
@@ -419,7 +421,7 @@ function setLang(l){
   document.documentElement.setAttribute('lang', l);
   localStorage.setItem('lang', l);
   document.title = (l==='en')
-    ? "Precise design context is what decides the work｜Config 2026 notes — Sayuri"
+    ? "The precision of your context decides the work｜Config 2026 notes — Sayuri"
     : "デザインコンテキストの精度が、仕事を決める｜Config 2026 視聴メモ — Sayuri";
 }
 setLang(document.documentElement.getAttribute('lang') || 'en');

@@ -31,7 +31,7 @@
   :root{
     --bg:#000; --line:rgba(255,255,255,.16); --line-soft:rgba(255,255,255,.08);
     --line-strong:rgba(255,255,255,.24); --overlay-bg:rgba(0,0,0,.78); --ink-dim-on-accent:rgba(0,0,0,.55);
-    --ink:#e2e2e2; --sub:#a1a1aa; --dim:#71717a; --pill:#161618; --pill-ink:#c9c9d0;
+    --ink:#e2e2e2; --sub:#a1a1aa; --dim:#86868d; --pill:#161618; --pill-ink:#c9c9d0;
     /* 面の色（カード・モーダル等の背景。公式agenda実測 #1e1e1e ）とそのhover */
     --surface:#1e1e1e; --surface-hover:#242424;
     /* transition duration（.15sが事実上の標準。カードのtransformだけ.28sの緩急を意図的に使用） */
@@ -89,7 +89,7 @@
   .fr-card:hover{border-color:var(--sub);background:rgba(255,255,255,.02)}
   .fr-card .fr-kicker{font-size:var(--fs-2xs);letter-spacing:.09em;text-transform:uppercase;
     color:var(--dim);font-weight:700;margin-bottom:8px}
-  .fr-card h4{font-size:var(--fs-lg);font-weight:600;color:var(--ink);line-height:1.4;margin:0 0 6px}
+  .fr-card h2{font-size:var(--fs-lg);font-weight:600;color:var(--ink);line-height:1.4;margin:0 0 6px}
   .fr-card p{font-size:var(--fs-sm);color:var(--sub);line-height:1.55;margin:0}
   .fr-card .fr-meta{font-size:var(--fs-2xs);letter-spacing:.06em;text-transform:uppercase;
     color:var(--dim);margin:12px 0 0}
@@ -420,7 +420,7 @@
     </div>
     <h1>71 talks.<br>What's left after the room goes quiet.</h1>
     <p class="hero-what">Figma's Config 2026 — its 71 public talks, made into a place you can wander.</p>
-    <p class="lead">Not the official abstracts — written from what each speaker actually said on stage. I haven't heard all 71; I sat with the ones that caught me, one at a time, with AI. The room was buzzing with AI, yet more than half the talks ran <em>wet</em> — the hand, the love, the long haul. Pick how you're feeling today, and let a few find you.</p>
+    <p class="lead">I haven't heard all 71; I sat with the ones that caught me. The room buzzed with AI — yet more than half the talks ran <em>wet</em>. Pick how you're feeling today, and let a few find you.</p>
     <div class="hero-actions">
       <button class="btn oracle-lg" id="oracle">✦ Pull one for me<span class="oracle-figpal" id="oracleFigpal" aria-hidden="true"></span></button>
     </div>
@@ -430,21 +430,21 @@
         <a class="fr-card" href="config2026_report.html" target="_blank" rel="noopener">
           <span class="fr-arrow"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M5.5 5H11v5.5"/></svg></span>
           <div class="fr-kicker">All 71, by the numbers</div>
-          <h4>"Fast" is what stayed in my ear.</h4>
+          <h2>'Fast' — the word that stayed.</h2>
           <p>A longer essay on the humidity of all 71 talks — where the heat actually was.</p>
           <p class="fr-meta">Essay · all 71 talks</p>
         </a>
         <a class="fr-card" href="config2026_agentic_workflows_notes.html" target="_blank" rel="noopener">
           <span class="fr-arrow"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M5.5 5H11v5.5"/></svg></span>
           <div class="fr-kicker">One talk, close up</div>
-          <h4>Precision of context decides the work.</h4>
+          <h2>Context is what decides the work.</h2>
           <p>My hand-drawn viewing notes on "Agentic workflows and the MCP."</p>
           <p class="fr-meta">Hand-drawn notes · one talk</p>
         </a>
         <a class="fr-card" href="config2026_cursor_demo_notes.html" target="_blank" rel="noopener">
           <span class="fr-arrow"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M5.5 5H11v5.5"/></svg></span>
           <div class="fr-kicker">What I saw off-schedule</div>
-          <h4>The way we make things is shifting.</h4>
+          <h2>The way we make things is shifting.</h2>
           <p>Notes from a Cursor demo night — not official Config, but the same current.</p>
           <p class="fr-meta">Notes · a 5-min side-event demo</p>
         </a>
@@ -456,7 +456,7 @@
   <div class="tabs" role="tablist" aria-label="ways to explore">
     <button class="tab" data-tab="humid" role="tab" aria-selected="true">By humidity</button>
     <button class="tab" data-tab="corr" role="tab" aria-selected="false">In pairs</button>
-    <button class="tab" data-tab="quiet" role="tab" aria-selected="false">Still, craft</button>
+    <button class="tab" data-tab="quiet" role="tab" aria-selected="false">Craft, still</button>
     <button class="tab" data-tab="narrow" role="tab" aria-selected="false">Narrow it down</button>
   </div>
 
@@ -501,7 +501,7 @@
   <!-- By humidity（スライダーで乾↔湿に並べ替え・The one line 表示） -->
   <section class="tabpanel read-panel" id="panel-humid">
       <div class="room-intro">
-        <h3>By humidity — dry reason – wet feeling.</h3>
+        <h3>By humidity — from dry reason to wet feeling.</h3>
         <p>Every talk has a temperature. Slide to reorder all 71. <b>Dry</b> = reason, the way you choose — "Designing in the age of the 10x engineer." <b>Wet</b> = a hand, love, memory — "The marathon designer."<br>Slide toward dry and the talks closest to AI drift to the top — the closer to AI, the drier they ran.</p>
       </div>
       <div class="dial">

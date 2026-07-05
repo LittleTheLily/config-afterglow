@@ -420,7 +420,7 @@
     </div>
     <h1>71 talks.<br>What's left after the room goes quiet.</h1>
     <p class="hero-what">The 71 public talks of Figma's Config 2026, made into a place you can wander.</p>
-    <p class="lead">I haven't heard all 71; I sat with the ones that caught me. The room buzzed with AI — yet more than half the talks ran <em>wet</em>. Pick how you're feeling today, and let a few find you.</p>
+    <p class="lead">I haven't heard all 71; I sat with the ones that caught me. The room buzzed with AI — yet more than half the talks ran <em>warm</em>. Pick how you're feeling today, and let a few find you.</p>
     <div class="hero-actions">
       <button class="btn oracle-lg" id="oracle">✦ Pull one for me<span class="oracle-figpal" id="oracleFigpal" aria-hidden="true"></span></button>
     </div>
@@ -431,7 +431,7 @@
           <span class="fr-arrow"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M5.5 5H11v5.5"/></svg></span>
           <div class="fr-kicker">All 71, by the numbers</div>
           <h2>'Fast' — the word that stayed.</h2>
-          <p>A longer essay on the humidity of all 71 talks — where the heat actually was.</p>
+          <p>A longer essay on the temperature of all 71 talks — where the heat actually was.</p>
           <p class="fr-meta">Essay · all 71 talks</p>
         </a>
         <a class="fr-card" href="config2026_agentic_workflows_notes.html" target="_blank" rel="noopener">
@@ -455,7 +455,7 @@
   <main>
   <!-- タブ（既定=By humidity・右端=Narrow it down） -->
   <div class="tabs" role="tablist" aria-label="ways to explore">
-    <button class="tab" data-tab="humid" role="tab" aria-selected="true">By humidity</button>
+    <button class="tab" data-tab="humid" role="tab" aria-selected="true">By temperature</button>
     <button class="tab" data-tab="corr" role="tab" aria-selected="false">In pairs</button>
     <button class="tab" data-tab="quiet" role="tab" aria-selected="false">Craft, still</button>
     <button class="tab" data-tab="narrow" role="tab" aria-selected="false">Narrow it down</button>
@@ -502,14 +502,14 @@
   <!-- By humidity（スライダーで乾↔湿に並べ替え・The one line 表示） -->
   <section class="tabpanel read-panel" id="panel-humid">
       <div class="room-intro">
-        <h3>By humidity — from dry reason to wet feeling.</h3>
-        <p>Every talk has a temperature. Slide to reorder all 71. <b>Dry</b> = reason, how you decide — "Designing in the age of the 10x engineer." <b>Wet</b> = a hand, love, memory — "The marathon designer."<br>Slide toward dry and the talks closest to AI drift to the top — the closer to AI, the drier they ran.</p>
+        <h3>By temperature — from cool reason to warm feeling.</h3>
+        <p>Every talk has a temperature. Slide to reorder all 71. <b>Cool</b> = reason, how you decide — "Designing in the age of the 10x engineer." <b>Warm</b> = a hand, love, memory — "The marathon designer."<br>Slide toward cool and the talks closest to AI drift to the top — the closer to AI, the cooler they ran.</p>
       </div>
       <div class="dial">
         <input type="range" class="slider" id="humslider" min="0" max="2" step="1" value="1"
-          list="humticks" aria-label="Humidity: dry to wet">
+          list="humticks" aria-label="Temperature: cool to warm">
         <datalist id="humticks"><option value="0"></option><option value="1"></option><option value="2"></option></datalist>
-        <div class="humticklabels"><span>Dry reason</span><span>Even</span><span>Wet feeling</span></div>
+        <div class="humticklabels"><span>Cool reason</span><span>Even</span><span>Warm feeling</span></div>
         <div class="dial-read" id="dialread">Even — the middle-temperature talks first, the extremes drifting lower.</div>
       </div>
       <div class="lines-static" id="humlines"></div>
@@ -815,8 +815,8 @@ function renderOneLine(box, list){
 let humDir=0;   // -1=乾が上 / 0=中庸中心 / +1=湿が上
 function updateDialRead(){
   const r=document.getElementById("dialread");
-  if(humDir<0) r.innerHTML=`<b>Dry first</b> — reason and the way you choose, like "Designing in the age of the 10x engineer".`;
-  else if(humDir>0) r.innerHTML=`<b>Wet first</b> — a hand, love, memory, like "The marathon designer".`;
+  if(humDir<0) r.innerHTML=`<b>Cool first</b> — reason and the way you choose, like "Designing in the age of the 10x engineer".`;
+  else if(humDir>0) r.innerHTML=`<b>Warm first</b> — a hand, love, memory, like "The marathon designer".`;
   else r.innerHTML=`<b>Even</b> — the middle-temperature talks first, the extremes drifting lower.`;
 }
 function renderHumid(){
@@ -1016,7 +1016,7 @@ document.querySelectorAll('.segmented button[data-lang]').forEach(b=>{
 document.querySelectorAll('.segmented button[data-lang]').forEach(x=>x.setAttribute("aria-pressed", x.dataset.lang===LANG?"true":"false"));
 // Humidity スライダー 0/1/2 → humDir -1/0/+1（Dry/Even/Wet の3ポジション並べ替え）
 const hs=document.getElementById("humslider");
-hs.oninput=()=>{ humDir=parseInt(hs.value,10)-1; updateDialRead(); renderHumid(); track('humidity_set', {humidity: humDir<0?'dry':(humDir>0?'wet':'even')}); };
+hs.oninput=()=>{ humDir=parseInt(hs.value,10)-1; updateDialRead(); renderHumid(); track('humidity_set', {humidity: humDir<0?'cool':(humDir>0?'warm':'even')}); };
 // watch クリックをイベント委譲でまとめて計測（カード/one line/correspondence の3系統・data-sid付き）
 document.addEventListener('click', (e)=>{ const a=e.target.closest && e.target.closest('.watch[data-sid]'); if(a) trackWatch(SESSION_BY_ID[a.dataset.sid]); }, true);
 // send（個別シェア）ボタンをイベント委譲で捕捉（data-share-sid付き・カード/one line/correspondence）。

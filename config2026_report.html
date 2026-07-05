@@ -46,6 +46,16 @@ h1.title{font-family:var(--mincho);font-weight:600;font-size:clamp(34px,6vw,64px
 .lead{color:var(--sub);font-size:17px;line-height:2;max-width:52ch;margin-top:30px}
 .lead b{color:var(--ink);font-weight:400;border-bottom:1px solid var(--sub)}
 
+/* hero付近の回遊リンク（T99・縦積みリスト＝上=素早い一覧／下nextreads=読了後の誘い） */
+.heronav{margin-top:34px}
+.heronav .hn-lbl{color:var(--acc);font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:9px}
+.heronav a{display:flex;align-items:center;gap:9px;color:var(--ink);text-decoration:none;padding:9px 0;border-bottom:1px solid var(--line);font-size:15px;transition:color .15s ease}
+.heronav a:last-of-type{border-bottom:none}
+.heronav a:hover{color:var(--acc)}
+.heronav a .hn-ar{color:var(--acc);flex:none;display:inline-flex}
+.heronav a .hn-k{color:var(--sub);font-size:12px;margin-left:auto;text-align:right}
+.heronav svg{width:13px;height:13px}
+
 /* セクション共通 */
 section{padding:76px 0;border-top:1px solid var(--line)}
 .eyebrow{font-family:var(--sans);font-weight:500;font-size:13px;letter-spacing:.03em;color:var(--sub);margin-bottom:44px;display:flex;align-items:center;gap:10px}
@@ -217,6 +227,12 @@ footer a{border-bottom:1px dotted var(--sub)}
     <span data-ja>全部を聴いたわけじゃない。<br>惹かれた一本ずつに、AIと話しながら向き合って、タグを付けた。<br>話の"湿度"も、自分なりに測ってみた<br>——速さや仕組みを語る乾いた話が<b>Dry</b>、手しごとや続けることを語る湿った話が<b>Wet</b>。<br>どちらへ傾くか、その温度を、聴きながら受け取っていった。<br>熱は<b>"つくる"</b>にあると思っていた。<br>——数えたら、違った。</span>
     <span data-en>I haven't heard all 71.<br>I sat with the ones that caught me, one at a time, in conversation with AI, and tagged them.<br>I also measured each talk's "humidity," in my own way<br>— talks about speed and systems felt <b>Dry</b>; talks about the marks of the hand, about lasting, felt <b>Wet</b>.<br>As I listened, I felt which way each one leaned.<br>I thought the heat was in <b>"making."</b><br>— I counted. It wasn't.</span>
   </p>
+  <nav class="heronav" aria-label="Elsewhere on this site">
+    <span class="hn-lbl">Read also</span>
+    <a href="./"><span class="hn-ar"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M8 3v10M3 8h10"/></svg></span><span data-ja>一本に、出会う</span><span data-en>Find your one</span><span class="hn-k">the starting point</span></a>
+    <a href="config2026_agentic_workflows_notes.html"><span class="hn-ar"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M5.5 5H11v5.5"/></svg></span><span data-ja>1本、深掘り</span><span data-en>One talk, up close</span><span class="hn-k">agentic notes</span></a>
+    <a href="config2026_cursor_demo_notes.html"><span class="hn-ar"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M5.5 5H11v5.5"/></svg></span><span data-ja>サイドイベント</span><span data-en>Side event</span><span class="hn-k">the cursor demo</span></a>
+  </nav>
 </div></header>
 
 <main>

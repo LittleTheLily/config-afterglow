@@ -636,7 +636,13 @@ SESSIONS.forEach(s=>{ SESSION_BY_ID[s.id]=s; });
 // ---- シェア（T51-S）----
 // Lucide send（紙飛行機）inline SVG。機種依存文字を避けアイコンはSVGに一本化。
 const SEND_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>';
-function shareUrlFor(id){ return location.origin + location.pathname + (id?('?s='+encodeURIComponent(id)):''); }
+// 個別シェア= s/<id>（SNSに個別OGP画像+quoteを出す静的ページ。人間はmeta refreshで ?s= 付きトップへ戻る）。
+// サイト全体シェア(id=null)= トップURL。dir= pathname のディレクトリ部（公開版 "/…/" or 開発版 "/…/config_recommender.html"）。
+function shareUrlFor(id){
+  const dir = location.pathname.replace(/[^/]*$/, '');       // 末尾のファイル名を落としてディレクトリに
+  return id ? (location.origin + dir + 's/' + encodeURIComponent(id))
+            : (location.origin + location.pathname);
+}
 // スマホ=ネイティブ共有シート／PC=クリップボードコピー。btnはCopiedフィードバック用（任意）
 function doShare(url, btn){
   if(navigator.share){ navigator.share({url}).catch(()=>{}); }

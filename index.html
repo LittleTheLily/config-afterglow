@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Config 2026 — the afterglow</title>
+<title>Figma Config 2026 — the afterglow</title>
 <script>(function(){var l=localStorage.getItem('lang')||'en';document.documentElement.setAttribute('lang',l);})();</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000'/%3E%3Cpath d='M50 18 C62 18 66 32 61 43 C72 39 84 44 86 56 C88 68 76 76 65 74 C71 84 66 96 54 96 C46 96 40 88 44 79 C34 84 22 78 22 66 C22 56 32 50 42 53 C34 46 32 33 41 26 C50 20 60 24 62 34 C58 25 52 18 50 18 Z' fill='%2324cb71'/%3E%3C/svg%3E">
 <meta name="description" content="Figma Config 2026 の余韻。公開セッション71本から、興味・気分・AIとの距離で「あなたに残る一本」に出会う、非公式・個人制作のページ。">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Config 2026 — the afterglow">
-<meta property="og:description" content="71 talks from Figma Config 2026. What's left after the room goes quiet. An unofficial personal project by Sayuri.">
+<meta property="og:title" content="Figma Config 2026 — the afterglow">
+<meta property="og:description" content="Find the one that stays with you · the afterglow">
 <meta property="og:url" content="https://littlethelily.github.io/config-afterglow/">
 <meta property="og:image" content="https://littlethelily.github.io/config-afterglow/og/afterglow.png">
 <meta property="og:image:width" content="1200">
@@ -416,7 +416,7 @@
       </svg>
     </div>
     <div class="kicker-row">
-      <p class="kicker">Config 2026 Afterglow · an unofficial fan project</p>
+      <p class="kicker">Figma Config 2026 Afterglow · an unofficial fan project</p>
       <div class="segmented lang-top" role="group" aria-label="language">
         <button data-lang="en" aria-pressed="true">EN</button>
         <button data-lang="ja" aria-pressed="false">日本語</button>
@@ -696,7 +696,19 @@ function computeList(){
 // ---- カード描画 ----
 // obj[base+"_ja"/"_en"] を LANG に応じて選ぶ（SESSIONS・PAIRS共用の日英トグル）
 function fld(obj,base){ return LANG==="ja" ? (obj[base+"_ja"]??obj[base+"_en"]) : (obj[base+"_en"]??obj[base+"_ja"]); }
-function extLabel(s){ return s.org ? s.org : null; }
+window.QMAIN={"0HqSSIPZkbI":{"m":"Tammy Taabassum","o":["Rodrigo Davies"],"t":false},"2ZCc4k_IV5w":{"m":"Dylan Field","o":[],"t":true},"2nn5J6tUzwE":{"m":"Jinen Kamdar","o":["Lawrence Luk"],"t":false},"2pD2X8QasXg":{"m":"Sam Thorne","o":["Frederik Ueberschär"],"t":false},"3evAfmLVZK8":{"m":"Luca Damasco","o":["Daniela Muntyan","Dave Hornsby"],"t":false},"5g7c4-EtmS8":{"m":"Jason Calleiro","o":["Georgia Rust","Avery Frankenberg"],"t":false},"9pl3twjre6E":{"m":"Michael Winnick","o":["Lauren Madura"],"t":false},"AOcrfsZCsrU":{"m":"Addison Rodomista","o":["Chloe Fagan-Tucker"],"t":false},"BczUZqJgtms":{"m":"Matt D. Smith","o":["Tammy (moderator)","Tommy Geoco","Catt Small","Rasmus Andersson"],"t":false},"GpACvdM6guc":{"m":"Ben Shown","o":["Megan Greco"],"t":false},"H05udeUr9ws":{"m":"Matt Rogers","o":["Elliott Muñoz"],"t":false},"I9xdmNZxIfA":{"m":"Ron Baranov","o":["Gal Sharir"],"t":false},"P9HfB9gWkmY":{"m":"Sirinda Limsong","o":["Luke Fiorante"],"t":false},"Q3BkuQRBg-w":{"m":"Nikolas Klein","o":["Elle Shwer","Iris Lin","Ben Chen"],"t":false},"TThJrINckys":{"m":"Emily Strobl","o":["Will Hobick"],"t":false},"eCwkq10Sd3I":{"m":"Jade (Switch Angel)","o":["Jamie Coyne (LO.FI.SCI.FI)"],"t":false},"fLF8dwbC74o":{"m":"Wendy Liao","o":["Mubarak \"Moby\" Marafa"],"t":false},"fNELWD0bDn8":{"m":"Willie King","o":["Lex Liley"],"t":false},"q_-udq6jXpw":{"m":"Laura Fehre","o":["Brett McMillin"],"t":false},"u7_Qof3AJ1g":{"m":"Shauna Sapper","o":["Tamara Chu"],"t":false},"y_2_w-r9TYY":{"m":"Yassir Solomah","o":["Piers Cowburn","Rogie King"],"t":false},"360gz1lqWt0":{"m":"Jenny Au","o":["Mike Green"],"t":false},"Wcz4RW1_qYI":{"m":"Jessica Ouyang","o":["Jolena Ma"],"t":false},"Zn3XYOV4dUo":{"m":"Unni Krishnan Manikoth","o":["Harish Kumar"],"t":false}};
+function escC(x){ return (x||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+// T105-C: quote主を先頭bold・他は同色・"& others"は末尾。QMAINに無い(単独登壇)本はspeakerそのまま
+function cSpeaker(s){
+  var q = window.QMAIN[s.id];
+  if(!q || !q.m) return escC(s.speaker||'');
+  var html = '<b>' + escC(q.m) + '</b>';
+  (q.o||[]).forEach(function(o){ html += ' \u00b7 ' + escC(o); });
+  if(q.t) html += ' \u00b7 others';
+  return html;
+}
+// T105-C: org は丸括弧で（所属を人名羅列から視覚分離）。orgが無ければnull
+function extLabel(s){ return s.org ? '('+s.org+')' : null; }
 
 // カード1枚を組む
 function buildCard(s, opts={}){
@@ -730,7 +742,7 @@ function buildCard(s, opts={}){
       <div class="foot">
         <div class="foot-main">
           <div class="foot-title">${esc(s.title_en)}</div>
-          <div class="foot-meta">${esc(s.speaker)}${org} · ${s.duration_min} min</div>
+          <div class="foot-meta">${cSpeaker(s)}${org} · ${s.duration_min} min</div>
         </div>
         <div class="watch-actions">
           <a class="watch" href="${s.url}" data-sid="${s.id}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Watch <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px" aria-hidden="true"><path d="M5 11 11 5M5.5 5H11v5.5"/></svg></a>
@@ -798,7 +810,7 @@ function renderOneLine(box, list){
     const showed=(fld(s,"what_they_actually_showed")||[]).map(x=>`<li>${esc(x)}</li>`).join("");
     const item=document.createElement("div"); item.className="lineitem"; item.tabIndex=0; item.setAttribute("role","button"); item.setAttribute("aria-expanded","false");
     item.innerHTML=`<div class="lq-row"><p class="lq">"${esc(q)}"</p><span class="lq-arrow" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg></span></div>
-      <div class="lm">${esc(s.speaker)}${ext} · ${esc(s.title_en)} · ${s.duration_min} min</div>
+      <div class="lm">${cSpeaker(s)}${ext} · ${esc(s.title_en)} · ${s.duration_min} min</div>
       <div class="line-open">
         <p class="lo-feel">${esc(fld(s,"the_feeling")||"")}</p>
         <div class="seclabel">What they actually showed</div>
@@ -907,7 +919,7 @@ function showPull(s, greet){
   document.getElementById("modalBody").innerHTML=`
     <p class="mq">"${esc(q)}"</p>
     <p class="mfeel">${esc(fld(s,"the_feeling")||"")}</p>
-    <div class="mmeta"><b>${esc(s.title_en)}</b><br>${esc(s.speaker)}${org} · ${s.duration_min} min</div>`;
+    <div class="mmeta"><b>${esc(s.title_en)}</b><br>${cSpeaker(s)}${org} · ${s.duration_min} min</div>`;
   const mw=document.getElementById("modalWatch");
   mw.href=s.url;
   mw.onclick=()=>trackWatch(s); // モーダルからのwatchも計測（委譲対象外の固定要素なので個別に）
@@ -954,7 +966,7 @@ function renderCorr(){
         <div class="pstance" style="--stc:${STANCE_COLOR[s.ai_stance]}">${STANCE_LABEL[s.ai_stance]||s.ai_stance}</div>
         <p class="pq">"${esc(q)}"</p>
         <div class="pt">${esc(s.title_en)}</div>
-        <div class="pm">${esc(s.speaker)}${org} · ${s.duration_min} min</div>
+        <div class="pm">${cSpeaker(s)}${org} · ${s.duration_min} min</div>
         <span class="feelit ps-feelit">… Feel it →</span>
         <div class="ps-open">
           <p class="ps-feel">${esc(fld(s,"the_feeling")||"")}</p>

@@ -427,10 +427,15 @@ body{
   background-repeat:no-repeat;
   background-attachment:fixed;
 }
-/* 罫線・矢印が"温まる" — hover時にわずかに琥珀へ寄る（既存の色変化に上乗せ、置き換えではない） */
-.lineitem:hover{border-bottom-color:rgba(247,151,34,.38)}
-.lineitem:hover .lq-arrow{color:#f2b169}
-.pair-side:hover .pt{color:#f2b169}
+/* 罫線・矢印が"温まる" — hover時にわずかに琥珀へ寄る（既存の色変化に上乗せ、置き換えではない）
+   ※マウス環境限定ガード: iOSはタップがhover扱いで貼り付く（sticky hover）ため、
+   タッチ端末では琥珀が残留して「行がオレンジに染まったまま」に見える。hover:hover + pointer:fine の
+   環境（=マウス）でのみ発火させる */
+@media (hover: hover) and (pointer: fine){
+  .lineitem:hover{border-bottom-color:rgba(247,151,34,.38)}
+  .lineitem:hover .lq-arrow{color:#f2b169}
+  .pair-side:hover .pt{color:#f2b169}
+}
 /* スライダー周辺グロー */
 .dial{position:relative}
 input.slider{position:relative}
@@ -452,10 +457,13 @@ input.slider::-moz-range-thumb{box-shadow:0 0 0 1px var(--line), 0 0 14px 3px rg
   .lineitem .lq.lq-strong{font-size:28px}
 }
 
-/* ---- [4] リズム(c) 開いた行を静かに区別（僅かな左インデント＋極薄面） ---- */
-.lineitem.open{background:rgba(255,255,255,.02);padding-left:10px;padding-right:10px;margin:0 -10px}
-.card.open{background:rgba(255,255,255,.02)}
-.pair-side.open{background:rgba(255,255,255,.02)}
+/* ---- [4] リズム(c) 開いた行を静かに区別（僅かな左インデント＋極薄面） ----
+   ※background ショートハンドは使わない: 元CSSの .card{background:var(--surface)} を
+   「ほぼ透明」で置換してしまい、open時にカード面が消えて真っ黒になる（iPhone実機バグ）。
+   background-image のグラデーション重ねなら元の背景色を保持したまま極薄の面を上に乗せられる */
+.lineitem.open{background-image:linear-gradient(rgba(255,255,255,.02),rgba(255,255,255,.02));padding-left:10px;padding-right:10px;margin:0 -10px}
+.card.open{background-image:linear-gradient(rgba(255,255,255,.02),rgba(255,255,255,.02))}
+.pair-side.open{background-image:linear-gradient(rgba(255,255,255,.02),rgba(255,255,255,.02))}
 
 /* ---- M1 ともる: 入場フェード+わずかな上昇。IntersectionObserverが .t139-in を付与 ---- */
 .t139-fade-target{opacity:0;transform:translateY(4px)}
@@ -484,22 +492,10 @@ input.slider::-moz-range-thumb{box-shadow:0 0 0 1px var(--line), 0 0 14px 3px rg
 .pair-side{transition:background var(--dur-fast),transform .12s ease-out}
 .pair-side.t139-echo{transform:translateY(-1px)}
 
-/* ---- M5 残り火: クリック時、::afterの琥珀縁がopacity 600ms減衰 ---- */
-.card,.lineitem,.pair-side{position:relative}
-.card::after,.lineitem::after,.pair-side::after{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  box-shadow:inset 0 0 0 1px rgba(247,151,34,0);
-  opacity:0;
-}
-.card.t139-ember::after,.lineitem.t139-ember::after,.pair-side.t139-ember::after{
-  box-shadow:inset 0 0 0 1px rgba(247,151,34,.55);
-  opacity:1;
-  animation:t139-ember-fade .6s ease-out forwards;
-}
-@keyframes t139-ember-fade{
-  from{opacity:1}
-  to{opacity:0}
-}
+/* ---- M5 残り火: 撤去済み ----
+   カード開閉時の琥珀縁フラッシュ（ember）は不評のため全撤去。
+   開閉には既に M3「そっと置く」の応答があり、ember の同時発火は
+   M6「同時に動くのは1種類」の規律にも反していた。 */
 
 
 /* ---- M6 絶対規律 + reduced-motion: 全アニメーション停止 ---- */
@@ -509,7 +505,6 @@ input.slider::-moz-range-thumb{box-shadow:0 0 0 1px var(--line), 0 0 14px 3px rg
   .card,.lineitem,.pair-side{transition:background var(--dur-fast) !important}
   .card.open .quote,.lineitem.open .line-open .lo-feel,.pair-side.open .ps-feel{animation:none!important}
   .pair-side.t139-echo{transform:none!important}
-  .card.t139-ember::after,.lineitem.t139-ember::after,.pair-side.t139-ember::after{animation:none!important;opacity:0!important}
 }
 </style>
 </head>
@@ -1324,16 +1319,36 @@ document.querySelectorAll('.room-intro p:not(.sig), .corr-intro p:not(.sig)').fo
     if(sibling) sibling.classList.remove('t139-echo');
   }, true);
 
-  // ================= M5 残り火（クリック時、amber縁がopacity 600ms減衰） =================
-  document.addEventListener('click', function(e){
-    var target = e.target.closest && e.target.closest('.card,.lineitem,.pair-side');
-    if(!target) return;
-    target.classList.remove('t139-ember');
-    // リフローを強制してアニメーションを再トリガー可能にする
-    void target.offsetWidth;
-    target.classList.add('t139-ember');
-    window.setTimeout(function(){ target.classList.remove('t139-ember'); }, 650);
-  }, true);
+  // ================= M5 残り火: 撤去済み =================
+  // カード開閉時の琥珀縁フラッシュ（ember）は不評のため全撤去（CSS側の定義も削除済み・発火ゼロ）。
+  // 開閉には M3「そっと置く」の応答が既にあり、同時発火は M6「同時に動くのは1種類」に反していた。
+
+  // ================= フェイルセーフ: 「armedのまま永久に不可視」の経路をゼロにする =================
+  // 設計原則: アニメーションの失敗は「動かない」に倒す。「見えない」に倒してはならない。
+  // IntersectionObserverの取りこぼし（高速スクロール時の配信遅延・言語切替や
+  // フィルタ再描画などスクロールを伴わないレイアウト変化・環境依存の不発）に備え、
+  // 「fold（viewport下端）より上に来ているのに未発火」の要素を検査して強制発火する。
+  var sweepQueued = false;
+  function t139Sweep(){
+    sweepQueued = false;
+    var pend = document.querySelectorAll('.t139-fade-target:not(.t139-in)');
+    if(!pend.length) return;
+    var fold = window.innerHeight || document.documentElement.clientHeight;
+    pend.forEach(function(el){
+      var r = el.getBoundingClientRect();
+      if(r.width === 0 && r.height === 0) return; // display:none（非表示タブ内等）＝不可視の原因がフェードでないものは対象外
+      if(r.top < fold) el.classList.add('t139-in'); // viewport内＋既に通過した上方要素の両方を救う
+    });
+  }
+  function queueSweep(){
+    if(sweepQueued) return;
+    sweepQueued = true;
+    requestAnimationFrame(t139Sweep);
+  }
+  window.addEventListener('scroll', queueSweep, {passive:true});
+  window.addEventListener('resize', queueSweep);
+  document.addEventListener('visibilitychange', queueSweep);
+  window.setInterval(queueSweep, 2000); // 最終保険: どの経路を通っても2秒以内に必ず可視化される
 
 })();
 </script>

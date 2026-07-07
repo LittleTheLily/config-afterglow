@@ -525,8 +525,36 @@ setLang(document.documentElement.getAttribute('lang') || 'en');
       setTimeout(function(){ el.classList.add('is-in'); }, delay);
       io.unobserve(el);
     });
-  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+  }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
+  // ※threshold は 0（1pxでも交差したら発火）。0.15 だと、モバイルで
+  //   ビューポートの約6.7倍を超える背の高い要素は15%可視に永遠に届かず、
+  //   opacity:0 のまま不可視で固まる（t139r_report のiPhone実機バグと同じ失敗モード）。
   targets.forEach(function(el){ io.observe(el); });
+
+  // ================= フェイルセーフ: 「観測待ちのまま永久に不可視」の経路をゼロにする =================
+  // 設計原則: アニメーションの失敗は「動かない」に倒す。「見えない」に倒してはならない。
+  // IOの取りこぼし（高速スクロール時の配信遅延・スクロールを伴わないレイアウト変化・環境依存の不発）に備え、
+  // 「fold（viewport下端）より上に来ているのに未発火」の要素を検査して強制発火する。
+  var sweepQueued = false;
+  function t139Sweep(){
+    sweepQueued = false;
+    var fold = window.innerHeight || document.documentElement.clientHeight;
+    targets.forEach(function(el){
+      if (el.classList.contains('is-in')) return;
+      var r = el.getBoundingClientRect();
+      if (r.width === 0 && r.height === 0) return; // display:none等＝不可視の原因がフェードでないものは対象外
+      if (r.top < fold) el.classList.add('is-in'); // viewport内＋既に通過した上方要素の両方を救う
+    });
+  }
+  function queueSweep(){
+    if (sweepQueued) return;
+    sweepQueued = true;
+    requestAnimationFrame(t139Sweep);
+  }
+  window.addEventListener('scroll', queueSweep, {passive:true});
+  window.addEventListener('resize', queueSweep);
+  document.addEventListener('visibilitychange', queueSweep);
+  window.setInterval(queueSweep, 2000); // 最終保険: どの経路を通っても2秒以内に必ず可視化される
 })();
 </script>
 </body>

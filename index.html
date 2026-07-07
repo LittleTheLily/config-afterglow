@@ -1183,13 +1183,21 @@ document.querySelectorAll('.room-intro p:not(.sig), .corr-intro p:not(.sig)').fo
 
   // ================= M1 ともる（IntersectionObserver入場） =================
   var io = null;
+  // 「ともる」対象の限定フラグ:
+  //   t139ArmSuppress > 0 の間に生成されたノードは arm しない（透明化させず即時可視のまま）。
+  //   スライダー・フィルタチップ・言語切替は「同じ場面の並び替え/絞り込み/差し替え」なので
+  //   再入場アニメを走らせない（1ノッチごとに全消え→全点灯するフラッシュの不評を受けた確定仕様）。
+  //   t139SceneChange = true の間（ユーザーのタブ切替＝場面転換）だけは例外的に arm を許可する。
+  var t139ArmSuppress = 0;
+  var t139SceneChange = false;
   function armFadeTargets(container){
     if(!container) return;
     var targets = container.querySelectorAll ? container.querySelectorAll('.card,.lineitem,.pair-side') : [];
     var i = 0;
     targets.forEach(function(el){
       if(el.classList.contains('t139-in') || el.dataset.t139Armed) return;
-      el.dataset.t139Armed = '1';
+      el.dataset.t139Armed = '1'; // 抑制中でも「処理済み」印は付ける（後続のMO巡回で遡ってarmされ不可視化するのを防ぐ）
+      if(t139ArmSuppress > 0 && !t139SceneChange) return; // 並び替え/絞り込み/言語切替: ともらせない＝即時可視
       el.classList.add('t139-fade-target');
       var delay = Math.min(i, 8) * 35; // stagger 30-40ms・上限8
       el.style.transitionDelay = delay + 'ms';
@@ -1242,10 +1250,11 @@ document.querySelectorAll('.room-intro p:not(.sig), .corr-intro p:not(.sig)').fo
   containers.forEach(function(el){ moRhythm.observe(el, {childList:true}); });
   containers.forEach(function(el){ applyRhythmStrong(el); });
 
-  // ================= M2 息つぎ（タブ/フィルタ切替のクロスフェード） =================
-  // setTab / buildFilters+render / humidity slider の再描画をラップして、
-  // 切替直前に対象パネルをふわっと消し(60ms)、再描画後にふわっと出す(140ms)。
-  // 既存関数の内部処理は一切変えず、外側からフックするだけ。
+  // ================= M2 息つぎ（「場面転換＝ユーザーのタブ切替」専用） =================
+  // 設計判断（確定）: 息つぎ＋入場（ともる）はタブ切替だけ。
+  // スライダー・フィルタチップ・言語切替は「同じ場面の並び替え/絞り込み/差し替え」なので、
+  // フェードなし・再入場なし＝並びだけ即座に変わる（元の挙動）。
+  // （温度スライダーの1ノッチごとに全消え→全点灯するフラッシュの不評を受けた修正）
   function breathe(panelEl, doRender){
     if(!panelEl){ doRender(); return; }
     panelEl.classList.remove('t139-breath-in');
@@ -1265,40 +1274,46 @@ document.querySelectorAll('.room-intro p:not(.sig), .corr-intro p:not(.sig)').fo
     return document.getElementById(map[k]);
   }
 
+  // 再描画を「即時＋再入場なし」で走らせる共通ラッパ。
+  // MutationObserverのコールバックはマイクロタスク（現行タスク終了直後・タイマーより前）で届くため、
+  // 抑制解除は setTimeout(0) まで遅らせる＝再描画で生まれたノードのarm判定が確実に抑制中に行われる。
+  // タブ切替経由（t139SceneChange）の時だけ素通しし、新パネルの入場（ともる）を許可する。
+  function wrapInstant(fn){
+    return function(){
+      if(t139SceneChange) return fn.apply(this, arguments);
+      t139ArmSuppress++;
+      try { return fn.apply(this, arguments); }
+      finally { window.setTimeout(function(){ t139ArmSuppress--; }, 0); }
+    };
+  }
+
   if(typeof window.setTab === 'function'){
     var _origSetTab = window.setTab;
-    window.setTab = function(k){
-      var panel = panelForTab(k);
-      // hidden切替は即時（レイアウト自体は変えない）。中身の再描画だけ息をつがせる。
-      breathe(panel, function(){ _origSetTab(k); });
-    };
-    // 既存のタブbuttonのonclickは setTab関数の参照でなくクロージャで直接束縛されているため、
-    // ここで再バインドしてラップ後の setTab を使わせる。
+    // 内部呼び出し（言語切替の setTab(TAB) 等）= 即時・フェードなし・再入場なし。
+    // 読んでいる位置で文字だけ差し替わるのが正（フラッシュ不要）。
+    window.setTab = wrapInstant(_origSetTab);
+    // ユーザーのタブ切替（＝場面転換）だけ息つぎ＋入場。
+    // 既存のタブbuttonのonclickはクロージャで直接束縛されているため、ここで再バインドする。
     document.querySelectorAll('.tab[data-tab]').forEach(function(b){
-      b.onclick = function(){ window.setTab(b.dataset.tab); };
+      b.onclick = function(){
+        var k = b.dataset.tab;
+        breathe(panelForTab(k), function(){
+          t139SceneChange = true;
+          try { _origSetTab(k); }
+          finally { window.setTimeout(function(){ t139SceneChange = false; }, 0); }
+        });
+      };
     });
   }
 
+  // フィルタチップ/clearFilters/温度スライダーは元コードがグローバルの render()/renderHumid() を
+  // 呼ぶため、下記の再代入だけで即時版が使われる（旧版で行っていた hs.oninput の再バインドは
+  // 不要だったため廃止＝元のハンドラ（humDir更新＋track込み）がそのまま生きる）。
   if(typeof window.render === 'function'){
-    var _origRender = window.render;
-    window.render = function(){ breathe(document.getElementById('grid'), _origRender); };
-    // buildFilters内のchip onclickや clearFiltersはグローバルの render を呼ぶので、
-    // 上記の再代入だけで自動的にラップ後のrenderが使われる（呼び出し側は render() と書いているため）。
+    window.render = wrapInstant(window.render);
   }
-
-  // humidity slider: renderHumidをラップ
   if(typeof window.renderHumid === 'function'){
-    var _origRenderHumid = window.renderHumid;
-    window.renderHumid = function(){ breathe(document.getElementById('panel-humid'), _origRenderHumid); };
-    var hs = document.getElementById('humslider');
-    if(hs){
-      hs.oninput = function(){
-        humDir = parseInt(hs.value,10)-1;
-        if(typeof updateDialRead === 'function') updateDialRead();
-        window.renderHumid();
-        try{ track('humidity_set', {humidity: humDir<0?'cool':(humDir>0?'warm':'even')}); }catch(e){}
-      };
-    }
+    window.renderHumid = wrapInstant(window.renderHumid);
   }
 
   // ================= M4 呼応（In pairsのペアhover連動） =================

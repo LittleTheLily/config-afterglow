@@ -225,7 +225,18 @@
   .checklist.is-in,
   .nrn-card.is-in{
     opacity:1;
-    transform:translateY(0);
+    transform:none; /* translateY(0)にしない: 行列が残るとiOS SafariのGPUタイルラスタライズで1pxヘアラインが欠ける */
+  }
+  /* 1px枠・ヘアライン罫線持ちは transform を一切使わず opacityのみで灯す:
+     iOS Safariはtransformアニメ中の合成レイヤーをタイル単位でラスタライズするため、
+     枠線が「左から生える」「部分的に切れる」（iPhone実機バグ）。
+     translateYの浮きが残るのは枠なしの .bigquote / .flow / .verse / .checklist だけ */
+  .board-img,
+  .inkbox,
+  .note-strip,
+  .points>li,
+  .nrn-card{
+    transform:none;
   }
   @media (prefers-reduced-motion: reduce){
     .board-img,

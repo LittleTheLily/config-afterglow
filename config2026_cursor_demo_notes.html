@@ -209,9 +209,16 @@ body::after{
   background-repeat:no-repeat;
 }
 
-/* ---- M1 ともる: 入場フェード+わずかな上昇（大きな単位のみ・本文パラグラフ単位には掛けない） ---- */
+/* ---- M1 ともる: 入場フェード+わずかな上昇（大きな単位のみ・本文パラグラフ単位には掛けない） ----
+   ※入場完了状態は transform:none（translateY(0)にしない）: 行列が残ると
+   iOS SafariのGPUタイルラスタライズで1pxヘアラインが欠ける */
 .t139-fade-target{opacity:0;transform:translateY(4px)}
-.t139-fade-target.t139-in{opacity:1;transform:translateY(0);transition:opacity .16s cubic-bezier(.22,.61,.36,1),transform .16s cubic-bezier(.22,.61,.36,1)}
+.t139-fade-target.t139-in{opacity:1;transform:none;transition:opacity .16s cubic-bezier(.22,.61,.36,1),transform .16s cubic-bezier(.22,.61,.36,1)}
+/* 1px枠・ヘアライン罫線持ち（と枠付きカードを内包するsection）は transform を一切使わず
+   opacityのみで灯す: iOS Safariはtransformアニメ中の合成レイヤーをタイル単位で
+   ラスタライズするため、枠線が「左から生える」「部分的に切れる」（iPhone実機バグ）。
+   translateYの浮きが残るのは枠なしの blockquote（左3px太バーのみ）だけ */
+section.hit.t139-fade-target,.step.t139-fade-target,.ours.t139-fade-target,.note.t139-fade-target,details.tx.t139-fade-target,section.disc.t139-fade-target,.nrc-card.t139-fade-target{transform:none}
 
 /* ---- M6 絶対規律 + reduced-motion: 全アニメーション停止 ---- */
 @media (prefers-reduced-motion: reduce){

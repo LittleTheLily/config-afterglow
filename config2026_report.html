@@ -244,9 +244,14 @@ body{
   background-attachment:fixed;
 }
 
-/* ---- M1 ともる: 入場フェード+わずかな上昇。IntersectionObserverが .t139-in を付与 ---- */
-.t139-fade-target{opacity:0;transform:translateY(4px)}
-.t139-fade-target.t139-in{opacity:1;transform:translateY(0);transition:opacity .16s ease-out,transform .16s ease-out}
+/* ---- M1 ともる: 入場フェード（opacityのみ・transform不使用）。IntersectionObserverが .t139-in を付与 ----
+   ※このページのfade対象は全て1px枠持ち（.repcard/.naicard/.acard/.stream）か
+   その枠付きカードを内包する容れ物（section#s1-s6）。iOS Safariはtransformアニメ中の
+   合成レイヤーをタイル単位でラスタライズするため、transformを使うと1pxヘアラインが
+   「左から生える」「部分的に切れる」（iPhone実機バグ）。親コンテナのtransformでも
+   子の枠線が同じ道連れを受けるため、このページではtranslateYの浮きを使わない */
+.t139-fade-target{opacity:0}
+.t139-fade-target.t139-in{opacity:1;transition:opacity .16s ease-out}
 
 /* ---- M6 絶対規律 + reduced-motion: 全アニメーション停止 ---- */
 @media (prefers-reduced-motion: reduce){

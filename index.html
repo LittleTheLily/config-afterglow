@@ -457,17 +457,27 @@ input.slider::-moz-range-thumb{box-shadow:0 0 0 1px var(--line), 0 0 14px 3px rg
   .lineitem .lq.lq-strong{font-size:28px}
 }
 
-/* ---- [4] リズム(c) 開いた行を静かに区別（僅かな左インデント＋極薄面） ----
+/* ---- [4] リズム(c) 開いた行を静かに区別（極薄の面のみ） ----
    ※background ショートハンドは使わない: 元CSSの .card{background:var(--surface)} を
    「ほぼ透明」で置換してしまい、open時にカード面が消えて真っ黒になる（iPhone実機バグ）。
-   background-image のグラデーション重ねなら元の背景色を保持したまま極薄の面を上に乗せられる */
-.lineitem.open{background-image:linear-gradient(rgba(255,255,255,.02),rgba(255,255,255,.02));padding-left:10px;padding-right:10px;margin:0 -10px}
+   background-image のグラデーション重ねなら元の背景色を保持したまま極薄の面を上に乗せられる。
+   ※padding-left/right + negative margin による左インデント演出は撤去済み:
+   行の実幅が20px広がり、行自身が持つ罫線(border)まで伸びるため、先頭行
+   （T43の先頭divider＝自分の上罫線持ち）だけdividerの長さが変わって見えた（iPhone実機バグ）。
+   開閉で要素の幅・罫線長は一切変えない。 */
+.lineitem.open{background-image:linear-gradient(rgba(255,255,255,.02),rgba(255,255,255,.02))}
 .card.open{background-image:linear-gradient(rgba(255,255,255,.02),rgba(255,255,255,.02))}
 .pair-side.open{background-image:linear-gradient(rgba(255,255,255,.02),rgba(255,255,255,.02))}
 
-/* ---- M1 ともる: 入場フェード+わずかな上昇。IntersectionObserverが .t139-in を付与 ---- */
+/* ---- M1 ともる: 入場フェード+わずかな上昇。IntersectionObserverが .t139-in を付与 ----
+   ※入場完了状態は transform:none（translateY(0)にしない）: 行列が残ると
+   iOS SafariのGPUタイルラスタライズで1pxヘアラインが欠ける */
 .t139-fade-target{opacity:0;transform:translateY(4px)}
-.t139-fade-target.t139-in{opacity:1;transform:translateY(0);transition:opacity .16s ease-out,transform .16s ease-out}
+.t139-fade-target.t139-in{opacity:1;transform:none;transition:opacity .16s ease-out,transform .16s ease-out}
+/* 1px罫線・左バー持ち（.card=左3pxバー / .lineitem=上下罫線）は transform を一切使わず
+   opacityのみで灯す: iOS Safariはtransformアニメ中の合成レイヤーをタイル単位で
+   ラスタライズするため、枠線が「左から生える」「部分的に切れる」（iPhone実機バグ） */
+.card.t139-fade-target,.lineitem.t139-fade-target{transform:none}
 
 /* ---- M2 息つぎ: タブ/フィルタ切替時のクロスフェード用ラッパー状態 ---- */
 .t139-breath-out{opacity:0;transition:opacity .06s ease-out}

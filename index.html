@@ -97,6 +97,9 @@
   .fr-card .fr-meta{font-size:var(--fs-2xs);letter-spacing:.06em;text-transform:uppercase;
     color:var(--dim);margin:12px 0 0}
   .fr-card .fr-arrow{position:absolute;top:16px;right:18px;color:var(--dim);font-size:var(--fs-md)}
+  /* Further reads だけ言語トグルに追従（hero上半分は英語固定だがこの3枚は日英切替）*/
+  html[lang="en"] .fr-card [data-ja]{display:none}
+  html[lang="ja"] .fr-card [data-en]{display:none}
   .hero-actions{display:flex;align-items:center;gap:16px;margin:30px 0 8px;flex-wrap:wrap}
   /* Pull one for me を目立たせる（大きめ・角ばった帯・濃色＝方針の"丸pill/緑塗り/グロー禁止"に準拠） */
   .btn.oracle-lg{background:var(--ink);color:#000;border:none;font-size:18px;font-weight:700;
@@ -431,24 +434,24 @@
       <div class="fr-grid">
         <a class="fr-card" href="config2026_report.html" target="_blank" rel="noopener">
           <span class="fr-arrow"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M5.5 5H11v5.5"/></svg></span>
-          <div class="fr-kicker">All 71, by the numbers</div>
-          <h2>'Fast' — the word that stayed.</h2>
-          <p>A longer essay on the temperature of all 71 talks — where the heat actually was.</p>
-          <p class="fr-meta">Essay · all 71 talks</p>
+          <div class="fr-kicker"><span data-en>All 71, by the numbers</span><span data-ja>71本ぜんぶを、読む</span></div>
+          <h2><span data-en>'Fast' stayed. But 'lasting' stayed longer.</span><span data-ja>速さは、耳に残った。<br>でも、長く残ったのは"続く"。</span></h2>
+          <p><span data-en>A longer essay on the temperature of all 71 talks — where the heat actually was.</span><span data-ja>71本の温度をたどった、長めのエッセイ。熱は、どこにあったのか。</span></p>
+          <p class="fr-meta"><span data-en>Essay · all 71 talks</span><span data-ja>エッセイ · 71本すべて</span></p>
         </a>
         <a class="fr-card" href="config2026_agentic_workflows_notes.html" target="_blank" rel="noopener">
           <span class="fr-arrow"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M5.5 5H11v5.5"/></svg></span>
-          <div class="fr-kicker">One talk, close up</div>
-          <h2>Context is what decides the work.</h2>
-          <p>My hand-drawn notes on "Agentic workflows and the MCP."</p>
-          <p class="fr-meta">Hand-drawn notes · one talk</p>
+          <div class="fr-kicker"><span data-en>One talk, close up</span><span data-ja>一本を、じっくり</span></div>
+          <h2><span data-en>Context is what decides the work.</span><span data-ja>デザインコンテキストの精度が、仕事を決める。</span></h2>
+          <p><span data-en>A close reading of "Agentic workflows and the MCP."</span><span data-ja>「Agentic workflows and the MCP」を、じっくり読み解いた視聴メモ。</span></p>
+          <p class="fr-meta"><span data-en>Close reading · one talk</span><span data-ja>視聴メモ · 一本</span></p>
         </a>
         <a class="fr-card" href="config2026_cursor_demo_notes.html" target="_blank" rel="noopener">
           <span class="fr-arrow"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M5.5 5H11v5.5"/></svg></span>
-          <div class="fr-kicker">What I saw off-schedule</div>
-          <h2>The way we make things is shifting.</h2>
-          <p>Notes from a Cursor demo night — not official Config, but the same current.</p>
-          <p class="fr-meta">Notes · a 5-min side-event demo</p>
+          <div class="fr-kicker"><span data-en>What I saw off-schedule</span><span data-ja>会場の外で、見たこと</span></div>
+          <h2><span data-en>The way we make things is shifting.</span><span data-ja>つくりかたが、変わりはじめている。</span></h2>
+          <p><span data-en>Notes from a Cursor demo night — not official Config, but the same current.</span><span data-ja>Cursor のデモナイトで書いたノート。Config 公式ではないけれど、地続きの話。</span></p>
+          <p class="fr-meta"><span data-en>Notes · a 5-min side-event demo</span><span data-ja>ノート · 約5分のサイドイベント</span></p>
         </a>
       </div>
     </div>

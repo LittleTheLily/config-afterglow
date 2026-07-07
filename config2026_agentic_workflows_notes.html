@@ -200,6 +200,49 @@
   .heronav svg{width:14px;height:14px}
   .heronav a .hn-k{font-family:var(--hand-en);color:var(--chalk-dim);font-size:12.5px;margin-left:auto;text-align:right}
 </style>
+<style id="t139-N">
+  /* M1「ともる」— 手描きノートの大きい単位が順に置かれていく入場（transform/opacityのみ） */
+  .board-img,
+  .inkbox,
+  .note-strip,
+  .bigquote,
+  .points>li,
+  .flow,
+  .verse,
+  .checklist,
+  .nrn-card{
+    opacity:0;
+    transform:translateY(4px);
+    transition:opacity .16s cubic-bezier(.22,.61,.36,1),transform .16s cubic-bezier(.22,.61,.36,1);
+  }
+  .board-img.is-in,
+  .inkbox.is-in,
+  .note-strip.is-in,
+  .bigquote.is-in,
+  .points>li.is-in,
+  .flow.is-in,
+  .verse.is-in,
+  .checklist.is-in,
+  .nrn-card.is-in{
+    opacity:1;
+    transform:translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce){
+    .board-img,
+    .inkbox,
+    .note-strip,
+    .bigquote,
+    .points>li,
+    .flow,
+    .verse,
+    .checklist,
+    .nrn-card{
+      opacity:1;
+      transform:none;
+      transition:none;
+    }
+  }
+</style>
 </head>
 <body>
 <div class="langbar">
@@ -452,6 +495,67 @@ function setLang(l){
     : "デザインコンテキストの精度が、仕事を決める｜Figma Config 2026 視聴メモ — Sayuri";
 }
 setLang(document.documentElement.getAttribute('lang') || 'en');
+</script>
+<script id="t139-N-js">
+(function(){
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) return;
+  var targets = document.querySelectorAll('.board-img, .inkbox, .note-strip, .bigquote, .points>li, .flow, .verse, .checklist, .nrn-card');
+  if (!targets.length) return;
+  if (!('IntersectionObserver' in window)) {
+    targets.forEach(function(el){ el.classList.add('is-in'); });
+    return;
+  }
+  var STAGGER_MS = 35;
+  var STAGGER_MAX = 8;
+  var groupIndex = new WeakMap();
+  var groupCounters = new WeakMap();
+  targets.forEach(function(el){
+    var parent = el.parentElement;
+    var n = groupCounters.get(parent) || 0;
+    groupIndex.set(el, n);
+    groupCounters.set(parent, n + 1);
+  });
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (!entry.isIntersecting) return;
+      var el = entry.target;
+      var idx = groupIndex.get(el) || 0;
+      var delay = Math.min(idx, STAGGER_MAX) * STAGGER_MS;
+      setTimeout(function(){ el.classList.add('is-in'); }, delay);
+      io.unobserve(el);
+    });
+  }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
+  // ※threshold は 0（1pxでも交差したら発火）。0.15 だと、モバイルで
+  //   ビューポートの約6.7倍を超える背の高い要素は15%可視に永遠に届かず、
+  //   opacity:0 のまま不可視で固まる（t139r_report のiPhone実機バグと同じ失敗モード）。
+  targets.forEach(function(el){ io.observe(el); });
+
+  // ================= フェイルセーフ: 「観測待ちのまま永久に不可視」の経路をゼロにする =================
+  // 設計原則: アニメーションの失敗は「動かない」に倒す。「見えない」に倒してはならない。
+  // IOの取りこぼし（高速スクロール時の配信遅延・スクロールを伴わないレイアウト変化・環境依存の不発）に備え、
+  // 「fold（viewport下端）より上に来ているのに未発火」の要素を検査して強制発火する。
+  var sweepQueued = false;
+  function t139Sweep(){
+    sweepQueued = false;
+    var fold = window.innerHeight || document.documentElement.clientHeight;
+    targets.forEach(function(el){
+      if (el.classList.contains('is-in')) return;
+      var r = el.getBoundingClientRect();
+      if (r.width === 0 && r.height === 0) return; // display:none等＝不可視の原因がフェードでないものは対象外
+      if (r.top < fold) el.classList.add('is-in'); // viewport内＋既に通過した上方要素の両方を救う
+    });
+  }
+  function queueSweep(){
+    if (sweepQueued) return;
+    sweepQueued = true;
+    requestAnimationFrame(t139Sweep);
+  }
+  window.addEventListener('scroll', queueSweep, {passive:true});
+  window.addEventListener('resize', queueSweep);
+  document.addEventListener('visibilitychange', queueSweep);
+  window.setInterval(queueSweep, 2000); // 最終保険: どの経路を通っても2秒以内に必ず可視化される
+})();
 </script>
 </body>
 </html>

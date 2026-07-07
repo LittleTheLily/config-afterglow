@@ -508,11 +508,12 @@ input.slider::-moz-range-thumb{box-shadow:0 0 0 1px var(--line), 0 0 14px 3px rg
    M6「同時に動くのは1種類」の規律にも反していた。 */
 
 
-/* ---- M7 まわる: おみくじFigPalのスピン＋モーダルの開き/引き直し ----
-   FigPalはステッカー画像（太い白フチ）＝1pxヘアライン問題の対象外なので回転可。
-   減速して止まる（バウンド/オーバーシュート禁止・M6準拠） */
-@keyframes t139-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-.t139-spin{animation:t139-spin .48s cubic-bezier(.22,.61,.36,1)}
+/* ---- M7 ふわり: おみくじFigPalの「ふわり、そっと置く」＋モーダルの開き/引き直し ----
+   2026-07-08 ユーザー選択（案C）で360°スピンから差し替え=回転一周は作品のトーンに対し賑やかすぎた。
+   7px浮いて-4°かしいで、もどる（お守りが糸で揺れる感じ）。減速して止まる（バウンド禁止・M6準拠）。
+   識別子 t139-spin はJS配線（classList/animationName判定・適用2箇所=heroボタン横とモーダル内）互換のため据置 */
+@keyframes t139-spin{0%{transform:translateY(0) rotate(0)}35%{transform:translateY(-7px) rotate(-4deg)}100%{transform:translateY(0) rotate(0)}}
+.t139-spin{animation:t139-spin .8s cubic-bezier(.33,.66,.33,1)}
 /* モーダルの開き: バックドロップ140msフェードイン + ダイアログはM3そっと置く（60ms遅れ・160ms着地） */
 @keyframes t139-modal-fade{from{opacity:0}to{opacity:1}}
 @keyframes t139-modal-settle{from{opacity:.7;transform:translateY(-4px)}to{opacity:1;transform:none}}

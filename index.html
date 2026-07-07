@@ -517,8 +517,11 @@ input.slider::-moz-range-thumb{box-shadow:0 0 0 1px var(--line), 0 0 14px 3px rg
    2026-07-08 ユーザー選択（案C）で360°スピンから差し替え=回転一周は作品のトーンに対し賑やかすぎた。
    9px浮いて-5°かしいで、もどる（2026-07-08 実機確認で7px/-4°から微増）（お守りが糸で揺れる感じ）。減速して止まる（バウンド禁止・M6準拠）。
    識別子 t139-spin はJS配線（classList/animationName判定・適用2箇所=heroボタン横とモーダル内）互換のため据置 */
-@keyframes t139-spin{0%{transform:translateY(0) rotate(0)}35%{transform:translateY(-9px) rotate(-5deg)}100%{transform:translateY(0) rotate(0)}}
-.t139-spin{animation:t139-spin .8s cubic-bezier(.33,.66,.33,1)}
+@keyframes t139-spin{
+  0%{transform:translateY(0) rotate(0);animation-timing-function:cubic-bezier(.33,.62,.4,1)}   /* 上り: 速く出て頂点で減速→速度ゼロ */
+  35%{transform:translateY(-9px) rotate(-5deg);animation-timing-function:cubic-bezier(.3,0,.22,1)} /* 下り: ゼロから静かに動き出し、ゆっくり着地（頂点で速度連続＝詰まり解消） */
+  100%{transform:translateY(0) rotate(0)}}
+.t139-spin{animation:t139-spin .9s}
 /* モーダルの開き: バックドロップ140msフェードイン + ダイアログはM3そっと置く（60ms遅れ・160ms着地） */
 @keyframes t139-modal-fade{from{opacity:0}to{opacity:1}}
 @keyframes t139-modal-settle{from{opacity:.7;transform:translateY(-4px)}to{opacity:1;transform:none}}

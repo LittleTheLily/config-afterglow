@@ -261,7 +261,7 @@
   .modal-overlay[hidden]{display:none}
   /* モーダルは高さ固定(72vh)＝talkの長さに関わらず画面上の大きさ・ボタン位置が常に一定。
      モーダル全体が1枚のカード(--surface)で、その中で本文全体が.modal-body-scrollでスクロールする。
-     フッターという「帯」は作らず、Watch on YouTube・FigPalはモーダル下部にposition:absoluteで
+     フッターという「帯」は作らず、Watch・FigPalはモーダル下部にposition:absoluteで
      直接floatさせる（背景も区切り線も持たない。ボタン自体の塗り・FigPal自体の絵だけが本文の上に浮く）。
      FigPalを毎回同じ大きな見え方で見せられるのが狙い。 */
   .modal{background:var(--surface);border:none;border-radius:0;width:100%;max-width:600px;
@@ -282,7 +282,7 @@
      狭い画面ほど本文とfloat要素の重なりが目立つため、モバイル(680px以下)ではフェード領域を広げる。 */
   .modal::after{content:"";position:absolute;left:0;right:0;bottom:0;height:150px;
     background:linear-gradient(to bottom,transparent,var(--surface) 62%);pointer-events:none}
-  /* Watch on YouTubeとFigPalはモーダル下部に絶対配置でfloat。本文の長さに関わらず常に同じ位置にある
+  /* WatchとFigPalはモーダル下部に絶対配置でfloat。本文の長さに関わらず常に同じ位置にある
      ＝FigPalクリックで何度も引き直す操作がしやすい。帯化しないので背景・ぼかし・区切り線は持たない。
      align-items:centerが基準（ボタンとFigPal「イラスト」の高さの中央を揃える）。
      キャプション("pull another")はFigPalラッパーの外側(絶対配置)に置き、ラッパー自体の高さを
@@ -823,7 +823,7 @@ function renderOneLine(box, list){
         <div class="seclabel">What they actually showed</div>
         <ul class="showed">${showed}</ul>
         <div class="watch-actions">
-          <a class="watch" href="${s.url}" data-sid="${s.id}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Watch on YouTube <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px" aria-hidden="true"><path d="M5 11 11 5M5.5 5H11v5.5"/></svg></a>
+          <a class="watch" href="${s.url}" data-sid="${s.id}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Watch <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px" aria-hidden="true"><path d="M5 11 11 5M5.5 5H11v5.5"/></svg></a>
           ${sendBtnHTML(s.id)}
         </div>
       </div>`;
@@ -980,7 +980,7 @@ function renderCorr(){
           <div class="seclabel">What they actually showed</div>
           <ul class="showed">${showed}</ul>
           <div class="watch-actions">
-            <a class="watch" href="${s.url}" data-sid="${s.id}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Watch on YouTube <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px" aria-hidden="true"><path d="M5 11 11 5M5.5 5H11v5.5"/></svg></a>
+            <a class="watch" href="${s.url}" data-sid="${s.id}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Watch <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px" aria-hidden="true"><path d="M5 11 11 5M5.5 5H11v5.5"/></svg></a>
             ${sendBtnHTML(s.id)}
           </div>
         </div>

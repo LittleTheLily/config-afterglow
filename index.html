@@ -125,11 +125,15 @@
    ネイティブinputはa11y/ドラッグ用に残し、見えるつまみはオーバーレイ（2026-07-08 ユーザー選択B） ---- */
 input.slider::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;background:transparent;border:none;box-shadow:none;cursor:pointer}
 input.slider::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:transparent;border:none;box-shadow:none;cursor:pointer}
-.humthumb{position:absolute;top:4px;width:20px;height:20px;border-radius:50%;background:var(--ink);
-  border:3px solid #000;box-shadow:0 0 0 1px var(--line), 0 0 14px 3px rgba(247,151,34,.22);
-  pointer-events:none;transition:left .24s cubic-bezier(.22,.61,.36,1)}
-.dial:hover .humthumb{box-shadow:0 0 0 1px var(--line), 0 0 18px 5px rgba(247,151,34,.34)}
-.slider:focus-visible ~ .humthumb{box-shadow:0 0 0 2px var(--ink), 0 0 18px 5px rgba(247,151,34,.34)}
+/* つまみ＝炎（2026-07-08 ユーザー選択B1・一回り小さく16x21。作品の署名グリフを手に持つ。
+   移動中は進行方向へかしぎ、着くと立ち直る。指す温度で色が変わる（Cool=青い燠/Warm=琥珀） */
+.humthumb{position:absolute;top:-4px;width:16px;height:21px;pointer-events:none;transform-origin:50% 90%;
+  filter:drop-shadow(0 0 7px rgba(247,151,34,.35));
+  transition:left .24s cubic-bezier(.22,.61,.36,1), transform .24s ease, filter .3s ease}
+.humthumb svg{display:block;width:100%;height:100%}
+.humthumb path{transition:fill .3s ease}
+.dial:hover .humthumb{filter:drop-shadow(0 0 10px rgba(247,151,34,.5))}
+.slider:focus-visible ~ .humthumb{filter:drop-shadow(0 0 3px rgba(255,255,255,.9)) drop-shadow(0 0 10px rgba(247,151,34,.5))}
 .humtrail{position:absolute;top:12.5px;height:3px;border-radius:2px;opacity:0;pointer-events:none}
 .humticklabels span{cursor:pointer}
 .humticklabels span:hover{color:var(--ink)}
@@ -667,13 +671,13 @@ input.slider::-moz-range-thumb{box-shadow:0 0 0 1px var(--line), 0 0 14px 3px rg
         <p>Every talk has a temperature. Slide to reorder all 71. <b>Cool</b> = reason, how you decide — "Designing in the age of the 10x engineer." <b>Warm</b> = a hand, love, memory — "The marathon designer."<br>Slide toward cool and the AI talks drift to the top — the closer to AI, the cooler they ran.</p>
       </div>
       <div class="dial">
-        <input type="range" class="slider" id="humslider" min="0" max="2" step="1" value="1"
+        <input type="range" class="slider" id="humslider" min="0" max="2" step="1" value="2"
           list="humticks" aria-label="Temperature: cool to warm">
         <div class="humtrail" id="humtrail" aria-hidden="true"></div>
-        <div class="humthumb" id="humthumb" aria-hidden="true"></div>
+        <div class="humthumb" id="humthumb" aria-hidden="true"><svg viewBox="0 0 16 21"><path class="hf-outer" d="M8 .8 C10.4 4.8 13.6 7.2 13.6 12 A5.6 5.6 0 0 1 2.4 12 C2.4 7.2 5.6 4.8 8 .8 Z" fill="#e8935f"/><path class="hf-inner" d="M8 7.2 C9.3 9.6 11.2 10.8 11.2 13.6 A3.2 3.2 0 0 1 4.8 13.6 C4.8 10.8 6.7 9.6 8 7.2 Z" fill="#ffe3c2"/></svg></div>
         <datalist id="humticks"><option value="0"></option><option value="1"></option><option value="2"></option></datalist>
         <div class="humticklabels"><span>Cool reason</span><span>Even</span><span>Warm feeling</span></div>
-        <div class="dial-read" id="dialread">Even — the middle of the scale first, the extremes drifting lower.</div>
+        <div class="dial-read" id="dialread"><b>Warm first</b> — a hand, love, memory, like "The marathon designer".</div>
       </div>
       <div class="lines-static" id="humlines"></div>
     </section>
@@ -1014,7 +1018,7 @@ function renderOneLine(box, list){
 }
 
 // By humidity：スライダー3ポジションで乾↔湿に並べ替え（全71本残る）＋ The one line 表示
-let humDir=0;   // -1=乾が上 / 0=中庸中心 / +1=湿が上
+let humDir=1;   // -1=乾が上 / 0=中庸中心 / +1=湿が上（2026-07-08 初期値をWarm feelingに=情緒から始まる）
 function updateDialRead(){
   const r=document.getElementById("dialread");
   if(humDir<0) r.innerHTML=`<b>Cool first</b> — reason and the way you choose, like "Designing in the age of the 10x engineer".`;
@@ -1246,8 +1250,15 @@ document.querySelectorAll('.segmented button[data-lang]').forEach(x=>x.setAttrib
 const hs=document.getElementById("humslider");
 // M9 残光（2026-07-08）: 見えるつまみ(#humthumb)を値に追従させ、動いた方向の温度の光を跡に残す
 const humThumb=document.getElementById("humthumb"), humTrail=document.getElementById("humtrail");
-function placeHumThumb(){ const v=parseInt(hs.value,10); humThumb.style.left=`calc(${v*50}% + ${10-v*10}px - 10px)`; }
-placeHumThumb();
+function placeHumThumb(){ const v=parseInt(hs.value,10); humThumb.style.left=`calc(${v*50}% + ${6-v*14}px)`; }
+function paintHumFlame(v){
+  const o=humThumb.querySelector(".hf-outer"), i=humThumb.querySelector(".hf-inner");
+  if(!o) return;
+  if(v===0){ o.setAttribute("fill","#6f97a0"); i.setAttribute("fill","#cfe6ea"); humThumb.style.filter="drop-shadow(0 0 7px rgba(111,151,160,.45))"; }
+  else if(v===2){ o.setAttribute("fill","#e8935f"); i.setAttribute("fill","#ffe3c2"); humThumb.style.filter=""; }
+  else { o.setAttribute("fill","#d9a06b"); i.setAttribute("fill","#f6dcbc"); humThumb.style.filter="drop-shadow(0 0 6px rgba(247,151,34,.3))"; }
+}
+placeHumThumb(); paintHumFlame(parseInt(hs.value,10));
 let _humPrev=parseInt(hs.value,10);
 function humAfterglow(from,to){
   if(from===to || !humTrail) return;
@@ -1258,7 +1269,13 @@ function humAfterglow(from,to){
   humTrail.style.transition="none"; humTrail.style.opacity=.6;
   requestAnimationFrame(()=>requestAnimationFrame(()=>{ humTrail.style.transition="opacity .9s ease-out"; humTrail.style.opacity=0; }));
 }
-hs.oninput=()=>{ const v=parseInt(hs.value,10); humDir=v-1; placeHumThumb(); humAfterglow(_humPrev,v); _humPrev=v; updateDialRead(); renderHumid(); track('humidity_set', {humidity: humDir<0?'cool':(humDir>0?'warm':'even')}); };
+hs.oninput=()=>{ const v=parseInt(hs.value,10); const from=_humPrev; humDir=v-1;
+  placeHumThumb(); paintHumFlame(v);
+  if(v!==from && !window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+    humThumb.style.transform=`rotate(${v>from?10:-10}deg)`;
+    setTimeout(()=>{ humThumb.style.transform=""; },240);
+  }
+  humAfterglow(from,v); _humPrev=v; updateDialRead(); renderHumid(); track('humidity_set', {humidity: humDir<0?'cool':(humDir>0?'warm':'even')}); };
 // ラベル（Cool reason / Even / Warm feeling）タップでもその位置へ
 document.querySelectorAll(".humticklabels span").forEach((sp,i)=>{ sp.addEventListener("click",()=>{ if(parseInt(hs.value,10)!==i){ hs.value=String(i); hs.dispatchEvent(new Event("input")); } }); });
 // watch クリックをイベント委譲でまとめて計測（カード/one line/correspondence の3系統・data-sid付き）

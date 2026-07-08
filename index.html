@@ -363,7 +363,7 @@
     .pair-vs::before,.pair-vs::after{display:none}
     /* 狭い画面ほどモーダル本文とfloatするボタン/FigPalの重なりが目立つため、
        フェード領域と本文の逃げ余白(padding-bottom)を広げて重なりを軽減する */
-    .modal-body-scroll{padding-bottom:168px}
+    .modal-body-scroll{padding-bottom:200px} /* T134-R1: 初見2人がWatchボタンの本文かぶりに引っかかった→退避余白を増やす(168→200) */
     .modal::after{height:160px}
   }
   .pair-side{border:none;border-radius:0;padding:28px;display:flex;flex-direction:column;cursor:pointer;transition:background var(--dur-fast);background:var(--surface)}

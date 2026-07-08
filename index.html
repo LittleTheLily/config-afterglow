@@ -915,11 +915,21 @@ function render(){
   grid.classList.remove("no-js");
   for(const s of list) grid.appendChild(buildCard(s,{}));
   layoutMasonry();
+  // 落ち着き敷き（2026-07-08）: render直後の採寸は、t139呼吸トランジション・言語切替の再描画・
+  // フォント適用のタイミング次第で古い高さを掴むことがある（実測: アイドル時の敷き直しは常に正しい）。
+  // 単発では取り漏れたため3段チェーンで必ず収束させる（layoutMasonryは冪等・軽量・
+  // 同値transformは無変化＝視覚上は「落ち着いていく」だけ）。根本の採寸タイミング解明はT136の宿題。
+  (render._settle||[]).forEach(clearTimeout);
+  render._settle=[450,1100,2100].map(ms=>setTimeout(layoutMasonry, ms));
 }
 
 // JSメーソンリー: 各カードを"今一番背が低い列"に順番に置く（行順に近い読み順＋隙間なく詰める）
 const GRID_GAP=24;
 function colCountFor(w){ return w>=1180?4 : w>=900?3 : w>=620?2 : 1; }
+// フォント読込完了後に再レイアウト（2026-07-08: カードquoteのFraunces化で
+// 「フォールバック字形で採寸→適用後に高さが変わる→絶対配置が古いまま」の崩れが出たため。
+// document.fonts.ready はロード済みなら即解決＝常時掛けて害なし）
+if(document.fonts && document.fonts.ready){ document.fonts.ready.then(()=>{ try{ layoutMasonry(); }catch(e){} }); }
 function layoutMasonry(){
   const grid=document.getElementById("grid");
   if(!grid || grid.classList.contains("no-js")) return;
@@ -929,6 +939,11 @@ function layoutMasonry(){
   const colW=Math.floor((W-GRID_GAP*(cols-1))/cols);
   cards.forEach(c=>{ c.style.width=colW+"px"; });
   // 高さ確定後に配置
+  // 自己修復（2026-07-08）: カードの実寸が後から変わる経路が複数ある（タブ展開直後の採寸ズレ・
+  // 言語切替での行数変化・フォント適用）ため、寸法変化を監視して自動で敷き直す。
+  // observeは冪等・幅が同じなら再発火しない＝ループしない。
+  if(!window._cardRO){ window._cardRO=new ResizeObserver(()=>{ clearTimeout(_mzTimer); _mzTimer=setTimeout(layoutMasonry,80); }); }
+  cards.forEach(c=>window._cardRO.observe(c));
   const colH=new Array(cols).fill(0);
   for(const c of cards){
     // 最短列
@@ -942,6 +957,12 @@ function layoutMasonry(){
 // リサイズ・カード開閉で再レイアウト
 let _mzTimer=null;
 window.addEventListener("resize",()=>{ clearTimeout(_mzTimer); _mzTimer=setTimeout(layoutMasonry,120); });
+// タブ切替後の再レイアウト（2026-07-08: t139呼吸トランジションがパネル表示を60ms+rAF遅らせるため、
+// 切替直後の採寸が非表示中の古い高さになりカードが重なる／マージンが不揃いになる。
+// 呼吸が終わって描画が落ち着いた後にもう一度だけ敷き直す。layoutMasonryは冪等・軽量）
+document.addEventListener("click",e=>{
+  if(e.target.closest && e.target.closest('.tab[data-tab]')) setTimeout(layoutMasonry,380);
+},true);
 // ---- The one line 形式（引用1行→クリックでinline展開）。By humidity / The quiet room で共用 ----
 function renderOneLine(box, list){
   box.innerHTML="";

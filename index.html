@@ -127,7 +127,7 @@ input.slider::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28p
 input.slider::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:transparent;border:none;box-shadow:none;cursor:pointer}
 /* つまみ＝炎（2026-07-08 ユーザー選択B1・一回り小さく16x21。作品の署名グリフを手に持つ。
    移動中は進行方向へかしぎ、着くと立ち直る。指す温度で色が変わる（Cool=青い燠/Warm=琥珀） */
-.humthumb{position:absolute;top:-4px;width:16px;height:21px;pointer-events:none;transform-origin:50% 90%;
+.humthumb{position:absolute;top:-8px;width:20px;height:26px;pointer-events:none;transform-origin:50% 90%;
   filter:drop-shadow(0 0 7px rgba(247,151,34,.35));
   transition:left .24s cubic-bezier(.22,.61,.36,1), transform .24s ease, filter .3s ease}
 .humthumb svg{display:block;width:100%;height:100%}
@@ -151,7 +151,7 @@ input.slider::-moz-range-thumb{width:28px;height:28px;border-radius:50%;backgrou
   /* 2026-07-08 つまみは炎オーバーレイ(#humthumb)に移行済み＝ネイティブつまみは透明のヒット領域のみ */
   input.slider::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;background:transparent;border:none;box-shadow:none;cursor:pointer}
   input.slider::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:transparent;border:none;box-shadow:none;cursor:pointer}
-  .dial-read{font-size:11.5px;color:var(--dim);margin-top:10px}
+  .dial-read{font-size:15px;color:var(--sub);margin-top:12px} /* 状態表示＝何が選択中か読める大きさに(2026-07-08) */
   .dial-read b{color:var(--ink)}
 
   /* タブ（Narrow it down ＋ 読み物4つ・同列） */
@@ -674,7 +674,7 @@ input.slider{position:relative}
         <input type="range" class="slider" id="humslider" min="0" max="2" step="1" value="1"
           list="humticks" aria-label="Temperature: cool to warm">
         <div class="humtrail" id="humtrail" aria-hidden="true"></div>
-        <div class="humthumb" id="humthumb" aria-hidden="true"><svg viewBox="0 0 16 21"><path class="hf-outer" d="M8 .8 C10.4 4.8 13.6 7.2 13.6 12 A5.6 5.6 0 0 1 2.4 12 C2.4 7.2 5.6 4.8 8 .8 Z" fill="#e8935f"/><path class="hf-inner" d="M8 7.2 C9.3 9.6 11.2 10.8 11.2 13.6 A3.2 3.2 0 0 1 4.8 13.6 C4.8 10.8 6.7 9.6 8 7.2 Z" fill="#ffe3c2"/></svg></div>
+        <div class="humthumb" id="humthumb" aria-hidden="true"><svg viewBox="0 0 20 26"><path class="hf-outer" d="M10 1 C13 6 17 9 17 15 A7 7 0 0 1 3 15 C3 9 7 6 10 1 Z" fill="#e8935f"/><path class="hf-inner" d="M10 9 C11.6 12 14 13.5 14 17 A4 4 0 0 1 6 17 C6 13.5 8.4 12 10 9 Z" fill="#ffe3c2"/></svg></div>
         <datalist id="humticks"><option value="0"></option><option value="1"></option><option value="2"></option></datalist>
         <div class="humticklabels"><span>Cool reason</span><span>Even</span><span>Warm feeling</span></div>
         <div class="dial-read" id="dialread"><b>Even</b> — the middle-temperature talks first, the extremes drifting lower.</div>
@@ -1250,7 +1250,7 @@ document.querySelectorAll('.segmented button[data-lang]').forEach(x=>x.setAttrib
 const hs=document.getElementById("humslider");
 // M9 残光（2026-07-08）: 見えるつまみ(#humthumb)を値に追従させ、動いた方向の温度の光を跡に残す
 const humThumb=document.getElementById("humthumb"), humTrail=document.getElementById("humtrail");
-function placeHumThumb(){ const v=parseInt(hs.value,10); humThumb.style.left=`calc(${v*50}% + ${6-v*14}px)`; }
+function placeHumThumb(){ const v=parseInt(hs.value,10); humThumb.style.left=`calc(${v*50}% + ${4-v*14}px)`; } // 幅20px・ネイティブつまみ中心(14px)に整列
 function paintHumFlame(v){
   const o=humThumb.querySelector(".hf-outer"), i=humThumb.querySelector(".hf-inner");
   if(!o) return;
@@ -1278,6 +1278,32 @@ hs.oninput=()=>{ const v=parseInt(hs.value,10); const from=_humPrev; humDir=v-1;
   humAfterglow(from,v); _humPrev=v; updateDialRead(); renderHumid(); track('humidity_set', {humidity: humDir<0?'cool':(humDir>0?'warm':'even')}); };
 // ラベル（Cool reason / Even / Warm feeling）タップでもその位置へ
 document.querySelectorAll(".humticklabels span").forEach((sp,i)=>{ sp.addEventListener("click",()=>{ if(parseInt(hs.value,10)!==i){ hs.value=String(i); hs.dispatchEvent(new Event("input")); } }); });
+// M10 風（2026-07-08）: ページスクロールに合わせて、炎つまみとヒーローのFigPalが風を受けたようにかしぎ、
+// 止まると立ち直る。「ここは動く・触れる」という気配づくり（発見性）。内側svgに掛ける＝
+// 入場/かしぎ等の既存transformと衝突しない。reduced-motionでは丸ごと無効。
+(function(){
+  if(window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const sway=[
+    {sel:"#humthumb svg", max:8,  k:.5,  org:"50% 88%"},
+    {sel:".oracle-figpal svg", max:6, k:.35, org:"50% 80%"}
+  ];
+  let lastY=window.scrollY, idle=null, raf=null;
+  function apply(deg){
+    for(const w of sway){ const el=document.querySelector(w.sel); if(!el) continue;
+      el.style.transition="transform .25s ease-out";
+      el.style.transformOrigin=w.org;
+      el.style.transform=deg? `rotate(${Math.max(-w.max,Math.min(w.max,deg*w.k))}deg)`:""; }
+  }
+  window.addEventListener("scroll",()=>{
+    if(raf) return;
+    raf=requestAnimationFrame(()=>{
+      raf=null;
+      const dy=window.scrollY-lastY; lastY=window.scrollY;
+      apply(Math.max(-16,Math.min(16,dy)));
+      clearTimeout(idle); idle=setTimeout(()=>apply(0),140);
+    });
+  },{passive:true});
+})();
 // watch クリックをイベント委譲でまとめて計測（カード/one line/correspondence の3系統・data-sid付き）
 document.addEventListener('click', (e)=>{ const a=e.target.closest && e.target.closest('.watch[data-sid]'); if(a) trackWatch(SESSION_BY_ID[a.dataset.sid]); }, true);
 // send（個別シェア）ボタンをイベント委譲で捕捉（data-share-sid付き・カード/one line/correspondence）。

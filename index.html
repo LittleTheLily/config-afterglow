@@ -148,8 +148,9 @@ input.slider::-moz-range-thumb{width:28px;height:28px;border-radius:50%;backgrou
   input.slider{-webkit-appearance:none;appearance:none;width:100%;height:28px; /* 当たり判定2px→28px(2026-07-08 触れると分からない指摘) */
   background:linear-gradient(90deg,#6f97a0,#a8896f,#e8935f) no-repeat center/100% 2px; /* 見た目の線は2pxのまま */
   border-radius:0;outline:none;margin:-7px 0 -9px;cursor:pointer}
-  input.slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--ink);cursor:pointer;border:3px solid #000;box-shadow:0 0 0 1px var(--line)}
-  input.slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--ink);cursor:pointer;border:3px solid #000}
+  /* 2026-07-08 つまみは炎オーバーレイ(#humthumb)に移行済み＝ネイティブつまみは透明のヒット領域のみ */
+  input.slider::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;background:transparent;border:none;box-shadow:none;cursor:pointer}
+  input.slider::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:transparent;border:none;box-shadow:none;cursor:pointer}
   .dial-read{font-size:11.5px;color:var(--dim);margin-top:10px}
   .dial-read b{color:var(--ink)}
 
@@ -466,8 +467,7 @@ body{
 /* スライダー周辺グロー */
 .dial{position:relative}
 input.slider{position:relative}
-input.slider::-webkit-slider-thumb{box-shadow:0 0 0 1px var(--line), 0 0 14px 3px rgba(247,151,34,.22)}
-input.slider::-moz-range-thumb{box-shadow:0 0 0 1px var(--line), 0 0 14px 3px rgba(247,151,34,.22)}
+/* （旧つまみの灯りルールは炎移行に伴い削除・灯りは#humthumbのdrop-shadowが担う） */
 
 /* ---- [4] リズム(b) 縦余白に抑揚（現状比 +15-25%） ---- */
 .lineitem{padding:31px 0}
@@ -671,13 +671,13 @@ input.slider::-moz-range-thumb{box-shadow:0 0 0 1px var(--line), 0 0 14px 3px rg
         <p>Every talk has a temperature. Slide to reorder all 71. <b>Cool</b> = reason, how you decide — "Designing in the age of the 10x engineer." <b>Warm</b> = a hand, love, memory — "The marathon designer."<br>Slide toward cool and the AI talks drift to the top — the closer to AI, the cooler they ran.</p>
       </div>
       <div class="dial">
-        <input type="range" class="slider" id="humslider" min="0" max="2" step="1" value="2"
+        <input type="range" class="slider" id="humslider" min="0" max="2" step="1" value="1"
           list="humticks" aria-label="Temperature: cool to warm">
         <div class="humtrail" id="humtrail" aria-hidden="true"></div>
         <div class="humthumb" id="humthumb" aria-hidden="true"><svg viewBox="0 0 16 21"><path class="hf-outer" d="M8 .8 C10.4 4.8 13.6 7.2 13.6 12 A5.6 5.6 0 0 1 2.4 12 C2.4 7.2 5.6 4.8 8 .8 Z" fill="#e8935f"/><path class="hf-inner" d="M8 7.2 C9.3 9.6 11.2 10.8 11.2 13.6 A3.2 3.2 0 0 1 4.8 13.6 C4.8 10.8 6.7 9.6 8 7.2 Z" fill="#ffe3c2"/></svg></div>
         <datalist id="humticks"><option value="0"></option><option value="1"></option><option value="2"></option></datalist>
         <div class="humticklabels"><span>Cool reason</span><span>Even</span><span>Warm feeling</span></div>
-        <div class="dial-read" id="dialread"><b>Warm first</b> — a hand, love, memory, like "The marathon designer".</div>
+        <div class="dial-read" id="dialread"><b>Even</b> — the middle-temperature talks first, the extremes drifting lower.</div>
       </div>
       <div class="lines-static" id="humlines"></div>
     </section>
@@ -1018,7 +1018,7 @@ function renderOneLine(box, list){
 }
 
 // By humidity：スライダー3ポジションで乾↔湿に並べ替え（全71本残る）＋ The one line 表示
-let humDir=1;   // -1=乾が上 / 0=中庸中心 / +1=湿が上（2026-07-08 初期値をWarm feelingに=情緒から始まる）
+let humDir=0;   // -1=乾が上 / 0=中庸中心 / +1=湿が上（初期値=Even・2026-07-08にwarm初期値を試すも同日Evenへ戻し）
 function updateDialRead(){
   const r=document.getElementById("dialread");
   if(humDir<0) r.innerHTML=`<b>Cool first</b> — reason and the way you choose, like "Designing in the age of the 10x engineer".`;

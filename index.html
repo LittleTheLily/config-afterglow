@@ -121,11 +121,29 @@
 #panel-humid .dial{margin-bottom:88px}
 /* T43: Narrow はフィルタ→カードをゆったり */
 #panel-narrow .topbar{margin-top:72px}
-  .humticklabels{display:flex;justify-content:space-between;font-size:11.5px;color:var(--sub);margin-top:8px}
+  /* ---- M9 残光: つまみは速く滑り(能動240ms)、通った跡に温度の光が残ってゆっくり消える(受動900ms)。
+   ネイティブinputはa11y/ドラッグ用に残し、見えるつまみはオーバーレイ（2026-07-08 ユーザー選択B） ---- */
+input.slider::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;background:transparent;border:none;box-shadow:none;cursor:pointer}
+input.slider::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:transparent;border:none;box-shadow:none;cursor:pointer}
+.humthumb{position:absolute;top:4px;width:20px;height:20px;border-radius:50%;background:var(--ink);
+  border:3px solid #000;box-shadow:0 0 0 1px var(--line), 0 0 14px 3px rgba(247,151,34,.22);
+  pointer-events:none;transition:left .24s cubic-bezier(.22,.61,.36,1)}
+.dial:hover .humthumb{box-shadow:0 0 0 1px var(--line), 0 0 18px 5px rgba(247,151,34,.34)}
+.slider:focus-visible ~ .humthumb{box-shadow:0 0 0 2px var(--ink), 0 0 18px 5px rgba(247,151,34,.34)}
+.humtrail{position:absolute;top:12.5px;height:3px;border-radius:2px;opacity:0;pointer-events:none}
+.humticklabels span{cursor:pointer}
+.humticklabels span:hover{color:var(--ink)}
+@media (prefers-reduced-motion: reduce){
+  .humthumb{transition:none}
+  .humtrail{display:none}
+}
+.humticklabels{display:flex;justify-content:space-between;font-size:11.5px;color:var(--sub);margin-top:8px}
   .humticklabels span{flex:1}
   .humticklabels span:nth-child(2){text-align:center}
   .humticklabels span:last-child{text-align:right}
-  input.slider{-webkit-appearance:none;appearance:none;width:100%;height:2px;background:linear-gradient(90deg,#6f97a0,#a8896f,#e8935f);border-radius:0;outline:none;margin:6px 0 4px}
+  input.slider{-webkit-appearance:none;appearance:none;width:100%;height:28px; /* 当たり判定2px→28px(2026-07-08 触れると分からない指摘) */
+  background:linear-gradient(90deg,#6f97a0,#a8896f,#e8935f) no-repeat center/100% 2px; /* 見た目の線は2pxのまま */
+  border-radius:0;outline:none;margin:-7px 0 -9px;cursor:pointer}
   input.slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--ink);cursor:pointer;border:3px solid #000;box-shadow:0 0 0 1px var(--line)}
   input.slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--ink);cursor:pointer;border:3px solid #000}
   .dial-read{font-size:11.5px;color:var(--dim);margin-top:10px}
@@ -421,6 +439,8 @@
   font-family:'Fraunces','Hiragino Mincho ProN','Yu Mincho','Noto Serif JP','Noto Serif CJK JP',serif;
   font-weight:400;
 }
+/* Further reads見出しだけ存在感を返す（2026-07-08 ユーザー選択D3=17px/600。JAは明朝太字が実際に効く） */
+.fr-card h2{font-size:17px;font-weight:600}
 
 /* ---- [2] 光: 背景の極薄グラデーション（下部琥珀・上部青緑）。コントラストは本文色に触れないので不変 ---- */
 body{
@@ -649,6 +669,8 @@ input.slider::-moz-range-thumb{box-shadow:0 0 0 1px var(--line), 0 0 14px 3px rg
       <div class="dial">
         <input type="range" class="slider" id="humslider" min="0" max="2" step="1" value="1"
           list="humticks" aria-label="Temperature: cool to warm">
+        <div class="humtrail" id="humtrail" aria-hidden="true"></div>
+        <div class="humthumb" id="humthumb" aria-hidden="true"></div>
         <datalist id="humticks"><option value="0"></option><option value="1"></option><option value="2"></option></datalist>
         <div class="humticklabels"><span>Cool reason</span><span>Even</span><span>Warm feeling</span></div>
         <div class="dial-read" id="dialread">Even — the middle of the scale first, the extremes drifting lower.</div>
@@ -1222,7 +1244,23 @@ document.querySelectorAll('.segmented button[data-lang]').forEach(b=>{
 document.querySelectorAll('.segmented button[data-lang]').forEach(x=>x.setAttribute("aria-pressed", x.dataset.lang===LANG?"true":"false"));
 // Humidity スライダー 0/1/2 → humDir -1/0/+1（Dry/Even/Wet の3ポジション並べ替え）
 const hs=document.getElementById("humslider");
-hs.oninput=()=>{ humDir=parseInt(hs.value,10)-1; updateDialRead(); renderHumid(); track('humidity_set', {humidity: humDir<0?'cool':(humDir>0?'warm':'even')}); };
+// M9 残光（2026-07-08）: 見えるつまみ(#humthumb)を値に追従させ、動いた方向の温度の光を跡に残す
+const humThumb=document.getElementById("humthumb"), humTrail=document.getElementById("humtrail");
+function placeHumThumb(){ const v=parseInt(hs.value,10); humThumb.style.left=`calc(${v*50}% + ${10-v*10}px - 10px)`; }
+placeHumThumb();
+let _humPrev=parseInt(hs.value,10);
+function humAfterglow(from,to){
+  if(from===to || !humTrail) return;
+  const warm= to>from;
+  const a=Math.min(from,to)*50, w=Math.abs(to-from)*50, color=warm?"#e8935f":"#6f97a0";
+  humTrail.style.left=a+"%"; humTrail.style.width=w+"%";
+  humTrail.style.background=`linear-gradient(90deg,${warm?("transparent,"+color):(color+",transparent")})`;
+  humTrail.style.transition="none"; humTrail.style.opacity=.6;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{ humTrail.style.transition="opacity .9s ease-out"; humTrail.style.opacity=0; }));
+}
+hs.oninput=()=>{ const v=parseInt(hs.value,10); humDir=v-1; placeHumThumb(); humAfterglow(_humPrev,v); _humPrev=v; updateDialRead(); renderHumid(); track('humidity_set', {humidity: humDir<0?'cool':(humDir>0?'warm':'even')}); };
+// ラベル（Cool reason / Even / Warm feeling）タップでもその位置へ
+document.querySelectorAll(".humticklabels span").forEach((sp,i)=>{ sp.addEventListener("click",()=>{ if(parseInt(hs.value,10)!==i){ hs.value=String(i); hs.dispatchEvent(new Event("input")); } }); });
 // watch クリックをイベント委譲でまとめて計測（カード/one line/correspondence の3系統・data-sid付き）
 document.addEventListener('click', (e)=>{ const a=e.target.closest && e.target.closest('.watch[data-sid]'); if(a) trackWatch(SESSION_BY_ID[a.dataset.sid]); }, true);
 // send（個別シェア）ボタンをイベント委譲で捕捉（data-share-sid付き・カード/one line/correspondence）。

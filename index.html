@@ -157,7 +157,7 @@ input.slider::-moz-range-thumb{width:28px;height:28px;border-radius:50%;backgrou
   /* タブ（Narrow it down ＋ 読み物4つ・同列） */
   .tabs{display:flex;flex-wrap:wrap;gap:6px;border-bottom:1px solid var(--line-soft);margin:16px 0 52px;padding-bottom:2px}
   .tab{background:transparent;border:none;border-bottom:2px solid transparent;color:var(--sub);font-family:inherit;
-    font-size:18px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;padding:12px 16px;cursor:pointer;margin-bottom:-2px;transition:var(--dur-fast)}
+    font-size:18px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;padding:12px 16px;cursor:pointer;margin-bottom:-2px;transition:var(--dur-fast);position:relative;overflow:hidden}
   .tab:hover{color:var(--ink)}
   .tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
   .tabpanel[hidden]{display:none}
@@ -168,7 +168,7 @@ input.slider::-moz-range-thumb{width:28px;height:28px;border-radius:50%;backgrou
   .q-label .hint{color:var(--dim);font-size:11.5px}
   .quiz-actions{display:flex;gap:12px;align-items:center;margin-top:6px;flex-wrap:wrap}
   .btn{background:var(--ink);color:#000;border:none;font-size:var(--fs-md);font-weight:700;padding:10px 20px;
-    border-radius:0;cursor:pointer;font-family:inherit}
+    border-radius:0;cursor:pointer;font-family:inherit;position:relative}
   .btn:disabled{background:var(--pill);color:var(--dim);cursor:not-allowed}
   .btn.ghost{background:transparent;color:var(--sub);border:1px solid var(--line)}
   .btn.oracle{background:transparent;color:var(--accent);border:1px solid var(--accent)}
@@ -192,7 +192,7 @@ input.slider::-moz-range-thumb{width:28px;height:28px;border-radius:50%;backgrou
   .chips{display:flex;flex-wrap:wrap;gap:7px}
   .chip{border:1px solid var(--line);background:transparent;color:var(--ink);font-size:var(--fs-sm);font-weight:600;
     padding:6px 12px;border-radius:0;cursor:pointer;font-family:inherit;transition:var(--dur-fast);
-    display:flex;align-items:center;gap:6px}
+    display:flex;align-items:center;gap:6px;position:relative;overflow:hidden}
   .chip::before{content:"";width:6px;height:6px;border-radius:0;background:var(--stc,var(--dim));flex:none}
   .chip .cc{color:var(--dim);font-weight:700}
   .chip:hover{border-color:var(--stc,var(--accent))}
@@ -529,10 +529,22 @@ input.slider{position:relative}
 .pair-side{transition:background var(--dur-fast),transform .12s ease-out}
 .pair-side.t139-echo{transform:translateY(-1px)}
 
-/* ---- M5 残り火: 撤去済み ----
-   カード開閉時の琥珀縁フラッシュ（ember）は不評のため全撤去。
-   開閉には既に M3「そっと置く」の応答があり、ember の同時発火は
-   M6「同時に動くのは1種類」の規律にも反していた。 */
+/* ---- M5 残り火 v2: 点の残り火（2026-07-11） ----
+   クリック座標に6px琥珀点→640ms ease-outで拡散消滅。transform/opacityのみ。
+   JS clickで発火（iOS sticky hover回避）。温度データ色帯と非干渉（面積=点のみ）。 */
+@keyframes m5-dot{
+  0%  {transform:scale(0);opacity:.82}
+  55% {transform:scale(5);opacity:.2}
+  100%{transform:scale(8);opacity:0}
+}
+.m5-dot{
+  position:absolute;width:6px;height:6px;border-radius:50%;
+  background:#b8956a;pointer-events:none;
+  transform-origin:center;
+  animation:m5-dot 640ms ease-out forwards;
+  z-index:10;
+}
+@media(prefers-reduced-motion:reduce){.m5-dot{animation:none!important;opacity:0!important}}
 
 
 /* ---- M7 ふわり: おみくじFigPalの「ふわり、そっと置く」＋モーダルの開き/引き直し ----
@@ -1495,9 +1507,26 @@ document.querySelectorAll('.room-intro p:not(.sig), .corr-intro p:not(.sig)').fo
     if(sibling) sibling.classList.remove('t139-echo');
   }, true);
 
-  // ================= M5 残り火: 撤去済み =================
-  // カード開閉時の琥珀縁フラッシュ（ember）は不評のため全撤去（CSS側の定義も削除済み・発火ゼロ）。
-  // 開閉には M3「そっと置く」の応答が既にあり、同時発火は M6「同時に動くのは1種類」に反していた。
+  // ================= M5 残り火 v2: 点の残り火 =================
+  // クリック座標に琥珀点を生成→640ms ease-outで拡散消滅。イベント委譲（chipは動的生成のため）。
+  (function(){
+    function spawnDot(el, ev){
+      var r = el.getBoundingClientRect();
+      var cx = ev.clientX != null ? ev.clientX - r.left : r.width / 2;
+      var cy = ev.clientY != null ? ev.clientY - r.top  : r.height / 2;
+      var dot = document.createElement('span');
+      dot.className = 'm5-dot';
+      dot.style.left = (cx - 3) + 'px';
+      dot.style.top  = (cy - 3) + 'px';
+      el.appendChild(dot);
+      dot.addEventListener('animationend', function(){ dot.remove(); });
+    }
+    document.addEventListener('click', function(ev){
+      var el = ev.target.closest && ev.target.closest('.tab[data-tab],.chip,.btn.oracle,.btn.oracle-lg');
+      if(!el) return;
+      spawnDot(el, ev);
+    });
+  })();
 
   // ================= M7 まわる（おみくじ: FigPalスピン＋開き/引き直し） =================
   // 既存のonclick(pullLine)・showPull・closePullの中身は不変。addEventListener併走とラップのみ。
